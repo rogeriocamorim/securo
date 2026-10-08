@@ -16,6 +16,7 @@ from app.models.category import Category
 from app.models.group import Group, GroupMember
 from app.models.payee import Payee
 from app.schemas.transaction import (
+    DescriptionSuggestion,
     InstallmentSeriesCreate,
     TransactionCreate,
     TransactionUpdate,
@@ -1962,3 +1963,57 @@ async def bulk_delete_transactions(
     )
     await session.commit()
     return len(valid_ids)
+
+
+# How many recent matching rows to scan for distinct descriptions. Bounded so
+# a short query on a large ledger stays cheap; the newest rows win anyway.
+_DESCRIPTION_SCAN_LIMIT = 500
+
+
+async def suggest_descriptions(
+    session: AsyncSession,
+    workspace_id: uuid.UUID,
+    query: str,
+    limit: int = 8,
+) -> list[DescriptionSuggestion]:
+    """Distinct descriptions in the workspace that contain ``query``.
+
+    Powers the description autocomplete in the transaction form (issue
+    #1127). Each suggestion carries the category and payee of the most
+    recent transaction with that description, so picking one can prefill
+    them. Matching is case-insensitive; descriptions that *start* with the
+    query rank before ones that merely contain it, newest first otherwise.
+    """
+    term = query.strip()
+    if len(term) < 2:
+        return []
+    escaped = term.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+    rows = (
+        await session.execute(
+            select(Transaction.description, Transaction.category_id, Transaction.payee_id)
+            .where(
+                Transaction.workspace_id == workspace_id,
+                Transaction.source != "opening_balance",
+                Transaction.is_ignored.is_(False),
+                Transaction.description.ilike(f"%{escaped}%", escape="\\"),
+            )
+            .order_by(Transaction.date.desc(), Transaction.created_at.desc())
+            .limit(_DESCRIPTION_SCAN_LIMIT)
+        )
+    ).all()
+
+    seen: dict[str, DescriptionSuggestion] = {}
+    for description, category_id, payee_id in rows:
+        key = description.strip().casefold()
+        if key and key not in seen:
+            seen[key] = DescriptionSuggestion(
+                description=description.strip(),
+                category_id=category_id,
+                payee_id=payee_id,
+            )
+    needle = term.casefold()
+    ranked = sorted(
+        seen.values(),
+        key=lambda s: not s.description.casefold().startswith(needle),
+    )
+    return ranked[:limit]
