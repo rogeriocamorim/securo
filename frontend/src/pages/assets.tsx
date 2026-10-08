@@ -322,7 +322,7 @@ export default function AssetsPage() {
   // Publish a snapshot of what's on the Assets page so the global chat
   // (⌘J) can answer "what does this chart mean / what are these
   // wallets?" without needing the user to spell it out.
-  const summaryAssets = (assetsList ?? []).filter((a) => !a.is_archived)
+  const summaryAssets = useMemo(() => (assetsList ?? []).filter((a) => !a.is_archived), [assetsList])
   const totalValue = summaryAssets.reduce(
     (acc: number, a: { current_value?: number | null }) => acc + Number(a.current_value || 0),
     0,
@@ -1099,19 +1099,22 @@ export default function AssetsPage() {
           {t('assets.tabTransactions')}
         </button>
       </div>
-      <label className="ml-3 inline-flex items-center gap-2 text-xs text-muted-foreground cursor-pointer select-none">
-        <input
-          type="checkbox"
-          checked={showArchived}
-          onChange={(e) => toggleShowArchived(e.target.checked)}
-          className="h-3.5 w-3.5 rounded border-border accent-primary"
-        />
-        {t('assets.showArchived')}
-      </label>
+      {activeTab === 'holdings' && (
+        <label className="ml-3 inline-flex items-center gap-2 text-xs text-muted-foreground cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={showArchived}
+            onChange={(e) => toggleShowArchived(e.target.checked)}
+            className="h-3.5 w-3.5 rounded border-border accent-primary"
+          />
+          {t('assets.showArchived')}
+        </label>
+      )}
 
       {activeTab === 'transactions' ? (
         <AssetTransactionsTab
-          holdings={assetsList ?? []}
+          // Archived holdings are a Holdings-view option only.
+          holdings={summaryAssets}
           wallets={sortedWallets}
           locale={locale}
           dateLocale={dateLocale}

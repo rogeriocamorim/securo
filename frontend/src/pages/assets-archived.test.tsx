@@ -90,4 +90,13 @@ describe('AssetsPage archived holdings (#1046)', () => {
     await waitFor(() => expect(api.assets.list).toHaveBeenCalledWith(true))
     expect(screen.getByRole('checkbox', { name: t('assets.showArchived') })).toBeChecked()
   })
+
+  it('offers the toggle on the Holdings tab only', async () => {
+    renderWithProviders(<AssetsPage />)
+    expect(await screen.findByRole('checkbox', { name: t('assets.showArchived') })).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: t('assets.tabTransactions') }))
+
+    expect(screen.queryByRole('checkbox', { name: t('assets.showArchived') })).not.toBeInTheDocument()
+  })
 })
