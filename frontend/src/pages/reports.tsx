@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { loadReportsRange, saveReportsRange, type ReportsRange } from '@/lib/remembered-range'
 import { useTranslation } from 'react-i18next'
 import { useDisplayLocale } from '@/hooks/use-display-locale'
 import { useQuery } from '@tanstack/react-query'
@@ -175,6 +176,22 @@ const REPORT_TABS: ReportTab[] = [
   },
 ]
 
+/** The stored reports range, if it is one `tab` offers; else the tab's defaults. */
+function restoredReportsRange(tab: ReportTab): ReportsRange {
+  const fallback = { rangeKey: tab.fallbackRangeKey, from: '', to: '', interval: tab.fallbackInterval }
+  const stored = loadReportsRange()
+  if (!stored) return fallback
+  const isCustom = stored.rangeKey === CUSTOM_RANGE_KEY
+  const rangeOk = isCustom
+    ? tab.supportsCustomRange && !!stored.from && !!stored.to
+    : tab.rangeOptions.some((r) => r.key === stored.rangeKey)
+  if (!rangeOk) return fallback
+  const interval = tab.intervalOptions.some((i) => i.value === stored.interval)
+    ? stored.interval
+    : tab.fallbackInterval
+  return { ...stored, interval, ...(isCustom ? {} : { from: '', to: '' }) }
+}
+
 export default function ReportsPage() {
   const { t } = useTranslation()
   const { mask, privacyMode, MASK } = usePrivacyMode()
@@ -183,14 +200,20 @@ export default function ReportsPage() {
   const locale = useDisplayLocale()
 
   const customDefaults = defaultCustomRange()
-  const [rangeKey, setRangeKey] = useState('1y')
-  const [interval, setInterval] = useState('monthly')
+  // The page opens on the first tab with the range last used there (issue
+  // #1053), or that tab's defaults if what was stored doesn't apply to it.
+  const [initialRange] = useState(() => restoredReportsRange(REPORT_TABS[0]))
+  const [rangeKey, setRangeKey] = useState(initialRange.rangeKey)
+  const [interval, setInterval] = useState(initialRange.interval)
   // Custom range endpoints (YYYY-MM-DD) — populated when the user opens the
   // Custom preset and confirms a date range. Preserved across tab switches
   // that still support custom ranges so the picker doesn't forget its
   // selection while the user compares views.
-  const [customFrom, setCustomFrom] = useState('')
-  const [customTo, setCustomTo] = useState('')
+  const [customFrom, setCustomFrom] = useState(initialRange.from)
+  const [customTo, setCustomTo] = useState(initialRange.to)
+  useEffect(() => {
+    saveReportsRange({ rangeKey, from: customFrom, to: customTo, interval })
+  }, [rangeKey, customFrom, customTo, interval])
   const [activeTab, setActiveTab] = useState('net_worth')
   const [compositionView, setCompositionView] = useState<string>('netWorth')
   const [sparklineView, setSparklineView] = useState<'byExpenses' | 'byIncome'>('byExpenses')
