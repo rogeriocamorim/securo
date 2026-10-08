@@ -5,8 +5,9 @@ import { localDateString } from '@/lib/date-utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { AmountInput } from '@/components/amount-input'
+import { useDisplayLocaleChange } from '@/hooks/use-display-locale-change'
 import { useDisplayLocale } from '@/hooks/use-display-locale'
-import { parseAmountInput } from '@/lib/format'
+import { convertAmountInput, parseAmountInput } from '@/lib/format'
 import { toast } from 'sonner'
 import { Label } from '@/components/ui/label'
 import { DatePickerInput } from '@/components/ui/date-picker-input'
@@ -69,6 +70,10 @@ export function TransferDialog({
   }
 
   const displayLocale = useDisplayLocale()
+  useDisplayLocaleChange(displayLocale, (prev, next) => {
+    setAmount((v) => convertAmountInput(v, prev, next))
+    setDestinationAmount((v) => convertAmountInput(v, prev, next))
+  })
   const fromAccount = accounts.find((a) => a.id === fromAccountId)
   const toAccount = accounts.find((a) => a.id === toAccountId)
   const isCrossCurrency = fromAccount && toAccount && fromAccount.currency !== toAccount.currency

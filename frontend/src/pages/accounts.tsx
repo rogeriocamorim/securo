@@ -39,8 +39,9 @@ import { usePrivacyMode } from '@/hooks/use-privacy-mode'
 import { useAuth } from '@/contexts/auth-context'
 import { useCollectionFilter } from '@/contexts/collection-filter-context'
 import { useWorkspace } from '@/contexts/workspace-context'
-import { formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
+import { convertAmountInput, formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
 import { AmountInput } from '@/components/amount-input'
+import { useDisplayLocaleChange } from '@/hooks/use-display-locale-change'
 
 // Account types offered in the create/edit dialog. Shared between the manual
 // type selector and the connected-account override selector so the list stays
@@ -709,6 +710,10 @@ function AccountDialog({
   const [creditLimit, setCreditLimit] = useState(() => toInput(account?.credit_limit, ''))
   const [statementCloseDay, setStatementCloseDay] = useState(account?.statement_close_day?.toString() ?? '')
   const [paymentDueDay, setPaymentDueDay] = useState(account?.payment_due_day?.toString() ?? '')
+  useDisplayLocaleChange(displayLocale, (prev, next) => {
+    setBalance((v) => convertAmountInput(v, prev, next))
+    setCreditLimit((v) => convertAmountInput(v, prev, next))
+  })
 
   const [formSource, setFormSource] = useState<{ account: typeof account } | null>(null)
   if (!formSource || formSource.account !== account) {

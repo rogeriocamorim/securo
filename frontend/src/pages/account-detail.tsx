@@ -33,8 +33,9 @@ import { useAuth } from '@/contexts/auth-context'
 import { useWorkspace } from '@/contexts/workspace-context'
 import { useCreateTransaction } from '@/hooks/use-create-transaction'
 import { resolveDateFnsLocale } from '@/lib/date-fns-locale'
-import { formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
+import { convertAmountInput, formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
 import { AmountInput } from '@/components/amount-input'
+import { useDisplayLocaleChange } from '@/hooks/use-display-locale-change'
 import {
   AreaChart,
   Area,
@@ -1792,6 +1793,7 @@ function CreditCardSettingsDialog({
   const [creditLimit, setCreditLimit] = useState('')
   const [closeDay, setCloseDay] = useState('')
   const [dueDay, setDueDay] = useState('')
+  useDisplayLocaleChange(displayLocale, (prev, next) => setCreditLimit((v) => convertAmountInput(v, prev, next)))
 
   const formKey = JSON.stringify([open, account.credit_limit, account.statement_close_day, account.payment_due_day])
   const [previousFormKey, setPreviousFormKey] = useState<string | null>(null)

@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog'
 import { Input } from '@/components/ui/input'
 import { AmountInput } from '@/components/amount-input'
+import { useDisplayLocaleChange } from '@/hooks/use-display-locale-change'
 import { Label } from '@/components/ui/label'
 import {
   Dialog,
@@ -29,7 +30,7 @@ import { DatePickerInput } from '@/components/ui/date-picker-input'
 import { usePrivacyMode } from '@/hooks/use-privacy-mode'
 import { useAuth } from '@/contexts/auth-context'
 import { useWorkspace } from '@/contexts/workspace-context'
-import { formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
+import { convertAmountInput, formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
 
 const TH = 'text-xs font-medium text-muted-foreground py-3'
 
@@ -333,6 +334,7 @@ function RecurringForm({
   const [amount, setAmount] = useState(
     recurring?.amount != null ? formatAmountInput(recurring.amount, displayLocale) : ''
   )
+  useDisplayLocaleChange(displayLocale, (prev, next) => setAmount((v) => convertAmountInput(v, prev, next)))
   const [currency, setCurrency] = useState(recurring?.currency ?? userCurrency)
   const [type, setType] = useState<'debit' | 'credit'>(recurring?.type ?? 'debit')
   const [frequency, setFrequency] = useState(recurring?.frequency ?? 'monthly')

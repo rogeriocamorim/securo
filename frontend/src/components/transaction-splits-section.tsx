@@ -6,8 +6,9 @@ import { Users } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { groups as groupsApi, type GroupCreatePayload } from '@/lib/api'
-import { formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
+import { convertAmountInput, formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
 import { AmountInput } from '@/components/amount-input'
+import { useDisplayLocaleChange } from '@/hooks/use-display-locale-change'
 import type { Group, GroupKind, ShareType, TransactionSplitsInput } from '@/types'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
@@ -72,6 +73,14 @@ export function TransactionSplitsSection({
   const [groupId, setGroupId] = useState<string>('')
   const [shareType, setShareType] = useState<ShareType>(value?.share_type ?? 'equal')
   const [rows, setRows] = useState<RowState[]>([])
+  // Typed shares keep their value when the locale resolves mid-edit.
+  useDisplayLocaleChange(locale, (prev, next) =>
+    setRows((current) => current.map((r) => ({
+      ...r,
+      amount: convertAmountInput(r.amount, prev, next),
+      percent: convertAmountInput(r.percent, prev, next),
+    }))),
+  )
   // Snapshot of the initial value so row hydration survives the
   // first push-state-up cycle (which zeros the parent before the
   // group has finished loading).
@@ -267,6 +276,10 @@ export function TransactionSplitsSection({
     const selected = rows.filter((r) => r.selected)
     if (selected.length === 0) return false
     if (shareType === 'equal') return true
+    // A share that doesn't parse must block the save, not count as zero:
+    // "abc" + 100 would otherwise pass an exact split of 100.
+    const field = shareType === 'exact' ? 'amount' : 'percent'
+    if (selected.some((r) => r[field].trim() !== '' && parseAmountInput(r[field], locale) == null)) return false
     if (shareType === 'exact') {
       const sum = selected.reduce((s, r) => s + (parseAmountInput(r.amount, locale) ?? 0), 0)
       return Math.abs(sum - Math.abs(amount)) < 0.005

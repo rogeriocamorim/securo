@@ -51,8 +51,9 @@ import { CategoryIcon } from '@/components/category-icon'
 import { DatePickerInput } from '@/components/ui/date-picker-input'
 import { PageHeader } from '@/components/page-header'
 import type { GroupMember, GroupSettlement, Transaction } from '@/types'
-import { formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
+import { convertAmountInput, formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
 import { AmountInput } from '@/components/amount-input'
+import { useDisplayLocaleChange } from '@/hooks/use-display-locale-change'
 
 function SectionCard({ children }: { children: React.ReactNode }) {
   return (
@@ -287,6 +288,7 @@ export default function GroupDetailPage() {
   const [settleFrom, setSettleFrom] = useState('')
   const [settleTo, setSettleTo] = useState('')
   const [settleAmount, setSettleAmount] = useState('')
+  useDisplayLocaleChange(locale, (prev, next) => setSettleAmount((v) => convertAmountInput(v, prev, next)))
   const [settleDate, setSettleDate] = useState(localDateString)
   const [settleNotes, setSettleNotes] = useState('')
   const [settleCurrency, setSettleCurrency] = useState('USD')
