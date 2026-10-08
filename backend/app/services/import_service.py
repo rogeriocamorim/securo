@@ -872,7 +872,24 @@ async def import_transactions(
     effective_format = (detected_format or source or "").lower()
     should_detect_duplicates = detect_duplicates if effective_format == "csv" else True
 
-    for txn_data in included:
+    # --- Count-based dedup pre-pass (issue #886) ---
+    # When the same dedup key appears multiple times in the file (e.g. two
+    # identical purchases on the same day), only the Nth occurrence should
+    # be skipped when the DB already has N matches. Without this, every
+    # duplicate after the first is silently dropped.
+    dedup_counts: dict[str, int] = {}
+    if should_detect_duplicates:
+        for txn_data in included:
+            if txn_data.external_id:
+                key = f"ext:{txn_data.external_id}:{txn_data.date}:{txn_data.amount}:{txn_data.type}"
+            else:
+                key = (
+                    f"field:{txn_data.date}:{txn_data.amount}:{txn_data.type}:"
+                    f"{txn_data.description}"
+                )
+            dedup_counts[key] = dedup_counts.get(key, 0) + 1
+
+    for idx, txn_data in enumerate(included):
         # Resolve currency: CSV value > account currency
         txn_currency = txn_data.currency or account_currency
 
@@ -884,6 +901,7 @@ async def import_transactions(
             # Formats without unique IDs fall back to transaction fields; compare
             # both descriptions because rules may have changed the displayed one.
             if txn_data.external_id:
+                dedup_key = f"ext:{txn_data.external_id}:{txn_data.date}:{txn_data.amount}:{txn_data.type}"
                 existing_statement = select(Transaction).where(
                     Transaction.account_id == account_id,
                     Transaction.external_id == txn_data.external_id,
@@ -892,6 +910,10 @@ async def import_transactions(
                     Transaction.type == txn_data.type,
                 )
             else:
+                dedup_key = (
+                    f"field:{txn_data.date}:{txn_data.amount}:{txn_data.type}:"
+                    f"{txn_data.description}"
+                )
                 existing_statement = select(Transaction).where(
                     Transaction.account_id == account_id,
                     Transaction.date == txn_data.date,
@@ -902,31 +924,59 @@ async def import_transactions(
                         Transaction.original_description == txn_data.description,
                     ),
                 )
-            # `.first()` rather than `.scalar_one_or_none()`: the dedup key can
-            # legitimately match more than one row (e.g. a prior sync/import race
-            # left a duplicate, or a bank reuses one FITID across statements),
-            # and we only need to know whether *any* match exists. Requiring
-            # exactly one would raise MultipleResultsFound and abort the import.
-            if matched_existing_ids and not txn_data.external_id:
-                existing_statement = existing_statement.where(
-                    Transaction.id.not_in(matched_existing_ids)
-                )
-            existing = await session.execute(
-                existing_statement.order_by(Transaction.created_at, Transaction.id)
+
+            # Count-based dedup: only skip if DB already has >= file count for
+            # this dedup key, minus any we've already inserted in this batch.
+            file_count = dedup_counts[dedup_key]
+            db_match_count_stmt = select(
+                Transaction.id
+            ).where(existing_statement.whereclause)
+            db_match_count = await session.execute(db_match_count_stmt)
+            db_match_count = len(db_match_count.scalars().all())
+            already_imported_in_batch = sum(
+                1 for prev in included[:idx]
+                if dedup_counts.get(
+                    f"ext:{prev.external_id}:{prev.date}:{prev.amount}:{prev.type}"
+                    if prev.external_id
+                    else (
+                        f"field:{prev.date}:{prev.amount}:{prev.type}:"
+                        f"{prev.description}"
+                    )
+                ) == file_count
+                and prev.id in matched_existing_ids if hasattr(prev, 'id') else False
             )
-            duplicate = existing.scalars().first()
-            if not duplicate:
-                duplicate = await find_unique_transaction_match(
-                    session,
-                    account_id,
-                    txn_data,
-                    {"sync"},
-                    exclude_ids=matched_existing_ids,
+            if db_match_count + already_imported_in_batch >= file_count:
+                # Find which DB row to mark and skip
+                existing = await session.execute(
+                    existing_statement.order_by(Transaction.created_at, Transaction.id)
                 )
-            if duplicate:
-                matched_existing_ids.add(duplicate.id)
-                skipped += 1
-                continue
+                duplicate = existing.scalars().first()
+                if duplicate:
+                    matched_existing_ids.add(duplicate.id)
+                    skipped += 1
+                    continue
+            else:
+                # Normal dedup: check against DB rows not yet matched
+                if matched_existing_ids and not txn_data.external_id:
+                    existing_statement = existing_statement.where(
+                        Transaction.id.not_in(matched_existing_ids)
+                    )
+                existing = await session.execute(
+                    existing_statement.order_by(Transaction.created_at, Transaction.id)
+                )
+                duplicate = existing.scalars().first()
+                if not duplicate:
+                    duplicate = await find_unique_transaction_match(
+                        session,
+                        account_id,
+                        txn_data,
+                        {"sync"},
+                        exclude_ids=matched_existing_ids,
+                    )
+                if duplicate:
+                    matched_existing_ids.add(duplicate.id)
+                    skipped += 1
+                    continue
 
         import_payee_id = None
         import_payee_raw = getattr(txn_data, "payee_raw", None)
