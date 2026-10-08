@@ -186,7 +186,11 @@ async def _net_worth_at(
                     group="accounts",
                 ))
             if account.connection_id is not None:
-                _synced_connection_ids.add(account.connection_id)
+                # Only track investment/brokerage accounts — their balance
+                # includes holdings. Checking/savings/credit_card balances
+                # are cash-only, so their assets must NOT be excluded.
+                if account.type not in {"checking", "savings", "credit_card"}:
+                    _synced_connection_ids.add(account.connection_id)
 
     # Per-asset composition at the cutoff date
     filtered = account_ids is not None
