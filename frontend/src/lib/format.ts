@@ -266,3 +266,17 @@ export function formatAmountInput(
     return value.toFixed(2)
   }
 }
+
+/**
+ * Re-render text typed under one locale's separators for another, keeping
+ * the number it meant. Used when the display locale resolves while a form is
+ * open (the number-format setting loads after the form seeded its fields):
+ * "1234.56" seeded under en-US must become "1234,56" under de-DE, or saving
+ * the untouched field would read it as 123456. Text that doesn't parse under
+ * the old locale is left as typed.
+ */
+export function convertAmountInput(text: string, fromLocale: string, toLocale: string): string {
+  if (fromLocale === toLocale) return text
+  const value = parseAmountInput(text, fromLocale)
+  return value == null ? text : formatAmountInput(value, toLocale, 8)
+}

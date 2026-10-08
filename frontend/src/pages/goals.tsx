@@ -430,7 +430,8 @@ export default function GoalsPage() {
             <DialogTitle>{editing ? t('goals.edit') : t('goals.add')}</DialogTitle>
           </DialogHeader>
           <form
-            key={editing?.id ?? 'new'}
+            // Remount when the locale resolves so the seeded amounts use its separators.
+            key={`${editing?.id ?? 'new'}-${locale}`}
             onSubmit={(e) => {
               e.preventDefault()
               const formData = new FormData(e.currentTarget)

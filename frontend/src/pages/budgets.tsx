@@ -264,7 +264,8 @@ export default function BudgetsPage() {
             <DialogTitle>{editing ? t('budgets.edit') : t('budgets.add')}</DialogTitle>
           </DialogHeader>
           <form
-            key={editing?.id ?? 'new'}
+            // Remount when the locale resolves so the seeded amount uses its separators.
+            key={`${editing?.id ?? 'new'}-${locale}`}
             onSubmit={(e) => {
               e.preventDefault()
               const formData = new FormData(e.currentTarget)
