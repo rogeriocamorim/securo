@@ -229,6 +229,13 @@ export function parseAmountInput(value: string, locale = 'en-US'): number | null
     sign = -1
     text = text.slice(1)
   }
+  // On space_comma a dot can't be grouping (spaces are), so a lone dot is a
+  // decimal typed from habit or a numeric keypad — read it as one instead of
+  // rejecting the amount (issue #1072). dot_comma stays strict: there
+  // "1.500" is fifteen hundred.
+  if (decimal === ',' && group !== '.' && !text.includes(',') && text.split('.').length === 2) {
+    text = text.replace('.', ',')
+  }
   const decimalIndex = text.lastIndexOf(decimal)
   const integerPart = (decimalIndex >= 0 ? text.slice(0, decimalIndex) : text)
     .split(group)
