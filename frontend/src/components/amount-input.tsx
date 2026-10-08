@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { Input } from '@/components/ui/input'
 import { useDisplayLocale } from '@/hooks/use-display-locale'
-import { parseAmountInput } from '@/lib/format'
+import { useDisplayLocaleChange } from '@/hooks/use-display-locale-change'
+import { convertAmountInput, parseAmountInput } from '@/lib/format'
 
 type AmountInputProps = Omit<React.ComponentProps<typeof Input>, 'type' | 'inputMode'>
 
@@ -28,4 +29,21 @@ export function AmountInput({ value, ...props }: AmountInputProps) {
       {...props}
     />
   )
+}
+
+type FormAmountInputProps = Omit<AmountInputProps, 'value' | 'onChange'> & {
+  defaultValue?: string
+}
+
+/**
+ * `AmountInput` for forms read with `FormData`: holds its own text, seeded
+ * from `defaultValue`, and re-renders it for the new separators (keeping its
+ * value) when the display locale resolves. The form doesn't need to remount
+ * for that, so nothing else the user typed is lost.
+ */
+export function FormAmountInput({ defaultValue = '', ...props }: FormAmountInputProps) {
+  const locale = useDisplayLocale()
+  const [value, setValue] = React.useState(defaultValue)
+  useDisplayLocaleChange(locale, (prev, next) => setValue((v) => convertAmountInput(v, prev, next)))
+  return <AmountInput {...props} value={value} onChange={(e) => setValue(e.target.value)} />
 }

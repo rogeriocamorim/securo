@@ -8,7 +8,7 @@ import { extractApiError } from '@/lib/api-errors'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog'
-import { AmountInput } from '@/components/amount-input'
+import { FormAmountInput } from '@/components/amount-input'
 import { Label } from '@/components/ui/label'
 import {
   Dialog,
@@ -264,8 +264,7 @@ export default function BudgetsPage() {
             <DialogTitle>{editing ? t('budgets.edit') : t('budgets.add')}</DialogTitle>
           </DialogHeader>
           <form
-            // Remount when the locale resolves so the seeded amount uses its separators.
-            key={`${editing?.id ?? 'new'}-${locale}`}
+            key={editing?.id ?? 'new'}
             onSubmit={(e) => {
               e.preventDefault()
               const formData = new FormData(e.currentTarget)
@@ -321,7 +320,7 @@ export default function BudgetsPage() {
             )}
             <div className="space-y-2">
               <Label>{t('budgets.amount')}</Label>
-              <AmountInput
+              <FormAmountInput
                 name="amount"
                 defaultValue={editing?.amount != null ? formatAmountInput(editing.amount, locale) : ''}
                 required
