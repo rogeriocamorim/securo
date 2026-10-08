@@ -176,16 +176,15 @@ const REPORT_TABS: ReportTab[] = [
   },
 ]
 
-/** The stored reports range, if it is one `tab` offers; else the tab's defaults. */
-function restoredReportsRange(tab: ReportTab): ReportsRange {
-  const fallback = { rangeKey: tab.fallbackRangeKey, from: '', to: '', interval: tab.fallbackInterval }
-  const stored = loadReportsRange()
-  if (!stored) return fallback
+/** The range last used on `tab`, if it is still one the tab offers. */
+function storedReportsRange(tab: ReportTab): ReportsRange | null {
+  const stored = loadReportsRange(tab.key)
+  if (!stored) return null
   const isCustom = stored.rangeKey === CUSTOM_RANGE_KEY
   const rangeOk = isCustom
     ? tab.supportsCustomRange && !!stored.from && !!stored.to
     : tab.rangeOptions.some((r) => r.key === stored.rangeKey)
-  if (!rangeOk) return fallback
+  if (!rangeOk) return null
   const interval = tab.intervalOptions.some((i) => i.value === stored.interval)
     ? stored.interval
     : tab.fallbackInterval
@@ -202,7 +201,12 @@ export default function ReportsPage() {
   const customDefaults = defaultCustomRange()
   // The page opens on the first tab with the range last used there (issue
   // #1053), or that tab's defaults if what was stored doesn't apply to it.
-  const [initialRange] = useState(() => restoredReportsRange(REPORT_TABS[0]))
+  const [initialRange] = useState<ReportsRange>(() => storedReportsRange(REPORT_TABS[0]) ?? {
+    rangeKey: REPORT_TABS[0].fallbackRangeKey,
+    from: '',
+    to: '',
+    interval: REPORT_TABS[0].fallbackInterval,
+  })
   const [rangeKey, setRangeKey] = useState(initialRange.rangeKey)
   const [interval, setInterval] = useState(initialRange.interval)
   // Custom range endpoints (YYYY-MM-DD) — populated when the user opens the
@@ -211,10 +215,12 @@ export default function ReportsPage() {
   // selection while the user compares views.
   const [customFrom, setCustomFrom] = useState(initialRange.from)
   const [customTo, setCustomTo] = useState(initialRange.to)
+  const [activeTab, setActiveTab] = useState(REPORT_TABS[0].key)
+  // Each tab keeps its own range: Cash Flow clamping to its forward presets
+  // must not overwrite what Net Worth was showing.
   useEffect(() => {
-    saveReportsRange({ rangeKey, from: customFrom, to: customTo, interval })
-  }, [rangeKey, customFrom, customTo, interval])
-  const [activeTab, setActiveTab] = useState('net_worth')
+    saveReportsRange(activeTab, { rangeKey, from: customFrom, to: customTo, interval })
+  }, [activeTab, rangeKey, customFrom, customTo, interval])
   const [compositionView, setCompositionView] = useState<string>('netWorth')
   const [sparklineView, setSparklineView] = useState<'byExpenses' | 'byIncome'>('byExpenses')
   const [sparklinePage, setSparklinePage] = useState(0)
@@ -273,6 +279,16 @@ export default function ReportsPage() {
     setCompositionView(key === 'net_worth' ? 'netWorth' : 'net')
     setSparklinePage(0)
     setSelectedDate(null)
+    const remembered = storedReportsRange(nextTab)
+    if (remembered) {
+      setRangeKey(remembered.rangeKey)
+      setInterval(remembered.interval)
+      if (remembered.rangeKey === CUSTOM_RANGE_KEY) {
+        setCustomFrom(remembered.from)
+        setCustomTo(remembered.to)
+      }
+      return
+    }
     // Clamp the range/interval preset to what the new tab supports.
     const stillValid =
       (rangeKey === CUSTOM_RANGE_KEY && nextTab.supportsCustomRange) ||

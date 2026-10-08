@@ -32,7 +32,14 @@ function write(page: RememberedPage, value: unknown): void {
   }
 }
 
-const isDate = (v: unknown): v is string => typeof v === 'string' && (v === '' || /^\d{4}-\d{2}-\d{2}$/.test(v))
+/** '' (open end) or a real calendar date as YYYY-MM-DD — not "2026-02-30". */
+function isDate(v: unknown): v is string {
+  if (v === '') return true
+  if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return false
+  const [y, m, d] = v.split('-').map(Number)
+  const date = new Date(Date.UTC(y, m - 1, d))
+  return date.getUTCFullYear() === y && date.getUTCMonth() === m - 1 && date.getUTCDate() === d
+}
 
 /** A from/to range ('' on either side means open-ended). */
 export function loadRange(page: RememberedPage): { from: string; to: string } | null {
@@ -46,7 +53,7 @@ export function saveRange(page: RememberedPage, from: string, to: string): void 
   write(page, monthFromRange(from, to) === currentMonth() ? { kind: 'current-month' } : { kind: 'range', from, to })
 }
 
-/** Reports: a preset key (relative, e.g. "1y") or custom dates, plus the interval. */
+/** Reports, per tab: a preset key (relative, e.g. "1y") or custom dates, plus the interval. */
 export interface ReportsRange {
   rangeKey: string
   from: string
@@ -54,13 +61,22 @@ export interface ReportsRange {
   interval: string
 }
 
-export function loadReportsRange(): ReportsRange | null {
-  const v = read('reports') as Partial<Record<keyof ReportsRange, unknown>> | null
+/** Stored per-tab entries; anything that isn't an object (an older flat shape) is dropped. */
+function readReportsTabs(): Record<string, unknown> {
+  const v = read('reports')
+  if (!v || typeof v !== 'object' || Array.isArray(v)) return {}
+  return Object.fromEntries(
+    Object.entries(v).filter(([, entry]) => entry !== null && typeof entry === 'object'),
+  )
+}
+
+export function loadReportsRange(tab: string): ReportsRange | null {
+  const v = readReportsTabs()[tab] as Partial<Record<keyof ReportsRange, unknown>> | undefined
   if (!v || typeof v.rangeKey !== 'string' || typeof v.interval !== 'string') return null
   if (!isDate(v.from) || !isDate(v.to)) return null
   return { rangeKey: v.rangeKey, from: v.from, to: v.to, interval: v.interval }
 }
 
-export function saveReportsRange(range: ReportsRange): void {
-  write('reports', range)
+export function saveReportsRange(tab: string, range: ReportsRange): void {
+  write('reports', { ...readReportsTabs(), [tab]: range })
 }

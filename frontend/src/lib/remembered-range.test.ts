@@ -27,7 +27,7 @@ describe('remembered date range', () => {
 
   it('returns null when nothing was stored', () => {
     expect(loadRange('transactions')).toBeNull()
-    expect(loadReportsRange()).toBeNull()
+    expect(loadReportsRange('net_worth')).toBeNull()
   })
 
   it('round-trips a custom range, including an open-ended one', () => {
@@ -56,9 +56,20 @@ describe('remembered date range', () => {
     expect(loadRange('transactions')).toBeNull()
   })
 
-  it('round-trips the reports preset and interval', () => {
-    const range = { rangeKey: '6m', from: '', to: '', interval: 'weekly' }
-    saveReportsRange(range)
-    expect(loadReportsRange()).toEqual(range)
+  it('rejects impossible calendar dates', () => {
+    localStorage.setItem('securo.dateRange.transactions', JSON.stringify({ kind: 'range', from: '2026-02-30', to: '' }))
+    expect(loadRange('transactions')).toBeNull()
+    saveRange('transactions', '2028-02-29', '2028-03-01')
+    expect(loadRange('transactions')).toEqual({ from: '2028-02-29', to: '2028-03-01' })
+  })
+
+  it('keeps a separate reports range per tab', () => {
+    const netWorth = { rangeKey: '2y', from: '', to: '', interval: 'monthly' }
+    const cashFlow = { rangeKey: '6m', from: '', to: '', interval: 'daily' }
+    saveReportsRange('net_worth', netWorth)
+    saveReportsRange('cash_flow', cashFlow)
+    expect(loadReportsRange('net_worth')).toEqual(netWorth)
+    expect(loadReportsRange('cash_flow')).toEqual(cashFlow)
+    expect(loadReportsRange('money_map')).toBeNull()
   })
 })
