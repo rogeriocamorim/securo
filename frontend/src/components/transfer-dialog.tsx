@@ -4,6 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { localDateString } from '@/lib/date-utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { AmountInput } from '@/components/amount-input'
+import { useDisplayLocale } from '@/hooks/use-display-locale'
+import { parseAmountInput } from '@/lib/format'
+import { toast } from 'sonner'
 import { Label } from '@/components/ui/label'
 import { DatePickerInput } from '@/components/ui/date-picker-input'
 import {
@@ -64,6 +68,7 @@ export function TransferDialog({
     }
   }
 
+  const displayLocale = useDisplayLocale()
   const fromAccount = accounts.find((a) => a.id === fromAccountId)
   const toAccount = accounts.find((a) => a.id === toAccountId)
   const isCrossCurrency = fromAccount && toAccount && fromAccount.currency !== toAccount.currency
@@ -80,15 +85,24 @@ export function TransferDialog({
         <form
           onSubmit={(e) => {
             e.preventDefault()
+            const parsedAmount = parseAmountInput(amount, displayLocale)
+            const parsedDestination = parseAmountInput(destinationAmount, displayLocale)
+            if (
+              parsedAmount == null || parsedAmount <= 0
+              || (isCrossCurrency && destinationAmount.trim() !== '' && (parsedDestination == null || parsedDestination <= 0))
+            ) {
+              toast.error(t('common.invalidAmount'))
+              return
+            }
             onSave({
               from_account_id: fromAccountId,
               to_account_id: toAccountId,
-              amount: parseFloat(amount),
+              amount: parsedAmount,
               date,
               description,
               notes: notes.trim() || undefined,
-              destination_amount: isCrossCurrency && destinationAmount
-                ? parseFloat(destinationAmount)
+              destination_amount: isCrossCurrency && parsedDestination != null
+                ? parsedDestination
                 : undefined,
             })
           }}
@@ -158,10 +172,7 @@ export function TransferDialog({
                 {t('transactions.transferAmount')}
                 {fromAccount && <span className="text-muted-foreground ml-1">({fromAccount.currency})</span>}
               </Label>
-              <Input
-                type="number"
-                step="0.01"
-                min="0.01"
+              <AmountInput
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 required
@@ -182,10 +193,7 @@ export function TransferDialog({
               <Label className="text-xs">
                 {t('transactions.convertedAmount', { currency: toAccount?.currency })}
               </Label>
-              <Input
-                type="number"
-                step="0.01"
-                min="0.01"
+              <AmountInput
                 value={destinationAmount}
                 onChange={(e) => setDestinationAmount(e.target.value)}
                 placeholder={t('transactions.autoCalculated')}

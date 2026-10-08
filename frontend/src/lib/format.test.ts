@@ -184,6 +184,14 @@ describe('parseAmountInput', () => {
     expect(parseAmountInput('1\u202f234,56', 'fr-FR')).toBe(1234.56)
   })
 
+  it('reads a lone dot as the decimal under a space_comma locale', () => {
+    expect(parseAmountInput('50.25', 'fr-FR')).toBe(50.25)
+    expect(parseAmountInput('1 234.5', 'fr-FR')).toBe(1234.5)
+    expect(parseAmountInput('1.2.3', 'fr-FR')).toBeNull()
+    // dot_comma keeps the dot as grouping.
+    expect(parseAmountInput('1.500', 'de-DE')).toBe(1500)
+  })
+
   it('keeps sign and defaults to en-US', () => {
     expect(parseAmountInput('-2.50')).toBe(-2.5)
     expect(parseAmountInput('-1.234,56', 'de-DE')).toBe(-1234.56)

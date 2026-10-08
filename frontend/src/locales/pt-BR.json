@@ -2129,6 +2129,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Informe um valor válido",
     "selectTimezone": "Selecionar fuso horário",
     "searchTimezone": "Buscar fuso horário...",
     "noTimezoneFound": "Nenhum fuso horário encontrado.",

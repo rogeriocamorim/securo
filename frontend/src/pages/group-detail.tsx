@@ -51,7 +51,8 @@ import { CategoryIcon } from '@/components/category-icon'
 import { DatePickerInput } from '@/components/ui/date-picker-input'
 import { PageHeader } from '@/components/page-header'
 import type { GroupMember, GroupSettlement, Transaction } from '@/types'
-import { formatCurrency } from '@/lib/format'
+import { formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
+import { AmountInput } from '@/components/amount-input'
 
 function SectionCard({ children }: { children: React.ReactNode }) {
   return (
@@ -366,7 +367,7 @@ export default function GroupDetailPage() {
   ) => {
     setSettleFrom(from ?? '')
     setSettleTo(to ?? '')
-    setSettleAmount(amount != null ? amount.toFixed(2) : '')
+    setSettleAmount(amount != null ? formatAmountInput(amount, locale) : '')
     setSettleDate(localDateString())
     setSettleNotes('')
     // Use the line's currency when settling a specific debt, falling
@@ -383,10 +384,15 @@ export default function GroupDetailPage() {
 
   const saveSettlement = () => {
     if (!settleFrom || !settleTo || !settleAmount) return
+    const amount = parseAmountInput(settleAmount, locale)
+    if (amount == null) {
+      toast.error(t('common.invalidAmount'))
+      return
+    }
     const payload: GroupSettlementPayload = {
       from_member_id: settleFrom,
       to_member_id: settleTo,
-      amount: parseFloat(settleAmount),
+      amount,
       currency: settleCurrency,
       date: settleDate,
       notes: settleNotes.trim() || null,
@@ -1107,7 +1113,7 @@ export default function GroupDetailPage() {
                                   // settlement: align amount, currency and
                                   // date so the two records can't disagree.
                                   setSettlePickedTx(tx)
-                                  setSettleAmount(Number(tx.amount).toFixed(2))
+                                  setSettleAmount(formatAmountInput(Number(tx.amount), locale))
                                   setSettleCurrency(tx.currency)
                                   setSettleDate(tx.date)
                                 }}
@@ -1140,9 +1146,7 @@ export default function GroupDetailPage() {
             <div className="grid grid-cols-3 gap-3">
               <div className="space-y-2 col-span-2">
                 <Label>{t('splitGroups.amount')}</Label>
-                <Input
-                  type="number"
-                  step="0.01"
+                <AmountInput
                   value={settleAmount}
                   onChange={(e) => setSettleAmount(e.target.value)}
                   disabled={settleTxMode === 'existing'}
