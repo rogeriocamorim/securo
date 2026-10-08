@@ -33,7 +33,7 @@ import { usePrivacyMode } from '@/hooks/use-privacy-mode'
 import { useAuth } from '@/contexts/auth-context'
 import { useWorkspace } from '@/contexts/workspace-context'
 import { formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
-import { AmountInput } from '@/components/amount-input'
+import { FormAmountInput } from '@/components/amount-input'
 
 function getGoalIcon(iconKey: string | null) {
   return (iconKey && ICON_MAP[iconKey]) || Target
@@ -430,8 +430,7 @@ export default function GoalsPage() {
             <DialogTitle>{editing ? t('goals.edit') : t('goals.add')}</DialogTitle>
           </DialogHeader>
           <form
-            // Remount when the locale resolves so the seeded amounts use its separators.
-            key={`${editing?.id ?? 'new'}-${locale}`}
+            key={editing?.id ?? 'new'}
             onSubmit={(e) => {
               e.preventDefault()
               const formData = new FormData(e.currentTarget)
@@ -483,7 +482,7 @@ export default function GoalsPage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>{t('goals.targetAmount')}</Label>
-                <AmountInput
+                <FormAmountInput
                   name="target_amount"
                   defaultValue={editing?.target_amount != null ? formatAmountInput(editing.target_amount, locale) : ''}
                   required
@@ -533,7 +532,7 @@ export default function GoalsPage() {
             {trackingType === 'manual' && (
               <div className="space-y-2">
                 <Label>{t('goals.currentAmount')}</Label>
-                <AmountInput
+                <FormAmountInput
                   name="current_amount"
                   defaultValue={editing?.tracking_type === 'manual' && editing.current_amount != null ? formatAmountInput(editing.current_amount, locale) : '0'}
                 />
