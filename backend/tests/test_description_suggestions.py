@@ -125,3 +125,22 @@ async def test_like_wildcards_are_literal(
     resp = await client.get(URL, params={"q": "0%"}, headers=auth_headers)
 
     assert [s["description"] for s in resp.json()] == ["100% juice"]
+
+
+async def test_older_prefix_match_is_not_crowded_out_by_recent_rows(
+    client: AsyncClient,
+    session: AsyncSession,
+    auth_headers: dict,
+    test_account: Account,
+    test_workspace: Workspace,
+):
+    # Many recent rows that only *contain* the query, one old prefix match.
+    session.add_all(
+        [_tx(test_account, test_workspace.id, "Supermarket", i) for i in range(1, 600)]
+        + [_tx(test_account, test_workspace.id, "Market Hall", 900)]
+    )
+    await session.commit()
+
+    resp = await client.get(URL, params={"q": "market"}, headers=auth_headers)
+
+    assert [s["description"] for s in resp.json()] == ["Market Hall", "Supermarket"]

@@ -43,7 +43,10 @@ export function DescriptionInput({ value, onChange, onPick, required, className 
   })
   // Offering exactly what's already typed is noise.
   const options = suggestions.filter((s) => s.description !== value.trim())
-  const open = focused && !dismissed && value.trim().length >= MIN_QUERY && options.length > 0
+  // Until the debounce catches up, the results belong to an older query:
+  // don't offer "coffee" suggestions under "market".
+  const settled = query === value.trim()
+  const open = focused && !dismissed && settled && value.trim().length >= MIN_QUERY && options.length > 0
 
   function pick(suggestion: DescriptionSuggestion) {
     onChange(suggestion.description)

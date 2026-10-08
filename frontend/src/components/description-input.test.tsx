@@ -70,4 +70,13 @@ describe('DescriptionInput', () => {
     await waitFor(() => expect(transactions.descriptionSuggestions).toHaveBeenCalled())
     expect(input).toHaveValue('something new')
   })
+
+  it('hides results from the previous query while the next one is debounced', async () => {
+    const { input } = setup()
+    fireEvent.change(input, { target: { value: 'sup' } })
+    await screen.findByRole('listbox')
+
+    fireEvent.change(input, { target: { value: 'market' } })
+    expect(screen.queryByRole('option', { name: 'Supermarket Extra' })).not.toBeInTheDocument()
+  })
 })
