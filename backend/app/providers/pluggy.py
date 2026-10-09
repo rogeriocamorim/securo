@@ -581,7 +581,13 @@ class PluggyProvider(BankProvider):
 
                 for txn in results:
                     amount_raw = txn.get("amount", 0)
-                    amount = Decimal(str(abs(amount_raw)))
+                    # For pending/reserved transactions, Pluggy may return
+                    # the amount with a sign that indicates direction.
+                    # For posted transactions, the explicit `type` field
+                    # (DEBIT/CREDIT) is authoritative; for pending rows
+                    # that lack a type, we must use the sign as a fallback.
+                    # abs() is applied after type resolution, not before.
+                    amount = Decimal(str(amount_raw))
 
                     # Use Pluggy's explicit type field when available
                     pluggy_type = txn.get("type", "").upper()
@@ -590,7 +596,11 @@ class PluggyProvider(BankProvider):
                     elif pluggy_type == "CREDIT":
                         txn_type = "credit"
                     else:
-                        txn_type = "credit" if amount_raw >= 0 else "debit"
+                        txn_type = "credit" if amount >= 0 else "debit"
+
+                    # Store amount as positive magnitude with type carrying
+                    # direction — the downstream model expects (amount, type)
+                    txn_amount = abs(amount)
 
                     txn_date = date.fromisoformat(txn["date"][:10])
 
@@ -637,7 +647,7 @@ class PluggyProvider(BankProvider):
                         TransactionData(
                             external_id=txn["id"],
                             description=txn.get("description", ""),
-                            amount=amount,
+                            amount=txn_amount,
                             date=txn_date,
                             type=txn_type,
                             currency=txn.get("currencyCode"),

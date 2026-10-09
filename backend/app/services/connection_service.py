@@ -647,6 +647,12 @@ async def _sync_holdings(
 
     for ext_id, asset in archive_candidates.items():
         if ext_id not in seen and not asset.is_archived:
+            # Issue #819: An asset no longer reported by the provider was
+            # likely sold, redeemed, or transferred.  Mark it with a sell_date
+            # so it drops out of current portfolio totals while keeping the
+            # historical AssetValue chain visible in reports.
+            if asset.sell_date is None:
+                asset.sell_date = today
             asset.is_archived = True
 
     # Sync owns its wallets: drop any it emptied by re-attribution above
@@ -1995,6 +2001,12 @@ async def sync_connection(
         user_currency = user.primary_currency if user else get_settings().default_currency
         new_tx_ids: list[uuid.UUID] = []
         merged_count = 0
+        # Issue #1061: re-check credential validity before every account fetch.
+        # The initial refresh_credentials() validates stored valid_until, but a
+        # bank can revoke consent at any time — making subsequent API calls
+        # return 401/410. Revalidating here catches mid-sync revocation before
+        # we start mutating rows.
+        credentials = await provider.refresh_credentials(credentials)
         accounts_data = await provider.get_accounts(credentials)
         incoming_external_ids = {acc.external_id for acc in accounts_data}
         institution_cache: dict[str, Institution] = {}
@@ -2253,11 +2265,17 @@ async def sync_connection(
                     )
 
                 sync_payee_id = None
-                if txn_data.payee:
+                payee_text = txn_data.payee
+                if not payee_text:
+                    # Issue #1042: Provider returned no creditor/debtor.
+                    # Fall back to the account holder name so the
+                    # transaction carries a useful label instead of going blank.
+                    payee_text = account.name
+                if payee_text:
                     sync_payee_entity = await get_or_create_payee(
                         session,
                         user_id,
-                        txn_data.payee,
+                        payee_text,
                         workspace_id=workspace_id,
                     )
                     sync_payee_id = sync_payee_entity.id
