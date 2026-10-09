@@ -714,10 +714,11 @@ class EnableBankingProvider(BankProvider):
             else:
                 description = debtor or creditor or ""
         description = description.strip()[:500] or "Transaction"
-        entry_ref = (raw.get("entry_reference") or "").strip()
-        external_id = (
-            entry_ref if entry_ref and entry_ref != "0" else _txn_fingerprint(account_uid, raw)
-        )
+        # Always use _txn_fingerprint for stable identification.
+        # entry_reference is documented as unreliable and can be shared
+        # between distinct transactions in the same settlement batch,
+        # causing dedup to incorrectly collapse them. Issue #1063.
+        external_id = _txn_fingerprint(account_uid, raw)
         return TransactionData(
             external_id=external_id,
             description=description,
