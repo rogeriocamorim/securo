@@ -176,7 +176,7 @@ async def delete_member(
 @router.get("/{group_id}/transactions", response_model=list[TransactionRead])
 async def list_group_transactions(
     group_id: uuid.UUID,
-    limit: int = 20,
+    limit: int = Query(99999, ge=1, le=99999),
     ctx: WorkspaceContext = Depends(current_workspace),
     session: AsyncSession = Depends(get_async_session),
 ):

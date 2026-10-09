@@ -196,7 +196,7 @@ export default function GroupDetailPage() {
 
   const { data: groupTxs } = useQuery({
     queryKey: ['groups', groupId, 'transactions'],
-    queryFn: () => groupsApi.transactions(groupId, 20),
+    queryFn: () => groupsApi.transactions(groupId, 99999),
     enabled: !!groupId,
   })
 
