@@ -1,0 +1,383 @@
+{
+  "entries": {
+    "cmd-1791463342357": {
+      "key": "cmd-1791463342357",
+      "value": "{\"command\":\"sed -i '216s/  }, \\\\[group\\\\])/  }, [group, locale])/' components/transaction-splits-section.tsx && sed -n 216p components/transaction-splits-section.tsx && cd .. && rtk ls node_modules >/dev/null 2>&1 && echo has_nm; rtk npm run typecheck 2>&1 | tail -20\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:42:22.357Z",
+      "lastAccessed": "2026-10-08T12:42:22.357Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:42:22.357Z"
+    },
+    "cmd-1791463395391": {
+      "key": "cmd-1791463395391",
+      "value": "{\"command\":\"npm ci 2>&1 | tail -5 && rtk git status --short package-lock.json\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:43:15.391Z",
+      "lastAccessed": "2026-10-08T12:43:15.391Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:43:15.391Z"
+    },
+    "cmd-1791463414437": {
+      "key": "cmd-1791463414437",
+      "value": "{\"command\":\"rtk npm run typecheck 2>&1 | tail -20; rtk lint src/components/amount-input.tsx src/components/transfer-dialog.tsx src/components/transaction-splits-section.tsx src/pages/recurring.tsx src/pages/budgets.tsx src/pages/goals.tsx src/pages/accounts.tsx src/pages/account-detail.tsx src/pages/group-detail.tsx src/lib/format.ts --max-warnings=0 2>&1 | tail -20\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:43:34.437Z",
+      "lastAccessed": "2026-10-08T12:43:34.437Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:43:34.437Z"
+    },
+    "cmd-1791463454686": {
+      "key": "cmd-1791463454686",
+      "value": "{\"command\":\"sed -i \\\"/^import { Input } from '@\\\\/components\\\\/ui\\\\/input'$/d\\\" src/components/transaction-splits-section.tsx && rtk npm run typecheck 2>&1 | grep -v \\\"vite.config\\\" | grep \\\"error\\\"; rtk vitest src/lib/format.test.ts src/locales src/components src/pages 2>&1 | tail -15\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:44:14.686Z",
+      "lastAccessed": "2026-10-08T12:44:14.686Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:44:14.686Z"
+    },
+    "cmd-1791463472725": {
+      "key": "cmd-1791463472725",
+      "value": "{\"command\":\"sed -n 30,38p src/test/setup.ts; node --version; which mise nvm fnm volta 2>/dev/null; rtk ls \\\"$LOCALAPPDATA/mise\\\" 2>/dev/null | head -3\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:44:32.725Z",
+      "lastAccessed": "2026-10-08T12:44:32.725Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:44:32.725Z"
+    },
+    "cmd-1791463506387": {
+      "key": "cmd-1791463506387",
+      "value": "{\"command\":\"(NODE_OPTIONS=--no-experimental-webstorage npx vitest run src/lib/format.test.ts 2>&1 | tail -6) ; (NODE_OPTIONS=--no-webstorage npx vitest run src/lib/format.test.ts 2>&1 | tail -6)\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:45:06.387Z",
+      "lastAccessed": "2026-10-08T12:45:06.387Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:45:06.387Z"
+    },
+    "cmd-1791463539353": {
+      "key": "cmd-1791463539353",
+      "value": "{\"command\":\"NODE_OPTIONS=--no-experimental-webstorage rtk vitest 2>&1 | tail -25\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:45:39.353Z",
+      "lastAccessed": "2026-10-08T12:45:39.353Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:45:39.353Z"
+    },
+    "cmd-1791463548843": {
+      "key": "cmd-1791463548843",
+      "value": "{\"command\":\"rtk read src/components/form-reset.test.tsx; rtk grep -E \\\"FAIL|Test Files|Tests \\\" ~/AppData/Local/rtk/tee/1791463537_vitest_run.log | sort -u | head -20\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:45:48.843Z",
+      "lastAccessed": "2026-10-08T12:45:48.843Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:45:48.843Z"
+    },
+    "cmd-1791463563536": {
+      "key": "cmd-1791463563536",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:46:03.536Z",
+      "lastAccessed": "2026-10-08T12:46:03.536Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:46:03.536Z"
+    },
+    "cmd-1791463604987": {
+      "key": "cmd-1791463604987",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && rtk grep -n \\\"spinbutton\\\" src/components/form-reset.test.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:46:44.987Z",
+      "lastAccessed": "2026-10-08T12:46:44.987Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:46:44.987Z"
+    },
+    "cmd-1791463642789": {
+      "key": "cmd-1791463642789",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:47:22.789Z",
+      "lastAccessed": "2026-10-08T12:47:22.789Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:47:22.789Z"
+    },
+    "cmd-1791463676648": {
+      "key": "cmd-1791463676648",
+      "value": "{\"command\":\"NODE_OPTIONS=--no-experimental-webstorage rtk vitest src/components/transfer-dialog.test.tsx 2>&1 | grep -E \\\"✓|×|FAIL|Tests  |Error\\\" | head -20\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:47:56.648Z",
+      "lastAccessed": "2026-10-08T12:47:56.648Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:47:56.648Z"
+    },
+    "cmd-1791463692000": {
+      "key": "cmd-1791463692000",
+      "value": "{\"command\":\"sed -i \\\"s#vi.mock('@/hooks/use-display-locale', () => ({ useDisplayLocale: () => 'fr-FR' }))#vi.mock('@/hooks/use-display-locale', () => ({\\\\n  useDisplayLocale: () => 'fr-FR',\\\\n  useDateLocale: () => 'fr-FR',\\\\n}))#\\\" src/components/transfer-dialog.test.tsx && NODE_OPTIONS=--no-experimental-webstorage rtk vitest src/components/transfer-dialog.test.tsx 2>&1 | grep -E \\\"PASS|FAIL|Tests  |Error\\\" | head -10\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:48:12.000Z",
+      "lastAccessed": "2026-10-08T12:48:12.000Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:48:12.000Z"
+    },
+    "cmd-1791463722520": {
+      "key": "cmd-1791463722520",
+      "value": "{\"command\":\"rtk lint . --max-warnings=0 2>&1 | tail -8; rtk npm run typecheck 2>&1 | grep \\\"error TS\\\" | grep -v \\\"^vite.config\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:48:42.520Z",
+      "lastAccessed": "2026-10-08T12:48:42.520Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:48:42.520Z"
+    },
+    "cmd-1791464131548": {
+      "key": "cmd-1791464131548",
+      "value": "{\"command\":\"sed -i 's/w-(--radix-popover-trigger-width) p-1/w-[var(--radix-popover-trigger-width)] p-1/' components/description-input.tsx && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:55:31.548Z",
+      "lastAccessed": "2026-10-08T12:55:31.548Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:55:31.548Z"
+    },
+    "cmd-1791464175419": {
+      "key": "cmd-1791464175419",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && NODE_OPTIONS=--no-experimental-webstorage rtk vitest src/components/description-input.test.tsx 2>&1 | grep -E \\\"PASS|FAIL|Error|expected\\\" | head -15\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:56:15.419Z",
+      "lastAccessed": "2026-10-08T12:56:15.419Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:56:15.419Z"
+    },
+    "cmd-1791464210629": {
+      "key": "cmd-1791464210629",
+      "value": "{\"command\":\"sed -i 's/  beforeEach(() => {\\\\r\\\\?$/  beforeEach(() => {\\\\n    vi.clearAllMocks()/' src/components/description-input.test.tsx && rtk grep -n -A2 \\\"beforeEach(() =>\\\" src/components/description-input.test.tsx && NODE_OPTIONS=--no-experimental-webstorage rtk vitest 2>&1 | grep -E \\\"FAIL|Test Files|Tests  \\\" | sort -u\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:56:50.629Z",
+      "lastAccessed": "2026-10-08T12:56:50.629Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:56:50.629Z"
+    },
+    "cmd-1791464427803": {
+      "key": "cmd-1791464427803",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && NODE_OPTIONS=--no-experimental-webstorage rtk vitest 2>&1 | grep -E \\\"FAIL|Test Files|Tests  |✗|×\\\" | sort -u | head; rtk npm run typecheck 2>&1 | grep \\\"error TS\\\" | grep -v \\\"^vite.config\\\"; rtk lint src/lib/remembered-range.ts src/lib/remembered-range.test.ts src/pages/transactions.tsx src/pages/reports.tsx --max-warnings=0 2>&1 | grep -v \\\"npm notice\\\" | tail -4\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:00:27.803Z",
+      "lastAccessed": "2026-10-08T13:00:27.803Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:00:27.803Z"
+    },
+    "cmd-1791464464392": {
+      "key": "cmd-1791464464392",
+      "value": "{\"command\":\"NODE_OPTIONS=--no-experimental-webstorage rtk vitest 2>&1 | grep -E \\\"FAIL |AssertionError|Error:\\\" | head -15\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:01:04.392Z",
+      "lastAccessed": "2026-10-08T13:01:04.392Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:01:04.392Z"
+    },
+    "cmd-1791464480252": {
+      "key": "cmd-1791464480252",
+      "value": "{\"command\":\"rtk read vitest.config.ts | sed -n 1,60p; rtk grep -ln \\\"jsdom\\\" src/lib/*.test.ts | head -3; rtk read src/hooks/use-privacy-mode.test.tsx --max-lines 3\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:01:20.252Z",
+      "lastAccessed": "2026-10-08T13:01:20.252Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:01:20.252Z"
+    },
+    "cmd-1791464517841": {
+      "key": "cmd-1791464517841",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:01:57.841Z",
+      "lastAccessed": "2026-10-08T13:01:57.841Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:01:57.841Z"
+    },
+    "cmd-1791464556386": {
+      "key": "cmd-1791464556386",
+      "value": "{\"command\":\"NODE_OPTIONS=--no-experimental-webstorage npx vitest run > \\\"$TEMP/vt.log\\\" 2>&1; grep -aE \\\"Tests|Test Files|PASS \\\\(|FAIL \\\\(\\\" \\\"$TEMP/vt.log\\\" | tail -4; grep -a -B2 -A6 \\\"AssertionError\\\\|ReferenceError\\\" \\\"$TEMP/vt.log\\\" | head -40\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:02:36.386Z",
+      "lastAccessed": "2026-10-08T13:02:36.386Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:02:36.386Z"
+    },
+    "cmd-1791467871922": {
+      "key": "cmd-1791467871922",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && ls src/components | grep -i split; npm run typecheck 2>&1 | grep \\\"error TS\\\" | grep -v \\\"^vite.config\\\"; npx eslint src --max-warnings=0 2>&1 | grep -v \\\"npm notice\\\" | tail -6; NODE_OPTIONS=--no-experimental-webstorage npx vitest run > \\\"$TEMP/vt.log\\\" 2>&1; grep -aE \\\"Tests  |Test Files\\\" \\\"$TEMP/vt.log\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:57:51.922Z",
+      "lastAccessed": "2026-10-08T13:57:51.922Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:57:51.922Z"
+    },
+    "cmd-1791467949593": {
+      "key": "cmd-1791467949593",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && rtk ls node_modules/.bin | grep -c .; rtk ls node_modules/.bin/vitest node_modules/.bin/eslint 2>&1\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:59:09.593Z",
+      "lastAccessed": "2026-10-08T13:59:09.593Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:59:09.593Z"
+    },
+    "cmd-1791467976856": {
+      "key": "cmd-1791467976856",
+      "value": "{\"command\":\"NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run src/pages/register.test.tsx src/pages/products.test.tsx src/pages/invoice-schedules.test.tsx > \\\"$TEMP/vt2.log\\\" 2>&1; grep -aE \\\"Tests  |Test Files\\\" \\\"$TEMP/vt2.log\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:59:36.856Z",
+      "lastAccessed": "2026-10-08T13:59:36.856Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:59:36.856Z"
+    },
+    "cmd-1791468011522": {
+      "key": "cmd-1791468011522",
+      "value": "{\"command\":\"node node_modules/eslint/bin/eslint.js src --max-warnings=0 > \\\"$TEMP/lint.log\\\" 2>&1; echo \\\"lint exit $?\\\"; tail -5 \\\"$TEMP/lint.log\\\"; npm run typecheck > \\\"$TEMP/tc.log\\\" 2>&1; grep \\\"error TS\\\" \\\"$TEMP/tc.log\\\" | grep -v \\\"^vite.config\\\"; echo tc-done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:00:11.522Z",
+      "lastAccessed": "2026-10-08T14:00:11.522Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:00:11.522Z"
+    },
+    "cmd-1791468045028": {
+      "key": "cmd-1791468045028",
+      "value": "{\"command\":\"NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run src/hooks/use-display-locale-change.test.tsx src/lib/format.test.ts src/components 2>&1 | grep -aE \\\"Tests  |Test Files|FAIL \\\"; node node_modules/eslint/bin/eslint.js src/hooks --max-warnings=0; echo lint $?\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:00:45.028Z",
+      "lastAccessed": "2026-10-08T14:00:45.028Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:00:45.028Z"
+    },
+    "cmd-1791468257874": {
+      "key": "cmd-1791468257874",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:04:17.874Z",
+      "lastAccessed": "2026-10-08T14:04:17.874Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:04:17.874Z"
+    },
+    "cmd-1791468382171": {
+      "key": "cmd-1791468382171",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:06:22.171Z",
+      "lastAccessed": "2026-10-08T14:06:22.171Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:06:22.171Z"
+    },
+    "cmd-1791473145726": {
+      "key": "cmd-1791473145726",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && rtk grep -n \\\"export function t\\\\b\\\\|export const t\\\\b\\\\|export { t\\\" src/test/utils.tsx | head -2; NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run src/pages/assets-archived.test.tsx 2>&1 | grep -aE \\\"Tests  |FAIL|×|Error\\\" | head -10\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:25:45.726Z",
+      "lastAccessed": "2026-10-08T15:25:45.726Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:25:45.726Z"
+    },
+    "cmd-1791473163828": {
+      "key": "cmd-1791473163828",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:26:03.828Z",
+      "lastAccessed": "2026-10-08T15:26:03.828Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:26:03.828Z"
+    },
+    "cmd-1791473183512": {
+      "key": "cmd-1791473183512",
+      "value": "{\"command\":\"node node_modules/eslint/bin/eslint.js src/pages/assets.tsx src/pages/assets-archived.test.tsx --max-warnings=0; echo lint $?; npm run typecheck > \\\"$TEMP/tc.log\\\" 2>&1; grep \\\"error TS\\\" \\\"$TEMP/tc.log\\\" | grep -v vite.config; echo tc; NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run src/locales 2>&1 | grep -aE \\\"Tests  \\\"; grep -n \\\"frontend:\\\" -A16 ../docker-compose.yml | grep -n \\\"volumes\\\\|\\\\./frontend\\\" \",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:26:23.512Z",
+      "lastAccessed": "2026-10-08T15:26:23.512Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:26:23.512Z"
+    },
+    "cmd-1791473261095": {
+      "key": "cmd-1791473261095",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:27:41.095Z",
+      "lastAccessed": "2026-10-08T15:27:41.095Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:27:41.095Z"
+    },
+    "cmd-1791473502465": {
+      "key": "cmd-1791473502465",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run src/components/onboarding-tour.test.tsx 2>&1 | grep -aE \\\"Tests  |×|Error|Expected|Received\\\" | head; node node_modules/eslint/bin/eslint.js src/components/onboarding-tour.tsx src/components/onboarding-tour.test.tsx --max-warnings=0; echo lint $?\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:31:42.465Z",
+      "lastAccessed": "2026-10-08T15:31:42.465Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:31:42.465Z"
+    },
+    "cmd-1791473519629": {
+      "key": "cmd-1791473519629",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:31:59.629Z",
+      "lastAccessed": "2026-10-08T15:31:59.629Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:31:59.629Z"
+    },
+    "cmd-1791474565783": {
+      "key": "cmd-1791474565783",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run src/components/form-amount-input.test.tsx src/components src/pages/budgets* src/pages/goals* 2>&1 | grep -aE \\\"Tests  |×|FAIL\\\" | head; node node_modules/eslint/bin/eslint.js src --max-warnings=0; echo lint $?; npm run typecheck > \\\"$TEMP/tc.log\\\" 2>&1; grep \\\"error TS\\\" \\\"$TEMP/tc.log\\\" | grep -v vite.config; echo tc\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:49:25.783Z",
+      "lastAccessed": "2026-10-08T15:49:25.783Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:49:25.783Z"
+    },
+    "cmd-1791474668265": {
+      "key": "cmd-1791474668265",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:51:08.265Z",
+      "lastAccessed": "2026-10-08T15:51:08.265Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:51:08.265Z"
+    },
+    "cmd-1791476126597": {
+      "key": "cmd-1791476126597",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:15:26.597Z",
+      "lastAccessed": "2026-10-08T16:15:26.597Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:15:26.597Z"
+    },
+    "cmd-1791476147699": {
+      "key": "cmd-1791476147699",
+      "value": "{\"command\":\"sed -n 60,120p src/components/transaction-dialog.test.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:15:47.699Z",
+      "lastAccessed": "2026-10-08T16:15:47.699Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:15:47.699Z"
+    },
+    "cmd-1791476170161": {
+      "key": "cmd-1791476170161",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:16:10.161Z",
+      "lastAccessed": "2026-10-08T16:16:10.161Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:16:10.161Z"
+    },
+    "cmd-1791476189276": {
+      "key": "cmd-1791476189276",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:16:29.276Z",
+      "lastAccessed": "2026-10-08T16:16:29.276Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:16:29.276Z"
+    },
+    "cmd-1791476318211": {
+      "key": "cmd-1791476318211",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run > \\\"$TEMP/vt.log\\\" 2>&1; grep -aE \\\"Tests  |Test Files\\\" \\\"$TEMP/vt.log\\\"; grep -aE \\\"FAIL \\\" \\\"$TEMP/vt.log\\\" | sort -u | head -5; node node_modules/eslint/bin/eslint.js src --max-warnings=0; echo lint $?\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:18:38.211Z",
+      "lastAccessed": "2026-10-08T16:18:38.211Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:18:38.211Z"
+    }
+  },
+  "version": "3.0.0"
+}

@@ -19,6 +19,7 @@ from app.models.asset_value import AssetValue
 from app.models.bank_connection import BankConnection
 from app.models.account import Account
 from app.models.category import Category
+from app.models.recurring_transaction import RecurringTransaction
 from app.models.institution import Institution
 from app.models.goal import Goal
 from app.models.collection import collection_asset_groups
@@ -2518,6 +2519,19 @@ async def delete_connection(
             .distinct()
         )
     ).scalars().all()
+
+    # Protect recurring transactions whose account_id FK has ON DELETE CASCADE:
+    # detach them so deleting the connection's accounts doesn't orphan them.
+    await session.execute(
+        update(RecurringTransaction)
+        .where(
+            RecurringTransaction.workspace_id == workspace_id,
+            RecurringTransaction.account_id.in_(
+                select(Account.id).where(Account.connection_id == connection.id)
+            ),
+        )
+        .values(account_id=None)
+    )
 
     await session.delete(connection)
     await session.flush()

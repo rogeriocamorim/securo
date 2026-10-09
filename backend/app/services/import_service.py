@@ -890,6 +890,7 @@ async def import_transactions(
                     Transaction.date == txn_data.date,
                     Transaction.amount == txn_data.amount,
                     Transaction.type == txn_data.type,
+                    Transaction.source.notin_(("recurring",)),
                 )
             else:
                 existing_statement = select(Transaction).where(
@@ -897,6 +898,7 @@ async def import_transactions(
                     Transaction.date == txn_data.date,
                     Transaction.amount == txn_data.amount,
                     Transaction.type == txn_data.type,
+                    Transaction.source.notin_(("recurring",)),
                     or_(
                         Transaction.description == txn_data.description,
                         Transaction.original_description == txn_data.description,

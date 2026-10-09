@@ -1,0 +1,14 @@
+{
+  "entries": {
+    "cmd-1791478080260": {
+      "key": "cmd-1791478080260",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend/app && rtk grep -rn \\\"is_closed\\\" --include=*.py . | grep -v \\\"^./models\\\\|^./schemas\\\\|alembic\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:48:00.260Z",
+      "lastAccessed": "2026-10-08T16:48:00.260Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:48:00.260Z"
+    }
+  },
+  "version": "3.0.0"
+}

@@ -114,16 +114,25 @@ def _match_condition(condition: dict, tx: "Transaction") -> bool:
             if op == "lte":
                 return tx_date <= val_date
 
-        tx_num = _to_decimal(tx_val)
+        if field == "amount":
+            # Transaction amounts are stored as absolute values; the sign
+            # is implied by the ``type`` column ("debit" vs "credit").  For
+            # numeric comparisons the engine must present a signed amount
+            # so that rules like "amount > -50" behave as users expect.
+            tx_amount = _to_decimal(tx_val)
+            if str(tx.type or "").lower() == "debit":
+                tx_amount = -tx_amount
+        else:
+            tx_amount = _to_decimal(tx_val)
         val_num = _to_decimal(value)
         if op == "gt":
-            return tx_num > val_num
+            return tx_amount > val_num
         if op == "gte":
-            return tx_num >= val_num
+            return tx_amount >= val_num
         if op == "lt":
-            return tx_num < val_num
+            return tx_amount < val_num
         if op == "lte":
-            return tx_num <= val_num
+            return tx_amount <= val_num
 
     return False
 
