@@ -1,0 +1,41 @@
+{
+  "entries": {
+    "cmd-1791478089778": {
+      "key": "cmd-1791478089778",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend/app/services && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:48:09.778Z",
+      "lastAccessed": "2026-10-08T16:48:09.778Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:48:09.778Z"
+    },
+    "cmd-1791478106405": {
+      "key": "cmd-1791478106405",
+      "value": "{\"command\":\"sed -n 325,365p dashboard_service.py; echo ------; sed -n 470,510p dashboard_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:48:26.405Z",
+      "lastAccessed": "2026-10-08T16:48:26.405Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:48:26.405Z"
+    },
+    "cmd-1791478116306": {
+      "key": "cmd-1791478116306",
+      "value": "{\"command\":\"sed -n 735,760p dashboard_service.py; echo ------953; sed -n 940,962p dashboard_service.py; echo ------calendar297; sed -n 280,305p transaction_calendar_service.py; echo ------tx267; sed -n 255,272p transaction_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:48:36.306Z",
+      "lastAccessed": "2026-10-08T16:48:36.306Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:48:36.306Z"
+    },
+    "cmd-1791478193373": {
+      "key": "cmd-1791478193373",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend/app/services && rtk grep -n \\\"_load_actual_transactions\\\\|balance\\\\|opening\\\" transaction_calendar_service.py | head -40; sed -n 100,150p transaction_calendar_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:49:53.373Z",
+      "lastAccessed": "2026-10-08T16:49:53.373Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:49:53.373Z"
+    }
+  },
+  "version": "3.0.0"
+}

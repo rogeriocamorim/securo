@@ -114,22 +114,20 @@ def _match_condition(condition: dict, tx: "Transaction") -> bool:
             if op == "lte":
                 return tx_date <= val_date
 
-        tx_num = _to_decimal(tx_val)
-
         # `Transaction.amount` is always stored as an absolute value; the sign
         # is carried by `tx.type` ("debit" → negative, "credit" → positive).
         # Rules that compare `amount` must see the signed value so that
         # `amount > 1000` only matches income and `amount < -500` only matches
         # expenses, not every row in the ledger.
         if field == "amount":
+            tx_num = _to_decimal(tx_val)
             tx_type = getattr(tx, "type", None)
-            if tx_type == "credit":
-                tx_num = tx_num
-            elif tx_type == "debit":
+            if tx_type == "debit":
                 tx_num = -tx_num
-            # When type is missing or anything else, keep the absolute value
+            # When type is "credit" or missing/unknown, keep the absolute value
             # so legacy/standalone rules still work with magnitudes only.
-
+        else:
+            tx_num = _to_decimal(tx_val)
         val_num = _to_decimal(value)
         if op == "gt":
             return tx_num > val_num

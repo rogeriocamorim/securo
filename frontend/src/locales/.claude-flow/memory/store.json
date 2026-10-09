@@ -1,0 +1,50 @@
+{
+  "entries": {
+    "cmd-1791463038735": {
+      "key": "cmd-1791463038735",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src/locales && cat > \\\"$TEMP/claude_i18n.py\\\" <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:37:18.735Z",
+      "lastAccessed": "2026-10-08T12:37:18.735Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:37:18.735Z"
+    },
+    "cmd-1791467663034": {
+      "key": "cmd-1791467663034",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src/locales && python -c \\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:54:23.034Z",
+      "lastAccessed": "2026-10-08T13:54:23.034Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:54:23.034Z"
+    },
+    "cmd-1791472995646": {
+      "key": "cmd-1791472995646",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src/locales && rtk grep -c '\\\"soldAssets\\\":' *.json | tr '\\\\n' ' '; echo; rtk grep -rn \\\"archivedAssets\\\" ../ --include=*.tsx | head -3\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:23:15.646Z",
+      "lastAccessed": "2026-10-08T15:23:15.646Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:23:15.646Z"
+    },
+    "cmd-1791473005027": {
+      "key": "cmd-1791473005027",
+      "value": "{\"command\":\"for f in *.json; do printf \\\"%s:%s \\\" $f $(grep -c '\\\"soldAssets\\\":' $f); done; echo; grep -rln \\\"archivedAssets\\\" .. --include=*.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:23:25.027Z",
+      "lastAccessed": "2026-10-08T15:23:25.027Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:23:25.027Z"
+    },
+    "cmd-1791473021984": {
+      "key": "cmd-1791473021984",
+      "value": "{\"command\":\"cat > \\\"$TEMP/ins.py\\\" <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:23:41.984Z",
+      "lastAccessed": "2026-10-08T15:23:41.984Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:23:41.984Z"
+    }
+  },
+  "version": "3.0.0"
+}
