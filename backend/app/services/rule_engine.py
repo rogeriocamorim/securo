@@ -122,8 +122,13 @@ def _match_condition(condition: dict, tx: "Transaction") -> bool:
         # `amount > 1000` only matches income and `amount < -500` only matches
         # expenses, not every row in the ledger.
         if field == "amount":
-            signed = tx_num if getattr(tx, "type", "") == "credit" else -tx_num
-            tx_num = signed
+            tx_type = getattr(tx, "type", None)
+            if tx_type == "credit":
+                tx_num = tx_num
+            elif tx_type == "debit":
+                tx_num = -tx_num
+            # When type is missing or anything else, keep the absolute value
+            # so legacy/standalone rules still work with magnitudes only.
 
         val_num = _to_decimal(value)
         if op == "gt":
