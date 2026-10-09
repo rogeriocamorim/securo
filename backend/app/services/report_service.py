@@ -159,13 +159,58 @@ async def _net_worth_at(
     # balances — counting them again would double-count (issue #1083).
     _synced_connection_ids: set[uuid.UUID] = set()
 
+    # Deduplicate shared-balance groups (issue #1035): group accounts by
+    # `shared_balance_group` (which already includes the connection ID prefix)
+    # so multiple cards sharing a credit line count only once.
+    _shared_groups: dict[str, list[tuple[Account, float, bool]]] = {}
+    _non_shared: list[tuple[Account, float, bool]] = []
     for account in accounts:
         bal = await _account_balance_at(session, account, cutoff)
         converted, _ = await convert(
             session, Decimal(str(abs(bal))), account.currency, primary_currency, cutoff
         )
         converted_val = float(converted)
-        if account.type == "credit_card" or bal < 0:
+        is_liability = account.type == "credit_card" or bal < 0
+        key = account.shared_balance_group
+        if key:
+            _shared_groups.setdefault(key, []).append((account, converted_val, is_liability))
+        else:
+            _non_shared.append((account, converted_val, is_liability))
+
+    accounts_total = 0.0
+    liabilities_total = 0.0
+    composition: list[ReportCompositionItem] = []
+
+    # Dedup shared-balance groups
+    for group_key, members in _shared_groups.items():
+        # Use the first member's balance (they should be identical); the
+        # dashboard's shared-balance logic subtracts (count-1) duplicates.
+        first_bal = members[0][1]
+        first_liab = members[0][2]
+        if first_liab:
+            liabilities_total += first_bal
+            if first_bal > 0:
+                composition.append(ReportCompositionItem(
+                    key=str(members[0][0].id),
+                    label=get_account_name(members[0][0]),
+                    value=round(first_bal, 2),
+                    color=_ACCOUNT_TYPE_COLORS.get(members[0][0].type, "#6B7280"),
+                    group="liabilities",
+                ))
+        else:
+            accounts_total += first_bal
+            if first_bal > 0:
+                composition.append(ReportCompositionItem(
+                    key=str(members[0][0].id),
+                    label=get_account_name(members[0][0]),
+                    value=round(first_bal, 2),
+                    color=_ACCOUNT_TYPE_COLORS.get(members[0][0].type, "#6B7280"),
+                    group="accounts",
+                ))
+
+    # Add non-shared accounts
+    for account, converted_val, is_liability in _non_shared:
+        if is_liability:
             liabilities_total += converted_val
             if converted_val > 0:
                 composition.append(ReportCompositionItem(
@@ -185,12 +230,6 @@ async def _net_worth_at(
                     color=_ACCOUNT_TYPE_COLORS.get(account.type, "#6B7280"),
                     group="accounts",
                 ))
-            if account.connection_id is not None:
-                # Only track investment/brokerage accounts — their balance
-                # includes holdings. Checking/savings/credit_card balances
-                # are cash-only, so their assets must NOT be excluded.
-                if account.type not in {"checking", "savings", "credit_card"}:
-                    _synced_connection_ids.add(account.connection_id)
 
     # Per-asset composition at the cutoff date
     filtered = account_ids is not None
@@ -487,7 +526,6 @@ async def get_income_expenses_report(
         .join(Account, Transaction.account_id == Account.id)
         .where(
             Transaction.workspace_id == workspace_id,
-            Account.is_closed == False,
             report_date >= start,
             report_date <= axis_end,
             Transaction.source != "opening_balance",
@@ -825,7 +863,6 @@ async def get_income_expenses_report(
         .outerjoin(Category, Transaction.category_id == Category.id)
         .where(
             Transaction.workspace_id == workspace_id,
-            Account.is_closed == False,
             report_date >= start,
             report_date <= axis_end,
             Transaction.source != "opening_balance",
@@ -888,7 +925,6 @@ async def get_income_expenses_report(
         .join(Category, Transaction.category_id == Category.id)
         .where(
             Transaction.workspace_id == workspace_id,
-            Account.is_closed == False,
             report_date >= start,
             report_date <= axis_end,
             Transaction.source != "opening_balance",
@@ -929,7 +965,6 @@ async def get_income_expenses_report(
         .outerjoin(Category, Transaction.category_id == Category.id)
         .where(
             Transaction.workspace_id == workspace_id,
-            Account.is_closed == False,
             report_date >= start,
             report_date <= axis_end,
             Transaction.source != "opening_balance",
@@ -1260,7 +1295,6 @@ async def _get_baseline_projection(
         .join(Account, Transaction.account_id == Account.id)
         .where(
             Transaction.workspace_id == workspace_id,
-            Account.is_closed == False,
             Transaction.date <= today,
             Transaction.source != "opening_balance",
             Transaction.status == "posted",
@@ -1283,7 +1317,6 @@ async def _get_baseline_projection(
         .join(Account, Transaction.account_id == Account.id)
         .where(
             Transaction.workspace_id == workspace_id,
-            Account.is_closed == False,
             Transaction.date >= window_start,
             Transaction.date <= today,
             Transaction.source != "opening_balance",
@@ -1420,7 +1453,6 @@ async def get_cash_flow_report(
         .join(Account, Transaction.account_id == Account.id)
         .where(
             Transaction.workspace_id == workspace_id,
-            Account.is_closed == False,
             flow_date_col > chart_start,
             flow_date_col <= today,
             Transaction.source != "opening_balance",
@@ -1450,7 +1482,6 @@ async def get_cash_flow_report(
         .join(Account, Transaction.account_id == Account.id)
         .where(
             Transaction.workspace_id == workspace_id,
-            Account.is_closed == False,
             flow_date_col > today,
             flow_date_col <= end,
             Transaction.source != "opening_balance",
