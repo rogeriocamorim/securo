@@ -935,7 +935,8 @@ async def import_transactions(
             db_match_count = len(db_match_count.scalars().all())
             already_imported_in_batch = sum(
                 1 for prev in included[:idx]
-                if dedup_counts.get(
+                if hasattr(prev, 'id')
+                and dedup_counts.get(
                     f"ext:{prev.external_id}:{prev.date}:{prev.amount}:{prev.type}"
                     if prev.external_id
                     else (
@@ -943,7 +944,7 @@ async def import_transactions(
                         f"{prev.description}"
                     )
                 ) == file_count
-                and prev.id in matched_existing_ids if hasattr(prev, 'id') else False
+                and prev.id in matched_existing_ids
             )
             if db_match_count + already_imported_in_batch >= file_count:
                 # Find which DB row to mark and skip
