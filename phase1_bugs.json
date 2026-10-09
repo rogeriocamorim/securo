@@ -1,0 +1,282 @@
+[
+  {
+    "number": 1018,
+    "title": "[Bug] Payees and Reccurrings get deleted when I disconnect a SimpleFIN bank.",
+    "url": "https://github.com/securo-finance/securo/issues/1018",
+    "labels": [
+      "bug",
+      "risk:medium",
+      "prio:critical"
+    ]
+  },
+  {
+    "number": 981,
+    "title": "[Bug] Rule sees all amounts as positive",
+    "url": "https://github.com/securo-finance/securo/issues/981",
+    "labels": [
+      "bug",
+      "prio:high",
+      "risk:low"
+    ]
+  },
+  {
+    "number": 886,
+    "title": "[Bug] Import duplicate detection drops legitimate recurring same-day transactions",
+    "url": "https://github.com/securo-finance/securo/issues/886",
+    "labels": [
+      "bug",
+      "prio:high",
+      "risk:medium"
+    ]
+  },
+  {
+    "number": 804,
+    "title": "[Bug] Product returns are considered as income.",
+    "url": "https://github.com/securo-finance/securo/issues/804",
+    "labels": [
+      "bug",
+      "prio:high",
+      "risk:medium"
+    ]
+  },
+  {
+    "number": 1112,
+    "title": "[Bug] Transactions from closed accounts disappear completly",
+    "url": "https://github.com/securo-finance/securo/issues/1112",
+    "labels": [
+      "bug",
+      "prio: medium",
+      "risk: medium"
+    ]
+  },
+  {
+    "number": 1107,
+    "title": "[Bug] Group totals and charts are computed from the 20 most recent transactions",
+    "url": "https://github.com/securo-finance/securo/issues/1107",
+    "labels": [
+      "bug",
+      "prio: medium",
+      "risk: medium"
+    ]
+  },
+  {
+    "number": 1077,
+    "title": "[Bug] Simplefin Integration requires whole new app token setup if even a single bank account needs reauthorization",
+    "url": "https://github.com/securo-finance/securo/issues/1077",
+    "labels": [
+      "bug",
+      "prio: medium",
+      "risk: medium"
+    ]
+  },
+  {
+    "number": 1073,
+    "title": "[Bug] Recurring auto-generate duplicates a foreign-currency bill that is charged in the account's currency",
+    "url": "https://github.com/securo-finance/securo/issues/1073",
+    "labels": [
+      "bug",
+      "prio: medium",
+      "risk: medium"
+    ]
+  },
+  {
+    "number": 1063,
+    "title": "[Bug] Securo drops transactions if entry_reference is the same but amount and date differs",
+    "url": "https://github.com/securo-finance/securo/issues/1063",
+    "labels": [
+      "bug",
+      "prio: medium",
+      "risk: medium"
+    ]
+  },
+  {
+    "number": 1061,
+    "title": "[Bug] Enable Banking connection stays \"active\" and silently syncs nothing after the bank ends consent",
+    "url": "https://github.com/securo-finance/securo/issues/1061",
+    "labels": [
+      "bug",
+      "prio: medium",
+      "risk: medium"
+    ]
+  },
+  {
+    "number": 1054,
+    "title": "[Bug] Enable Banking sync (FinecoBank) hits ASPSP_RATE_LIMIT_EXCEEDED and never fully syncs accounts",
+    "url": "https://github.com/securo-finance/securo/issues/1054",
+    "labels": [
+      "bug",
+      "prio: medium",
+      "risk: medium"
+    ]
+  },
+  {
+    "number": 1042,
+    "title": "[Bug] Enable Banking: payee is set to the account holder instead of the counterparty, so payee-based rules stop working",
+    "url": "https://github.com/securo-finance/securo/issues/1042",
+    "labels": [
+      "bug",
+      "risk:medium",
+      "prio:medium"
+    ]
+  },
+  {
+    "number": 1035,
+    "title": "[Bug] Net Worth report counts a shared credit line balance once per card",
+    "url": "https://github.com/securo-finance/securo/issues/1035",
+    "labels": [
+      "bug",
+      "risk:medium",
+      "prio:medium"
+    ]
+  },
+  {
+    "number": 1013,
+    "title": "[Bug] Enable Banking reauthorization creates duplicate accounts when account IDs change",
+    "url": "https://github.com/securo-finance/securo/issues/1013",
+    "labels": [
+      "bug",
+      "risk:medium",
+      "prio:medium"
+    ]
+  },
+  {
+    "number": 993,
+    "title": "[Bug] Incorrect transaction type transfer shown in calendar view",
+    "url": "https://github.com/securo-finance/securo/issues/993",
+    "labels": [
+      "bug",
+      "prio:medium",
+      "risk:low"
+    ]
+  },
+  {
+    "number": 947,
+    "title": "[Bug] Ghost investment holding left after server downtime / missed sync",
+    "url": "https://github.com/securo-finance/securo/issues/947",
+    "labels": [
+      "bug",
+      "risk:medium",
+      "prio:medium"
+    ]
+  },
+  {
+    "number": 937,
+    "title": "[Bug] Credit cards transfers from SEB (Sweden) are reported as positiv amounts while reserved",
+    "url": "https://github.com/securo-finance/securo/issues/937",
+    "labels": [
+      "bug",
+      "risk:medium",
+      "prio:medium"
+    ]
+  },
+  {
+    "number": 876,
+    "title": "Recurring bills with auto_generate disabled are never matched to real transactions",
+    "url": "https://github.com/securo-finance/securo/issues/876",
+    "labels": [
+      "bug",
+      "prio: medium",
+      "risk: medium"
+    ]
+  },
+  {
+    "number": 843,
+    "title": "[Bug] Double counting Banco do Brasil \"auto-withdrawal\" investment",
+    "url": "https://github.com/securo-finance/securo/issues/843",
+    "labels": [
+      "bug",
+      "risk:medium",
+      "prio:medium"
+    ]
+  },
+  {
+    "number": 819,
+    "title": "[Bug] Investments unexpectedly marked as sold after Pluggy sync",
+    "url": "https://github.com/securo-finance/securo/issues/819",
+    "labels": [
+      "bug",
+      "risk:medium",
+      "prio:medium"
+    ]
+  },
+  {
+    "number": 805,
+    "title": "[Bug] Enable Banking sync reports success when the provider rate-limits it (429)",
+    "url": "https://github.com/securo-finance/securo/issues/805",
+    "labels": [
+      "bug",
+      "risk:medium",
+      "prio:medium"
+    ]
+  },
+  {
+    "number": 800,
+    "title": "[Bug] Enable Banking credit-card balances, available credit, and opening reconciliation use inconsistent semantics",
+    "url": "https://github.com/securo-finance/securo/issues/800",
+    "labels": [
+      "bug",
+      "prio:medium",
+      "risk:high"
+    ]
+  },
+  {
+    "number": 1036,
+    "title": "[Bug] \"Next\" button in tour overflows",
+    "url": "https://github.com/securo-finance/securo/issues/1036",
+    "labels": [
+      "bug",
+      "prio: low",
+      "risk: low"
+    ]
+  },
+  {
+    "number": 1022,
+    "title": "[Bug] Initial Balance is always being displayed in Portugese",
+    "url": "https://github.com/securo-finance/securo/issues/1022",
+    "labels": [
+      "bug",
+      "risk:low",
+      "prio:low"
+    ]
+  },
+  {
+    "number": 887,
+    "title": "[Bug] Updating from 0.14.3 to 0.15.1 issues with OIDC config",
+    "url": "https://github.com/securo-finance/securo/issues/887",
+    "labels": [
+      "bug",
+      "risk:low",
+      "prio:low"
+    ]
+  },
+  {
+    "number": 880,
+    "title": "[Bug] Category and group icon hover tooltips and search remain in Portuguese across all UI languages",
+    "url": "https://github.com/securo-finance/securo/issues/880",
+    "labels": [
+      "bug",
+      "risk:low",
+      "prio:low"
+    ]
+  },
+  {
+    "number": 1072,
+    "title": "[Bug] Inconsistent decimal separator handling and decimal value loss in transaction forms",
+    "url": "https://github.com/securo-finance/securo/issues/1072",
+    "labels": [
+      "bug",
+      "prio: high",
+      "risk: low"
+    ]
+  },
+  {
+    "number": 966,
+    "title": "[Bug] adding attachment to existing transaction did not work",
+    "url": "https://github.com/securo-finance/securo/issues/966",
+    "labels": [
+      "bug",
+      "prio: high",
+      "risk: low"
+    ]
+  }
+]

@@ -1,0 +1,707 @@
+{
+  "entries": {
+    "cmd-1791462730492": {
+      "key": "cmd-1791462730492",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && rtk read public 2>/dev/null; rtk read ../public/manifest.json; rtk grep -rln \\\"parseAmount\\\\|parseLocaleNumber\\\\|parseDecimal\\\\|amount-input\\\\|AmountInput\\\" . | head -20; rtk grep -rn \\\"export function parse\\\\|export const parse\\\" lib/format.ts\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:32:10.492Z",
+      "lastAccessed": "2026-10-08T12:32:10.492Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:32:10.492Z"
+    },
+    "cmd-1791462738022": {
+      "key": "cmd-1791462738022",
+      "value": "{\"command\":\"sed -n 150,290p lib/format.ts; rtk grep -n \\\"parseAmountInput\\\\|formatAmountInput\\\\|amount\\\" components/transaction-dialog.tsx | head -60\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:32:18.022Z",
+      "lastAccessed": "2026-10-08T12:32:18.022Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:32:18.022Z"
+    },
+    "cmd-1791462748682": {
+      "key": "cmd-1791462748682",
+      "value": "{\"command\":\"rtk grep -rn \\\"parseFloat\\\\|Number(.*amount\\\\|type=\\\\\\\"number\\\\\\\"\\\" pages components --include=*.tsx | grep -v test | wc -l; rtk grep -rln \\\"parseFloat\\\\|type=\\\\\\\"number\\\\\\\"\\\" pages components --include=*.tsx | grep -v test; rtk grep -n \\\"parseFloat\\\\|type=\\\\\\\"number\\\\\\\"\\\\|amount\\\" pages/recurring.tsx | head -30\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:32:28.682Z",
+      "lastAccessed": "2026-10-08T12:32:28.682Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:32:28.682Z"
+    },
+    "cmd-1791462761432": {
+      "key": "cmd-1791462761432",
+      "value": "{\"command\":\"rtk read hooks/use-display-locale.ts | head -60; rtk grep -n \\\"inputMode\\\\|<Input\\\" components/transaction-dialog.tsx | head -12; sed -n 750,775p components/transaction-dialog.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:32:41.432Z",
+      "lastAccessed": "2026-10-08T12:32:41.432Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:32:41.432Z"
+    },
+    "cmd-1791462793173": {
+      "key": "cmd-1791462793173",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && rtk grep -n \\\"useSearchParams\\\\|localStorage\\\\|DateRange\\\\|dateRange\\\\|setFromDate\\\\|selectedMonth\\\\|useState<.*Range\\\\|setPeriod\\\\|setMonth(\\\" pages/transactions.tsx pages/reports.tsx pages/dashboard.tsx pages/budgets.tsx | head -40; rtk grep -rln \\\"localStorage\\\" lib hooks contexts | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:33:13.173Z",
+      "lastAccessed": "2026-10-08T12:33:13.173Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:33:13.173Z"
+    },
+    "cmd-1791462805044": {
+      "key": "cmd-1791462805044",
+      "value": "{\"command\":\"rtk grep -n \\\"filterFrom\\\\|filterTo\\\" pages/transactions.tsx | head -8; sed -n 180,200p pages/reports.tsx; rtk grep -n \\\"customFrom\\\\|customTo\\\\|setCustom\\\" pages/reports.tsx | head -6; rtk grep -n \\\"privacy\\\\|localStorage\\\" hooks/use-privacy-mode.ts\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:33:25.044Z",
+      "lastAccessed": "2026-10-08T12:33:25.044Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:33:25.044Z"
+    },
+    "cmd-1791462810355": {
+      "key": "cmd-1791462810355",
+      "value": "{\"command\":\"sed -n 118,134p pages/transactions.tsx; sed -n 108,125p pages/dashboard.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:33:30.355Z",
+      "lastAccessed": "2026-10-08T12:33:30.355Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:33:30.355Z"
+    },
+    "cmd-1791462942320": {
+      "key": "cmd-1791462942320",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && sed -n 202,225p lib/format.test.ts\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:35:42.320Z",
+      "lastAccessed": "2026-10-08T12:35:42.320Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:35:42.320Z"
+    },
+    "cmd-1791462967217": {
+      "key": "cmd-1791462967217",
+      "value": "{\"command\":\"sed -n 1020,1045p components/transaction-dialog.tsx; rtk read components/ui/input.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:36:07.217Z",
+      "lastAccessed": "2026-10-08T12:36:07.217Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:36:07.217Z"
+    },
+    "cmd-1791462983263": {
+      "key": "cmd-1791462983263",
+      "value": "{\"command\":\"sed -n 1,30p pages/recurring.tsx | grep -n \\\"import\\\"; sed -n 320,380p pages/recurring.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:36:23.263Z",
+      "lastAccessed": "2026-10-08T12:36:23.263Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:36:23.263Z"
+    },
+    "cmd-1791462994011": {
+      "key": "cmd-1791462994011",
+      "value": "{\"command\":\"rtk grep -n -i \\\"invalidAmount\\\\|invalid_amount\\\\|\\\\\\\"invalid\\\" locales/en.json | head; rtk grep -n \\\"^  \\\\\\\"common\\\\\\\": {\\\" -A6 locales/en.json; rtk grep -n \\\"^  \\\\\\\"common\\\\\\\": {\\\" -A6 locales/pt-BR.json\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:36:34.011Z",
+      "lastAccessed": "2026-10-08T12:36:34.011Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:36:34.011Z"
+    },
+    "cmd-1791463003531": {
+      "key": "cmd-1791463003531",
+      "value": "{\"command\":\"rtk grep -n \\\"it(\\\\|test(\\\" locales/i18n.test.ts | head -20\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:36:43.531Z",
+      "lastAccessed": "2026-10-08T12:36:43.531Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:36:43.531Z"
+    },
+    "cmd-1791463049356": {
+      "key": "cmd-1791463049356",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:37:29.356Z",
+      "lastAccessed": "2026-10-08T12:37:29.356Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:37:29.356Z"
+    },
+    "cmd-1791463062692": {
+      "key": "cmd-1791463062692",
+      "value": "{\"command\":\"sed -i \\\"15d\\\" pages/recurring.tsx && sed -i \\\"s#^import { formatCurrency } from '@/lib/format'#import { formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'#\\\" pages/recurring.tsx && rtk grep -n \\\"lib/format'\\\\|AmountInput\\\" pages/recurring.tsx; file pages/recurring.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:37:42.692Z",
+      "lastAccessed": "2026-10-08T12:37:42.692Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:37:42.692Z"
+    },
+    "cmd-1791463072859": {
+      "key": "cmd-1791463072859",
+      "value": "{\"command\":\"rtk grep -n \\\"interface RecurringTransaction\\\" -A8 types/index.ts | grep amount; rtk grep -n \\\"parseFloat\\\\|type=\\\\\\\"number\\\\\\\"\\\" components/transfer-dialog.tsx pages/budgets.tsx pages/goals.tsx pages/accounts.tsx pages/account-detail.tsx pages/group-detail.tsx components/bulk-add-to-group-dialog.tsx components/transaction-splits-section.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:37:52.859Z",
+      "lastAccessed": "2026-10-08T12:37:52.859Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:37:52.859Z"
+    },
+    "cmd-1791463091990": {
+      "key": "cmd-1791463091990",
+      "value": "{\"command\":\"sed -n 60,100p components/transfer-dialog.tsx; sed -n 155,200p components/transfer-dialog.tsx; rtk grep -n \\\"import\\\\|useDisplayLocale\\\\|useState(\\\" components/transfer-dialog.tsx | head -30\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:38:11.990Z",
+      "lastAccessed": "2026-10-08T12:38:11.990Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:38:11.990Z"
+    },
+    "cmd-1791463101074": {
+      "key": "cmd-1791463101074",
+      "value": "{\"command\":\"sed -n 1,40p components/transfer-dialog.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:38:21.074Z",
+      "lastAccessed": "2026-10-08T12:38:21.074Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:38:21.074Z"
+    },
+    "cmd-1791463113880": {
+      "key": "cmd-1791463113880",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:38:33.880Z",
+      "lastAccessed": "2026-10-08T12:38:33.880Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:38:33.880Z"
+    },
+    "cmd-1791463128665": {
+      "key": "cmd-1791463128665",
+      "value": "{\"command\":\"sed -n 255,330p pages/budgets.tsx; rtk grep -n \\\"^import\\\\|useDisplayLocale()\\\" pages/budgets.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:38:48.665Z",
+      "lastAccessed": "2026-10-08T12:38:48.665Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:38:48.665Z"
+    },
+    "cmd-1791463146960": {
+      "key": "cmd-1791463146960",
+      "value": "{\"command\":\"rtk grep -n \\\"useDisplayLocale()\\\\|lib/format'\\\" pages/budgets.tsx pages/goals.tsx; sed -n 425,540p pages/goals.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:39:06.960Z",
+      "lastAccessed": "2026-10-08T12:39:06.960Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:39:06.960Z"
+    },
+    "cmd-1791463162072": {
+      "key": "cmd-1791463162072",
+      "value": "{\"command\":\"rtk grep -n \\\"^export interface Budget \\\\|^export interface Goal \\\\|^export interface Account \\\" -A25 types/index.ts | grep -n \\\"amount\\\\|balance\\\\|credit_limit\\\\|interface\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:39:22.072Z",
+      "lastAccessed": "2026-10-08T12:39:22.072Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:39:22.072Z"
+    },
+    "cmd-1791463185015": {
+      "key": "cmd-1791463185015",
+      "value": "{\"command\":\"sed -n 700,750p pages/accounts.tsx; sed -n 812,880p pages/accounts.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:39:45.015Z",
+      "lastAccessed": "2026-10-08T12:39:45.015Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:39:45.015Z"
+    },
+    "cmd-1791463202798": {
+      "key": "cmd-1791463202798",
+      "value": "{\"command\":\"rtk grep -n \\\"sonner\\\\|use-display-locale\\\\|lib/format'\\\\|ui/input'\\\" pages/accounts.tsx pages/account-detail.tsx; sed -n 680,699p pages/accounts.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:40:02.798Z",
+      "lastAccessed": "2026-10-08T12:40:02.798Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:40:02.798Z"
+    },
+    "cmd-1791463219145": {
+      "key": "cmd-1791463219145",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:40:19.145Z",
+      "lastAccessed": "2026-10-08T12:40:19.145Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:40:19.145Z"
+    },
+    "cmd-1791463229012": {
+      "key": "cmd-1791463229012",
+      "value": "{\"command\":\"sed -n 1775,1800p pages/account-detail.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:40:29.012Z",
+      "lastAccessed": "2026-10-08T12:40:29.012Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:40:29.012Z"
+    },
+    "cmd-1791463242225": {
+      "key": "cmd-1791463242225",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:40:42.225Z",
+      "lastAccessed": "2026-10-08T12:40:42.225Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:40:42.225Z"
+    },
+    "cmd-1791463251894": {
+      "key": "cmd-1791463251894",
+      "value": "{\"command\":\"rtk grep -n \\\"useDisplayLocale()\\\\|lib/format'\\\\|sonner\\\\|ui/input'\\\" pages/group-detail.tsx; sed -n 280,290p pages/group-detail.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:40:51.894Z",
+      "lastAccessed": "2026-10-08T12:40:51.894Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:40:51.894Z"
+    },
+    "cmd-1791463264800": {
+      "key": "cmd-1791463264800",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:41:04.800Z",
+      "lastAccessed": "2026-10-08T12:41:04.800Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:41:04.800Z"
+    },
+    "cmd-1791463271785": {
+      "key": "cmd-1791463271785",
+      "value": "{\"command\":\"sed -n 170,200p components/transaction-splits-section.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:41:11.785Z",
+      "lastAccessed": "2026-10-08T12:41:11.785Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:41:11.785Z"
+    },
+    "cmd-1791463285257": {
+      "key": "cmd-1791463285257",
+      "value": "{\"command\":\"rtk grep -n \\\"function buildRows\\\" -A25 components/transaction-splits-section.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:41:25.257Z",
+      "lastAccessed": "2026-10-08T12:41:25.257Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:41:25.257Z"
+    },
+    "cmd-1791463311920": {
+      "key": "cmd-1791463311920",
+      "value": "{\"command\":\"grep -n \\\"buildRows(\\\" components/transaction-splits-section.tsx && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:41:51.920Z",
+      "lastAccessed": "2026-10-08T12:41:51.920Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:41:51.920Z"
+    },
+    "cmd-1791463323485": {
+      "key": "cmd-1791463323485",
+      "value": "{\"command\":\"sed -i '260s/\\\\[enabled, shareType, rows, amount\\\\]/[enabled, shareType, rows, amount, locale]/; 277s/\\\\[enabled, shareType, rows, amount\\\\]/[enabled, shareType, rows, amount, locale]/' components/transaction-splits-section.tsx && sed -n 210,218p components/transaction-splits-section.tsx; sed -n 258,261p components/transaction-splits-section.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:42:03.485Z",
+      "lastAccessed": "2026-10-08T12:42:03.485Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:42:03.485Z"
+    },
+    "cmd-1791464040612": {
+      "key": "cmd-1791464040612",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && rtk grep -n \\\"^export const transactions = {\\\" -A12 lib/api.ts; rtk grep -n \\\"const \\\\[categoryId\\\\|const \\\\[payeeId\\\\|const \\\\[description\\\\|setCategoryId\\\\b\\\\|setPayeeId\\\\b\\\" components/transaction-dialog.tsx | head -12; sed -n 945,985p components/transaction-dialog.tsx; rtk read components/ui/command.tsx | grep -n \\\"^function\\\\|export\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:54:00.612Z",
+      "lastAccessed": "2026-10-08T12:54:00.612Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:54:00.612Z"
+    },
+    "cmd-1791464053397": {
+      "key": "cmd-1791464053397",
+      "value": "{\"command\":\"rtk read components/ui/popover.tsx | grep -n \\\"function\\\\|export\\\\|Portal\\\"; rtk grep -n \\\"transactions.list\\\\b\\\\|^  list: async\\\" lib/api.ts | head -3; sed -n 504,560p lib/api.ts | grep -n \\\"^  [a-zA-Z]*:\\\" | head; rtk grep -rn \\\"useDebounce\\\\|debounce\\\" hooks lib components --include=*.ts* -l | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:54:13.397Z",
+      "lastAccessed": "2026-10-08T12:54:13.397Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:54:13.397Z"
+    },
+    "cmd-1791464063202": {
+      "key": "cmd-1791464063202",
+      "value": "{\"command\":\"sed -n 538,553p lib/api.ts; rtk grep -n \\\"debounce\\\\|setTimeout\\\" components/command-palette.tsx | head -5; sed -n 20,45p components/ui/popover.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:54:23.202Z",
+      "lastAccessed": "2026-10-08T12:54:23.202Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:54:23.202Z"
+    },
+    "cmd-1791464072514": {
+      "key": "cmd-1791464072514",
+      "value": "{\"command\":\"sed -n 1,40p lib/overlay-layers.ts\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:54:32.514Z",
+      "lastAccessed": "2026-10-08T12:54:32.514Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:54:32.514Z"
+    },
+    "cmd-1791464084262": {
+      "key": "cmd-1791464084262",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:54:44.262Z",
+      "lastAccessed": "2026-10-08T12:54:44.262Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:54:44.262Z"
+    },
+    "cmd-1791464114903": {
+      "key": "cmd-1791464114903",
+      "value": "{\"command\":\"rtk grep -rhoE \\\"w-\\\\(--radix[^ \\\\\\\"']*|w-\\\\[var\\\\(--radix[^ \\\\\\\"']*\\\" components | sort | uniq -c | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:55:14.903Z",
+      "lastAccessed": "2026-10-08T12:55:14.903Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:55:14.903Z"
+    },
+    "cmd-1791464142671": {
+      "key": "cmd-1791464142671",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && sed -n 1,40p test/utils.tsx; rtk grep -rln \\\"vi.mock('@/lib/api'\\\" components | head -2\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:55:42.671Z",
+      "lastAccessed": "2026-10-08T12:55:42.671Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:55:42.671Z"
+    },
+    "cmd-1791464248388": {
+      "key": "cmd-1791464248388",
+      "value": "{\"command\":\"git checkout -q -b feat/1053-remember-date-range main && cd frontend/src && sed -n 270,330p pages/transactions.tsx; sed -n 1405,1425p pages/transactions.tsx; rtk grep -n \\\"setFilterFrom\\\\|setFilterTo\\\" pages/transactions.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:57:28.388Z",
+      "lastAccessed": "2026-10-08T12:57:28.388Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:57:28.388Z"
+    },
+    "cmd-1791464260711": {
+      "key": "cmd-1791464260711",
+      "value": "{\"command\":\"sed -n 134,142p pages/transactions.tsx; sed -n 240,270p pages/transactions.tsx; rtk grep -n \\\"export function monthRange\\\\|export function currentMonth\\\\|export function monthFromRange\\\" lib/*.ts\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:57:40.711Z",
+      "lastAccessed": "2026-10-08T12:57:40.711Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:57:40.711Z"
+    },
+    "cmd-1791464272498": {
+      "key": "cmd-1791464272498",
+      "value": "{\"command\":\"sed -n 200,265p pages/reports.tsx; sed -n 560,610p pages/reports.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:57:52.498Z",
+      "lastAccessed": "2026-10-08T12:57:52.498Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:57:52.498Z"
+    },
+    "cmd-1791464303013": {
+      "key": "cmd-1791464303013",
+      "value": "{\"command\":\"sed -n 45,60p lib/month-utils.ts; sed -n 86,100p pages/transactions.tsx; rtk grep -n \\\"month-utils'\\\" pages/transactions.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:58:23.013Z",
+      "lastAccessed": "2026-10-08T12:58:23.013Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:58:23.013Z"
+    },
+    "cmd-1791464315632": {
+      "key": "cmd-1791464315632",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:58:35.632Z",
+      "lastAccessed": "2026-10-08T12:58:35.632Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:58:35.632Z"
+    },
+    "cmd-1791464326802": {
+      "key": "cmd-1791464326802",
+      "value": "{\"command\":\"rtk grep -n \\\"const REPORT_TABS\\\" -A20 pages/reports.tsx | head -30; rtk grep -n \\\"CUSTOM_RANGE_KEY =\\\" pages/reports.tsx; rtk grep -n \\\"^import.*react'\\\" pages/reports.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:58:46.802Z",
+      "lastAccessed": "2026-10-08T12:58:46.802Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:58:46.802Z"
+    },
+    "cmd-1791464344007": {
+      "key": "cmd-1791464344007",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:59:04.007Z",
+      "lastAccessed": "2026-10-08T12:59:04.007Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:59:04.007Z"
+    },
+    "cmd-1791464355300": {
+      "key": "cmd-1791464355300",
+      "value": "{\"command\":\"sed -n 120,170p pages/dashboard.tsx; rtk grep -n \\\"month-utils'\\\\|^import {.*} from 'react'\\\" pages/dashboard.tsx pages/budgets.tsx; sed -n 60,70p pages/budgets.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:59:15.300Z",
+      "lastAccessed": "2026-10-08T12:59:15.300Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:59:15.300Z"
+    },
+    "cmd-1791464367769": {
+      "key": "cmd-1791464367769",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:59:27.769Z",
+      "lastAccessed": "2026-10-08T12:59:27.769Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:59:27.769Z"
+    },
+    "cmd-1791467675479": {
+      "key": "cmd-1791467675479",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && rtk grep -n \\\"^export function formatAmountInput\\\" -A16 lib/format.ts\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:54:35.479Z",
+      "lastAccessed": "2026-10-08T13:54:35.479Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:54:35.479Z"
+    },
+    "cmd-1791467689635": {
+      "key": "cmd-1791467689635",
+      "value": "{\"command\":\"cat >> lib/format.ts <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:54:49.635Z",
+      "lastAccessed": "2026-10-08T13:54:49.635Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:54:49.635Z"
+    },
+    "cmd-1791467710865": {
+      "key": "cmd-1791467710865",
+      "value": "{\"command\":\"which coderabbit cr 2>/dev/null; coderabbit --version 2>&1 | head -2; rtk ls \\\"$HOME/.local/bin\\\" 2>/dev/null | grep -i coderabbit\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:55:10.865Z",
+      "lastAccessed": "2026-10-08T13:55:10.865Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:55:10.865Z"
+    },
+    "cmd-1791467725016": {
+      "key": "cmd-1791467725016",
+      "value": "{\"command\":\"cat >> components/amount-input.tsx <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:55:25.016Z",
+      "lastAccessed": "2026-10-08T13:55:25.016Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:55:25.016Z"
+    },
+    "cmd-1791467761252": {
+      "key": "cmd-1791467761252",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:56:01.252Z",
+      "lastAccessed": "2026-10-08T13:56:01.252Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:56:01.252Z"
+    },
+    "cmd-1791467771109": {
+      "key": "cmd-1791467771109",
+      "value": "{\"command\":\"sed -n 216,285p components/transaction-splits-section.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:56:11.109Z",
+      "lastAccessed": "2026-10-08T13:56:11.109Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:56:11.109Z"
+    },
+    "cmd-1791467786628": {
+      "key": "cmd-1791467786628",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:56:26.628Z",
+      "lastAccessed": "2026-10-08T13:56:26.628Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:56:26.628Z"
+    },
+    "cmd-1791467885632": {
+      "key": "cmd-1791467885632",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:58:05.632Z",
+      "lastAccessed": "2026-10-08T13:58:05.632Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:58:05.632Z"
+    },
+    "cmd-1791467936899": {
+      "key": "cmd-1791467936899",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && NODE_OPTIONS=--no-experimental-webstorage rtk vitest src/pages/register.test.tsx src/pages/products.test.tsx src/pages/invoice-schedules.test.tsx 2>&1 | grep -aE \\\"Tests  |Test Files\\\"; rtk lint src --max-warnings=0 2>&1 | grep -v \\\"npm notice\\\" | tail -3; rtk npm run typecheck 2>&1 | grep \\\"error TS\\\" | grep -v \\\"^vite.config\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:58:56.899Z",
+      "lastAccessed": "2026-10-08T13:58:56.899Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:58:56.899Z"
+    },
+    "cmd-1791468306831": {
+      "key": "cmd-1791468306831",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && sed -n 176,222p pages/reports.tsx; sed -n 270,290p pages/reports.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:05:06.831Z",
+      "lastAccessed": "2026-10-08T14:05:06.831Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:05:06.831Z"
+    },
+    "cmd-1791468335616": {
+      "key": "cmd-1791468335616",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:05:35.616Z",
+      "lastAccessed": "2026-10-08T14:05:35.616Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:05:35.616Z"
+    },
+    "cmd-1791472680463": {
+      "key": "cmd-1791472680463",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && rtk grep -n \\\"limit\\\\|totalMoved\\\\|Total moved\\\\|spendingTrend\\\\|groupTx\\\\|useQuery\\\" pages/group-detail.tsx | head -40\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:18:00.463Z",
+      "lastAccessed": "2026-10-08T15:18:00.463Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:18:00.463Z"
+    },
+    "cmd-1791472691897": {
+      "key": "cmd-1791472691897",
+      "value": "{\"command\":\"sed -n 195,205p pages/group-detail.tsx; sed -n 415,545p pages/group-detail.tsx; rtk grep -n \\\"transactions: async\\\\|  transactions:\\\" lib/api.ts | head; rtk grep -n \\\"group_id\\\\|/transactions\\\\\\\"\\\" ../../backend/app/api/groups.py | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:18:11.897Z",
+      "lastAccessed": "2026-10-08T15:18:11.897Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:18:11.897Z"
+    },
+    "cmd-1791472917930": {
+      "key": "cmd-1791472917930",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && sed -n 1314,1322p lib/api.ts; rtk grep -n \\\"archived\\\\|Archived\\\" pages/groups.tsx | head -15; rtk grep -n \\\"assetsApi.list\\\\|queryKey: \\\\['assets'\\\\]\\\\|activeAssets\\\\|soldAssets\\\\|is_archived\\\\|archived\\\" pages/assets.tsx | head -40; rtk grep -n \\\"is_archived\\\\|archived\\\" ../../backend/app/models/asset.py ../../backend/app/services/asset_service.py | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:21:57.930Z",
+      "lastAccessed": "2026-10-08T15:21:57.930Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:21:57.930Z"
+    },
+    "cmd-1791472940726": {
+      "key": "cmd-1791472940726",
+      "value": "{\"command\":\"sed -n 255,264p pages/assets.tsx; sed -n 490,500p pages/assets.tsx; sed -n 1095,1145p pages/assets.tsx; rtk grep -n \\\"<PageHeader\\\" -A25 pages/assets.tsx | head -45\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:22:20.726Z",
+      "lastAccessed": "2026-10-08T15:22:20.726Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:22:20.726Z"
+    },
+    "cmd-1791472953786": {
+      "key": "cmd-1791472953786",
+      "value": "{\"command\":\"rtk grep -n \\\"assetsList\\\\|rawAssetsList\\\" pages/assets.tsx | head -30; sed -n 1063,1095p pages/assets.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:22:33.786Z",
+      "lastAccessed": "2026-10-08T15:22:33.786Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:22:33.786Z"
+    },
+    "cmd-1791473034088": {
+      "key": "cmd-1791473034088",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && sed -n 300,312p pages/assets.tsx; sed -n 1,12p pages/assets.tsx | grep -n \\\"import.*react'\\\"; rtk grep -n \\\"const \\\\[activeTab, setActiveTab\\\\]\\\" pages/assets.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:23:54.088Z",
+      "lastAccessed": "2026-10-08T15:23:54.088Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:23:54.088Z"
+    },
+    "cmd-1791473054007": {
+      "key": "cmd-1791473054007",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:24:14.007Z",
+      "lastAccessed": "2026-10-08T15:24:14.007Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:24:14.007Z"
+    },
+    "cmd-1791473065999": {
+      "key": "cmd-1791473065999",
+      "value": "{\"command\":\"rtk grep -n \\\"assetsByGroup = \\\\|ungroupedAssets = \\\" -A4 pages/assets.tsx | head -14\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:24:25.999Z",
+      "lastAccessed": "2026-10-08T15:24:25.999Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:24:25.999Z"
+    },
+    "cmd-1791473078234": {
+      "key": "cmd-1791473078234",
+      "value": "{\"command\":\"rtk ls pages | grep -i \\\"assets.*test\\\\|portfolio\\\"; rtk grep -rln \\\"AssetsPage\\\\|pages/assets\\\" --include=*.test.tsx . | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:24:38.234Z",
+      "lastAccessed": "2026-10-08T15:24:38.234Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:24:38.234Z"
+    },
+    "cmd-1791473091546": {
+      "key": "cmd-1791473091546",
+      "value": "{\"command\":\"rtk grep -n \\\"from '@/lib/api'\\\" pages/assets.tsx; rtk grep -n \\\"^import\\\" pages/assets.tsx | grep -v \\\"lucide\\\\|ui/\\\\|react'\\\" | head -40; rtk grep -n \\\"vi.mock\\\" pages/products.test.tsx | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:24:51.546Z",
+      "lastAccessed": "2026-10-08T15:24:51.546Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:24:51.546Z"
+    },
+    "cmd-1791473103976": {
+      "key": "cmd-1791473103976",
+      "value": "{\"command\":\"sed -n 1,60p pages/products.test.tsx; rtk grep -n \\\"assetGroups\\\\.\\\\|assets\\\\.[a-zA-Z]*(\\\" pages/assets.tsx | grep -o \\\"assetGroups\\\\.[a-zA-Z]*\\\\|assets\\\\.[a-zA-Z]*\\\" | sort -u; rtk grep -n \\\"useCollectionFilter()\\\" -A1 pages/assets.tsx | head -3; rtk grep -n \\\"interface Asset {\\\" -A40 types/index.ts | head -45\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:25:03.976Z",
+      "lastAccessed": "2026-10-08T15:25:03.976Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:25:03.976Z"
+    },
+    "cmd-1791473236688": {
+      "key": "cmd-1791473236688",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && rtk grep -n \\\"portfolioTotalPrimary\\\\|getPortfolioShare\\\\|portfolio-share\\\" pages/assets.tsx | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:27:16.688Z",
+      "lastAccessed": "2026-10-08T15:27:16.688Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:27:16.688Z"
+    },
+    "cmd-1791473243969": {
+      "key": "cmd-1791473243969",
+      "value": "{\"command\":\"sed -n 760,765p pages/assets.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:27:23.969Z",
+      "lastAccessed": "2026-10-08T15:27:23.969Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:27:23.969Z"
+    },
+    "cmd-1791473350522": {
+      "key": "cmd-1791473350522",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && rtk grep -rn \\\"OnboardingTour\\\\|onboarding\\\" --include=*.tsx components/app-layout.tsx | head -8; rtk grep -rn \\\"tour_completed\\\\|onboarding_completed\\\\|tourCompleted\\\\|onboardingDone\\\" --include=*.ts* . | grep -v test | head -5\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:29:10.522Z",
+      "lastAccessed": "2026-10-08T15:29:10.522Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:29:10.522Z"
+    },
+    "cmd-1791473417092": {
+      "key": "cmd-1791473417092",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:30:17.092Z",
+      "lastAccessed": "2026-10-08T15:30:17.092Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:30:17.092Z"
+    },
+    "cmd-1791473481855": {
+      "key": "cmd-1791473481855",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && sed -n 1,38p components/onboarding-tour.tsx\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:31:21.855Z",
+      "lastAccessed": "2026-10-08T15:31:21.855Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:31:21.855Z"
+    },
+    "cmd-1791474504522": {
+      "key": "cmd-1791474504522",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend/src && cat >> components/amount-input.tsx <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:48:24.522Z",
+      "lastAccessed": "2026-10-08T15:48:24.522Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:48:24.522Z"
+    },
+    "cmd-1791476084943": {
+      "key": "cmd-1791476084943",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791476061514-1eoew9.png\\\" \\\"$SHOTS/1072-transaction-after.png\\\"; cd /d/ProjetosPessoal/securo/frontend/src && rtk grep -n \\\"common.error\\\\|invalidAmount\\\\|<Input\\\\|AmountInput\\\" components/transaction-dialog.tsx | sed -n 1,40p; rtk gh pr diff 1078 -R securo-finance/securo -- 2>/dev/null | grep -E \\\"^@@\\\" | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:14:44.943Z",
+      "lastAccessed": "2026-10-08T16:14:44.943Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:14:44.943Z"
+    },
+    "cmd-1791476098116": {
+      "key": "cmd-1791476098116",
+      "value": "{\"command\":\"sed -n 752,774p components/transaction-dialog.tsx; rtk grep -n 'inputMode=\\\"decimal\\\"' -B3 components/transaction-dialog.tsx | grep -n \\\"<Input\\\\|type=\\\"; rtk gh pr diff 1078 -R securo-finance/securo 2>/dev/null | grep -A3 \\\"^@@\\\" | grep -A3 \\\"transaction-dialog.tsx\\\" | head -12; rtk gh api repos/securo-finance/securo/pulls/1078/files -q '.[] | select(.filename|endswith(\\\"transaction-dialog.tsx\\\")) | .patch' | head -20\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:14:58.116Z",
+      "lastAccessed": "2026-10-08T16:14:58.116Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:14:58.116Z"
+    }
+  },
+  "version": "3.0.0"
+}

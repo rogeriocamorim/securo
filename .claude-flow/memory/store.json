@@ -1,0 +1,1382 @@
+{
+  "entries": {
+    "cmd-1791462008941": {
+      "key": "cmd-1791462008941",
+      "value": "{\"command\":\"rtk ls -a && rtk ls CLAUDE.md AGENTS.md .cursorrules .cursor .github 2>&1; rtk read README.md | head -150; rtk ls backend frontend; rtk read Makefile 2>/dev/null | head -80\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:20:08.941Z",
+      "lastAccessed": "2026-10-08T12:20:08.941Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:20:08.941Z"
+    },
+    "cmd-1791462043034": {
+      "key": "cmd-1791462043034",
+      "value": "{\"command\":\"sed -n 150,400p README.md | grep -n -i -A3 \\\"develop\\\\|test\\\\|contrib\\\\|architec\\\\|stack\\\" | head -80; rtk read CONTRIBUTING.md; rtk read mise.toml backend/mise.toml frontend/mise.toml; rtk read .pre-commit-config.yaml; rtk ls .github/workflows .github/ci\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:20:43.034Z",
+      "lastAccessed": "2026-10-08T12:20:43.034Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:20:43.034Z"
+    },
+    "cmd-1791462071534": {
+      "key": "cmd-1791462071534",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && rtk grep -n \\\"def \\\\|today\\\\|date.today\\\" backend/app/core/app_clock.py | sed -n 1,40p | grep -n \\\"def \\\" | head; rtk grep -rn \\\"date.today\\\\|datetime.now\\\" backend/app --include=*.py | wc -l; rtk ls backend/app/agents backend/app/fiscal backend/app/fiscal/jurisdictions backend/app/tasks backend/app/services | head -100; sed -n 1,60p backend/app/providers/__init__.py; rtk ls backend/mcp_server backend/scripts scripts\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:21:11.534Z",
+      "lastAccessed": "2026-10-08T12:21:11.534Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:21:11.534Z"
+    },
+    "cmd-1791462081127": {
+      "key": "cmd-1791462081127",
+      "value": "{\"command\":\"rtk read backend/app/agents/__init__.py; sed -n 1,30p backend/mcp_server/README.md; rtk grep -n \\\"include_router\\\\|agents\\\\|register_provider\\\\|add_middleware\\\\|lifespan\\\" backend/app/main.py | head -40; sed -n 1,40p backend/app/fiscal/registry.py; rtk read docker-compose.yml | grep -n \\\"^  [a-z]\\\\|command\\\\|image\\\"; rtk ls frontend/src frontend/src/* | head -80\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:21:21.127Z",
+      "lastAccessed": "2026-10-08T12:21:21.127Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:21:21.127Z"
+    },
+    "cmd-1791462090304": {
+      "key": "cmd-1791462090304",
+      "value": "{\"command\":\"rtk ls frontend/src/lib frontend/src/locales frontend/src/hooks frontend/src/contexts; sed -n 1,50p frontend/src/lib/api.ts 2>/dev/null | head -50; sed -n 90,120p backend/app/main.py; sed -n 120,130p docker-compose.yml; rtk read backend/app/worker.py | head -60; rtk grep -n \\\"jobs:\\\\|^  [a-z-]*:$\\\\|run:\\\" .github/workflows/ci.yml | head -40\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:21:30.304Z",
+      "lastAccessed": "2026-10-08T12:21:30.304Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:21:30.304Z"
+    },
+    "cmd-1791462101521": {
+      "key": "cmd-1791462101521",
+      "value": "{\"command\":\"sed -n 82,112p .github/workflows/ci.yml; rtk grep -n \\\"sqlite\\\\|postgres\\\\|DATABASE\\\" backend/tests/conftest.py | head; rtk grep -n \\\"it(\\\\|test(\\\" frontend/src/locales/i18n.test.ts | head; rtk ls backend/app/agents/*; rtk grep -rn \\\"AGENTS_ENABLED\\\\|agents_enabled\\\" backend/app/main.py | head -3; rtk grep -n \\\"date.today\\\\|datetime.now\\\" backend/app/core/app_clock.py | head -3; rtk grep -n \\\"^def \\\\|^async def \\\" backend/app/core/app_clock.py | tail -8\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:21:41.521Z",
+      "lastAccessed": "2026-10-08T12:21:41.521Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:21:41.521Z"
+    },
+    "cmd-1791462110087": {
+      "key": "cmd-1791462110087",
+      "value": "{\"command\":\"sed -n 120,160p backend/tests/conftest.py; rtk grep -n \\\"describe\\\\|it('\\\" frontend/src/locales/i18n.test.ts | head -8; rtk grep -n \\\"proxy\\\\|alias\\\" frontend/vite.config.ts\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:21:50.087Z",
+      "lastAccessed": "2026-10-08T12:21:50.087Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:21:50.087Z"
+    },
+    "cmd-1791462214891": {
+      "key": "cmd-1791462214891",
+      "value": "{\"command\":\"rtk ls frontend/src/pages frontend/src/pages/* docs | head -80; rtk grep -rn \\\"TODO\\\\|FIXME\\\" backend/app frontend/src --include=*.py --include=*.ts --include=*.tsx | grep -v test | head -30; rtk ls backend/app/agents/mcp backend/mcp_server/tools\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:23:34.891Z",
+      "lastAccessed": "2026-10-08T12:23:34.891Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:23:34.891Z"
+    },
+    "cmd-1791462221267": {
+      "key": "cmd-1791462221267",
+      "value": "{\"command\":\"gh issue list -R securo-finance/securo --state open --limit 40 --json number,title,labels -q '.[] | \\\"\\\\(.number) \\\\(.title) [\\\\(.labels|map(.name)|join(\\\",\\\"))]\\\"' 2>&1 | head -45\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:23:41.267Z",
+      "lastAccessed": "2026-10-08T12:23:41.267Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:23:41.267Z"
+    },
+    "cmd-1791462232458": {
+      "key": "cmd-1791462232458",
+      "value": "{\"command\":\"rtk ls backend/app/services | sed -n 40,80p; rtk grep -rli \\\"notification\\\\|webhook\\\\|smtp\\\\|email\\\" backend/app/core/config.py backend/app/services | head; rtk grep -rn \\\"manifest\\\\|serviceWorker\\\" frontend/index.html frontend/vite.config.ts | head -3; gh issue list -R securo-finance/securo --state open --limit 200 --json number -q 'length'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:23:52.458Z",
+      "lastAccessed": "2026-10-08T12:23:52.458Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:23:52.458Z"
+    },
+    "cmd-1791462240764": {
+      "key": "cmd-1791462240764",
+      "value": "{\"command\":\"rtk grep -n -i \\\"smtp\\\\|mail\\\" backend/app/core/config.py | head; rtk grep -rn -i \\\"smtp\\\\|send_mail\\\\|aiosmtp\\\" backend/app --include=*.py -l | head; rtk grep -i \\\"manifest\\\" frontend/index.html; rtk read docs/rfc-235-investment-ledger.md | head -30\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:24:00.764Z",
+      "lastAccessed": "2026-10-08T12:24:00.764Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:24:00.764Z"
+    },
+    "cmd-1791462708368": {
+      "key": "cmd-1791462708368",
+      "value": "{\"command\":\"for n in 1072 1127 1053 1052; do echo \\\"=== $n\\\"; gh issue view $n -R securo-finance/securo --json body,comments -q '.body + \\\"\\\\n--comments--\\\\n\\\" + ([.comments[].body]|join(\\\"\\\\n---\\\\n\\\"))' | head -60; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:31:48.368Z",
+      "lastAccessed": "2026-10-08T12:31:48.368Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:31:48.368Z"
+    },
+    "cmd-1791462718118": {
+      "key": "cmd-1791462718118",
+      "value": "{\"command\":\"gh pr list -R securo-finance/securo --state all --search \\\"1052 OR 1072 OR 1127 OR 1053 OR PWA OR manifest OR decimal\\\" --limit 15 --json number,title,state -q '.[]|\\\"\\\\(.number) \\\\(.state) \\\\(.title)\\\"'; rtk read frontend/index.html; rtk ls frontend/public favicons\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:31:58.118Z",
+      "lastAccessed": "2026-10-08T12:31:58.118Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:31:58.118Z"
+    },
+    "cmd-1791462773048": {
+      "key": "cmd-1791462773048",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && sed -n 970,990p frontend/src/components/transaction-dialog.tsx; rtk grep -rn \\\"suggest\\\\|autocomplete\\\\|distinct\\\" backend/app/api/transactions.py backend/app/api/payees.py | head; rtk grep -n \\\"@router\\\" backend/app/api/transactions.py | head -30; rtk ls frontend/src/components | grep -i \\\"payee\\\\|combobox\\\\|autocomplete\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:32:53.048Z",
+      "lastAccessed": "2026-10-08T12:32:53.048Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:32:53.048Z"
+    },
+    "cmd-1791462782064": {
+      "key": "cmd-1791462782064",
+      "value": "{\"command\":\"sed -n 1,40p backend/app/api/transactions.py | grep -n \\\"import\\\\|router =\\\"; sed -n 110,130p backend/app/api/transactions.py; sed -n 1,60p frontend/src/components/payee-select.tsx; rtk read backend/app/api/search.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:33:02.064Z",
+      "lastAccessed": "2026-10-08T12:33:02.064Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:33:02.064Z"
+    },
+    "cmd-1791462932613": {
+      "key": "cmd-1791462932613",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && git checkout -b fix/1072-amount-locale && rtk gh pr diff 1078 -R securo-finance/securo --name-only; rtk grep -n \\\"parseAmountInput\\\" -A3 frontend/src/lib/format.test.ts | head -40\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:35:32.613Z",
+      "lastAccessed": "2026-10-08T12:35:32.613Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:35:32.613Z"
+    },
+    "cmd-1791463591779": {
+      "key": "cmd-1791463591779",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && git config core.autocrlf; rtk git diff --stat | tail -5; sed -n 12,14p frontend/src/components/form-reset.test.tsx | cat -A | cut -c1-80\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:46:31.779Z",
+      "lastAccessed": "2026-10-08T12:46:31.779Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:46:31.779Z"
+    },
+    "cmd-1791463737483": {
+      "key": "cmd-1791463737483",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && git add frontend/src/lib/format.ts frontend/src/lib/format.test.ts frontend/src/components/amount-input.tsx frontend/src/components/transfer-dialog.tsx frontend/src/components/transfer-dialog.test.tsx frontend/src/components/form-reset.test.tsx frontend/src/components/transaction-splits-section.tsx frontend/src/pages/recurring.tsx frontend/src/pages/budgets.tsx frontend/src/pages/goals.tsx frontend/src/pages/accounts.tsx frontend/src/pages/account-detail.tsx frontend/src/pages/group-detail.tsx frontend/src/locales/*.json && git status --short && git commit -q -F - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:48:57.483Z",
+      "lastAccessed": "2026-10-08T12:48:57.483Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:48:57.483Z"
+    },
+    "cmd-1791463755150": {
+      "key": "cmd-1791463755150",
+      "value": "{\"command\":\"git checkout -q -b feat/1127-description-autocomplete main && rtk git log --oneline -1 && rtk grep -n \\\"^async def \\\\|^def \\\" backend/app/services/transaction_service.py | head -40; rtk grep -n \\\"class TransactionRead\\\\b\\\\|^class \\\" backend/app/schemas/transaction.py | head -30\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:49:15.150Z",
+      "lastAccessed": "2026-10-08T12:49:15.150Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:49:15.150Z"
+    },
+    "cmd-1791464235694": {
+      "key": "cmd-1791464235694",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && (cd frontend && npx eslint src/components/description-input.test.tsx --max-warnings=0 2>&1 | tail -2) && git add backend/app/services/transaction_service.py backend/app/api/transactions.py backend/app/schemas/transaction.py backend/tests/test_description_suggestions.py frontend/src/components/description-input.tsx frontend/src/components/description-input.test.tsx frontend/src/components/transaction-dialog.tsx frontend/src/lib/api.ts frontend/src/types/index.ts && git commit -q -F - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:57:15.694Z",
+      "lastAccessed": "2026-10-08T12:57:15.694Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:57:15.694Z"
+    },
+    "cmd-1791464587782": {
+      "key": "cmd-1791464587782",
+      "value": "{\"command\":\"npx eslint . --max-warnings=0 2>&1 | grep -E \\\"^\\\\s+[a-z].*\\\\.(ts|tsx) \\\\(\\\" ; cd .. && git add frontend/src/lib/remembered-range.ts frontend/src/lib/remembered-range.test.ts frontend/src/pages/transactions.tsx frontend/src/pages/reports.tsx && git commit -q -F - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:03:07.782Z",
+      "lastAccessed": "2026-10-08T13:03:07.782Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:03:07.782Z"
+    },
+    "cmd-1791464815537": {
+      "key": "cmd-1791464815537",
+      "value": "{\"command\":\"docker version --format '{{.Server.Version}}' 2>&1 | head -2; rtk docker compose ps 2>&1 | head; rtk git diff --stat; rtk git diff frontend/vite.config.ts backend/app/main.py | head -80\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:06:55.537Z",
+      "lastAccessed": "2026-10-08T13:06:55.537Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:06:55.537Z"
+    },
+    "cmd-1791464850868": {
+      "key": "cmd-1791464850868",
+      "value": "{\"command\":\"git checkout -q -b local/test-quick-wins main && git merge -q --no-edit fix/1072-amount-locale feat/1127-description-autocomplete feat/1053-remember-date-range 2>&1 | tail -3; rtk git log --oneline -5\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:07:30.868Z",
+      "lastAccessed": "2026-10-08T13:07:30.868Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:07:30.868Z"
+    },
+    "cmd-1791464871457": {
+      "key": "cmd-1791464871457",
+      "value": "{\"command\":\"docker compose up --build -d 2>&1 | tail -15\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:07:51.457Z",
+      "lastAccessed": "2026-10-08T13:07:51.457Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:07:51.457Z"
+    },
+    "cmd-1791465079622": {
+      "key": "cmd-1791465079622",
+      "value": "{\"command\":\"for i in $(seq 1 30); do curl -s -o /dev/null -w \\\"%{http_code}\\\" http://localhost:8000/api/info 2>/dev/null | grep -q 200 && break; sleep 4; done; curl -s http://localhost:8000/api/info; echo; curl -s -o /dev/null -w \\\"frontend %{http_code}\\\\n\\\" http://localhost:3000; docker compose ps --format \\\"{{.Service}} {{.Status}}\\\"; docker compose logs backend --tail 15\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:11:19.622Z",
+      "lastAccessed": "2026-10-08T13:11:19.622Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:11:19.622Z"
+    },
+    "cmd-1791465090244": {
+      "key": "cmd-1791465090244",
+      "value": "{\"command\":\"rtk docker compose ps --format \\\"{{.Service}} {{.Status}}\\\"; rtk docker compose logs backend --tail 25 2>&1 | tail -25\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:11:30.244Z",
+      "lastAccessed": "2026-10-08T13:11:30.244Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:11:30.244Z"
+    },
+    "cmd-1791465101669": {
+      "key": "cmd-1791465101669",
+      "value": "{\"command\":\"rtk git log --all --oneline -- 'backend/alembic/versions/097*' | head; rtk ls backend/alembic/versions | tail -2; rtk git branch -a | head -20; docker volume ls --format \\\"{{.Name}}\\\" | grep -i securo\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:11:41.669Z",
+      "lastAccessed": "2026-10-08T13:11:41.669Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:11:41.669Z"
+    },
+    "cmd-1791465513050": {
+      "key": "cmd-1791465513050",
+      "value": "{\"command\":\"docker compose down 2>&1 | tail -2 && docker compose -p securo-qa up -d 2>&1 | tail -3; for i in $(seq 1 40); do code=$(curl -s -o /dev/null -w \\\"%{http_code}\\\" http://localhost:8000/api/info); [ \\\"$code\\\" = 200 ] && break; sleep 3; done; echo \\\"backend $code\\\"; curl -s -o /dev/null -w \\\"frontend %{http_code}\\\\n\\\" http://localhost:3000\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:18:33.050Z",
+      "lastAccessed": "2026-10-08T13:18:33.050Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:18:33.050Z"
+    },
+    "cmd-1791465534471": {
+      "key": "cmd-1791465534471",
+      "value": "{\"command\":\"rtk read \\\"C:\\\\Users\\\\camor\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--ProjetosPessoal-securo\\\\6070e381-41b2-4cee-9604-6c5295b8cf02\\\\tasks\\\\bog3uqnsb.output\\\"; docker compose -p securo-qa ps --format \\\"{{.Service}} {{.Status}}\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:18:54.471Z",
+      "lastAccessed": "2026-10-08T13:18:54.471Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:18:54.471Z"
+    },
+    "cmd-1791465545926": {
+      "key": "cmd-1791465545926",
+      "value": "{\"command\":\"rtk curl -s -m 10 -w \\\"\\\\nbackend %{http_code}\\\\n\\\" http://127.0.0.1:8000/api/info; rtk curl -s -m 10 -o /dev/null -w \\\"frontend %{http_code}\\\\n\\\" http://127.0.0.1:3000; cd /d/ProjetosPessoal/securo && docker compose -p securo-qa logs backend --tail 8 2>&1 | tail -8\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:19:05.926Z",
+      "lastAccessed": "2026-10-08T13:19:05.926Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:19:05.926Z"
+    },
+    "cmd-1791465558857": {
+      "key": "cmd-1791465558857",
+      "value": "{\"command\":\"git check-ignore -v secrets/qa-test-account.txt; python -c \\\"import secrets;print('qa+'+secrets.token_hex(3)+'@example.test');print(secrets.token_urlsafe(14))\\\" > secrets/qa-test-account.txt && echo saved\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:19:18.857Z",
+      "lastAccessed": "2026-10-08T13:19:18.857Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:19:18.857Z"
+    },
+    "cmd-1791465673226": {
+      "key": "cmd-1791465673226",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && rtk grep -n \\\"number.format\\\\|numberFormat\\\" frontend/src/lib/api.ts | head -5; rtk grep -n \\\"number-format\\\\|number_format\\\" backend/app/api/admin.py | head -5\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:21:13.226Z",
+      "lastAccessed": "2026-10-08T13:21:13.226Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:21:13.226Z"
+    },
+    "cmd-1791465683836": {
+      "key": "cmd-1791465683836",
+      "value": "{\"command\":\"sed -n 140,175p backend/app/api/admin.py | grep -n \\\"router\\\\|def \\\"; rtk grep -n \\\"@router\\\" backend/app/api/admin.py | head -20; rtk grep -n \\\"@router.post(\\\\\\\"\\\\\\\"\\\" -B1 -A4 backend/app/api/accounts.py | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:21:23.836Z",
+      "lastAccessed": "2026-10-08T13:21:23.836Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:21:23.836Z"
+    },
+    "cmd-1791465693473": {
+      "key": "cmd-1791465693473",
+      "value": "{\"command\":\"sed -n 134,150p backend/app/api/admin.py; rtk grep -n \\\"class AppSettingUpdate\\\" -A4 backend/app/schemas/*.py; rtk grep -n \\\"class AccountCreate\\\" -A12 backend/app/schemas/account.py | head -14\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:21:33.473Z",
+      "lastAccessed": "2026-10-08T13:21:33.473Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:21:33.473Z"
+    },
+    "cmd-1791465714670": {
+      "key": "cmd-1791465714670",
+      "value": "{\"command\":\"EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); curl -s -m 15 -X POST http://127.0.0.1:8000/api/setup/create-admin -H 'Content-Type: application/json' -d \\\"{\\\\\\\"email\\\\\\\":\\\\\\\"$EMAIL\\\\\\\",\\\\\\\"password\\\\\\\":\\\\\\\"$PASS\\\\\\\",\\\\\\\"currency\\\\\\\":\\\\\\\"EUR\\\\\\\",\\\\\\\"name\\\\\\\":\\\\\\\"QA\\\\\\\",\\\\\\\"language\\\\\\\":\\\\\\\"en\\\\\\\"}\\\" | python -c \\\"import sys,json; d=json.load(sys.stdin); print([ (e.get('loc'),e.get('msg')) for e in d.get('detail',[])] if isinstance(d.get('detail'),list) else d)\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:21:54.670Z",
+      "lastAccessed": "2026-10-08T13:21:54.670Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:21:54.670Z"
+    },
+    "cmd-1791465729147": {
+      "key": "cmd-1791465729147",
+      "value": "{\"command\":\"EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); curl -s -m 15 -i -X POST http://127.0.0.1:8000/api/auth/login -d \\\"username=$EMAIL&password=$PASS\\\" | grep -iv \\\"token\\\\|set-cookie: .*=[A-Za-z0-9]\\\" | head -12; curl -s -m 15 -X POST http://127.0.0.1:8000/api/auth/login -d \\\"username=$EMAIL&password=$PASS\\\" | python -c \\\"import sys,json;print(list(json.load(sys.stdin).keys()))\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:22:09.147Z",
+      "lastAccessed": "2026-10-08T13:22:09.147Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:22:09.147Z"
+    },
+    "cmd-1791465743032": {
+      "key": "cmd-1791465743032",
+      "value": "{\"command\":\"sed -i 's|-d \\\"username=$EMAIL&password=$PASS\\\"|--data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\"|' \\\"$TEMP/qa_api.sh\\\" && sed -i 's|^curl -s -m 15 -X POST $B/setup/create-admin.*|echo \\\"admin exists\\\"|' \\\"$TEMP/qa_api.sh\\\" && bash \\\"$TEMP/qa_api.sh\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:22:23.032Z",
+      "lastAccessed": "2026-10-08T13:22:23.032Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:22:23.032Z"
+    },
+    "cmd-1791466116368": {
+      "key": "cmd-1791466116368",
+      "value": "{\"command\":\"gh auth status 2>&1 | grep -i \\\"logged in\\\\|account\\\\|scopes\\\" | head -4; git remote -v | head -2\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:28:36.368Z",
+      "lastAccessed": "2026-10-08T13:28:36.368Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:28:36.368Z"
+    },
+    "cmd-1791466298392": {
+      "key": "cmd-1791466298392",
+      "value": "{\"command\":\"docker compose -p securo-qa ps --format \\\"{{.Service}} {{.Status}}\\\"; rtk curl -s -m 5 -o /dev/null -w \\\"frontend %{http_code}\\\\n\\\" http://127.0.0.1:3000\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:31:38.392Z",
+      "lastAccessed": "2026-10-08T13:31:38.392Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:31:38.392Z"
+    },
+    "cmd-1791466707610": {
+      "key": "cmd-1791466707610",
+      "value": "{\"command\":\"rtk read .github/PULL_REQUEST_TEMPLATE.md; for b in fix/1072-amount-locale feat/1127-description-autocomplete feat/1053-remember-date-range; do echo \\\"== $b\\\"; rtk git diff main..$b | grep -inE \\\"claude|anthropic|\\\\bAI\\\\b|generated with|co-authored\\\" | head; rtk git log main..$b --format=%B | grep -i \\\"co-authored\\\\|claude\\\"; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:38:27.610Z",
+      "lastAccessed": "2026-10-08T13:38:27.610Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:38:27.610Z"
+    },
+    "cmd-1791466727872": {
+      "key": "cmd-1791466727872",
+      "value": "{\"command\":\"for b in fix/1072-amount-locale feat/1127-description-autocomplete feat/1053-remember-date-range; do git checkout -q $b && git log -1 --format=%B | sed '/^Co-Authored-By:/d' | sed -e :a -e '/^\\\\n*$/{$d;N;ba' -e '}' > \\\"$TEMP/msg.txt\\\" && git commit -q --amend -F \\\"$TEMP/msg.txt\\\" && echo \\\"$b -> $(git log -1 --format=%h)\\\"; done; git log --all --format=%B main..feat/1053-remember-date-range main..fix/1072-amount-locale main..feat/1127-description-autocomplete | grep -ci \\\"claude\\\\|co-authored\\\"; git log -1 --format=%B fix/1072-amount-locale | tail -4\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:38:47.872Z",
+      "lastAccessed": "2026-10-08T13:38:47.872Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:38:47.872Z"
+    },
+    "cmd-1791466737242": {
+      "key": "cmd-1791466737242",
+      "value": "{\"command\":\"for b in fix/1072-amount-locale feat/1127-description-autocomplete feat/1053-remember-date-range; do echo \\\"$b: $(git log main..$b --format=%B | grep -ci 'claude\\\\|co-authored') traces, $(git rev-list --count main..$b) commit\\\"; done; git checkout -q local/test-quick-wins\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:38:57.242Z",
+      "lastAccessed": "2026-10-08T13:38:57.242Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:38:57.242Z"
+    },
+    "cmd-1791466784338": {
+      "key": "cmd-1791466784338",
+      "value": "{\"command\":\"rtk gh repo fork securo-finance/securo --remote --remote-name fork 2>&1 | tail -3; git remote -v | grep fork\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:39:44.338Z",
+      "lastAccessed": "2026-10-08T13:39:44.338Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:39:44.338Z"
+    },
+    "cmd-1791466796614": {
+      "key": "cmd-1791466796614",
+      "value": "{\"command\":\"rtk gh repo fork securo-finance/securo --remote --remote-name fork 2>&1 | head -5; git remote -v | grep fork\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:39:56.614Z",
+      "lastAccessed": "2026-10-08T13:39:56.614Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:39:56.614Z"
+    },
+    "cmd-1791466821703": {
+      "key": "cmd-1791466821703",
+      "value": "{\"command\":\"rtk gh repo fork securo-finance/securo --clone=false 2>&1 | tail -2; git remote add fork https://github.com/rogeriocamorim/securo.git 2>&1; git remote -v | grep fork\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:40:21.703Z",
+      "lastAccessed": "2026-10-08T13:40:21.703Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:40:21.703Z"
+    },
+    "cmd-1791466849001": {
+      "key": "cmd-1791466849001",
+      "value": "{\"command\":\"gh repo view rogeriocamorim/securo --json parent,isFork -q '\\\"\\\\(.isFork) \\\\(.parent.owner.login)/\\\\(.parent.name)\\\"'; for b in fix/1072-amount-locale feat/1127-description-autocomplete feat/1053-remember-date-range; do gh api repos/rogeriocamorim/securo/branches/$b -q .name 2>/dev/null && echo \\\"EXISTS $b\\\"; done; echo checked\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:40:49.001Z",
+      "lastAccessed": "2026-10-08T13:40:49.001Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:40:49.001Z"
+    },
+    "cmd-1791466861810": {
+      "key": "cmd-1791466861810",
+      "value": "{\"command\":\"rtk git push -u fork fix/1072-amount-locale feat/1127-description-autocomplete feat/1053-remember-date-range 2>&1 | grep -E \\\"\\\\->|error|rejected\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:41:01.810Z",
+      "lastAccessed": "2026-10-08T13:41:01.810Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:41:01.810Z"
+    },
+    "cmd-1791466947889": {
+      "key": "cmd-1791466947889",
+      "value": "{\"command\":\"R=securo-finance/securo\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:42:27.889Z",
+      "lastAccessed": "2026-10-08T13:42:27.889Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:42:27.889Z"
+    },
+    "cmd-1791467532336": {
+      "key": "cmd-1791467532336",
+      "value": "{\"command\":\"R=securo-finance/securo; for n in 1128 1129 1130; do echo \\\"===== PR $n\\\"; gh pr view $n -R $R --json state,reviewDecision,comments,reviews -q '\\\"state=\\\\(.state) decision=\\\\(.reviewDecision)\\\\n-- comments:\\\\n\\\" + ([.comments[] | \\\"[\\\\(.author.login)] \\\\(.body)\\\"] | join(\\\"\\\\n---\\\\n\\\")) + \\\"\\\\n-- reviews:\\\\n\\\" + ([.reviews[] | \\\"[\\\\(.author.login) \\\\(.state)] \\\\(.body)\\\"] | join(\\\"\\\\n---\\\\n\\\"))'; echo \\\"-- inline:\\\"; rtk gh api repos/$R/pulls/$n/comments -q '.[] | \\\"[\\\\(.user.login)] \\\\(.path):\\\\(.line // .original_line) id=\\\\(.id) reply_to=\\\\(.in_reply_to_id)\\\\n\\\\(.body)\\\\n\\\"'; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:52:12.336Z",
+      "lastAccessed": "2026-10-08T13:52:12.336Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:52:12.336Z"
+    },
+    "cmd-1791467552664": {
+      "key": "cmd-1791467552664",
+      "value": "{\"command\":\"R=securo-finance/securo; for n in 1128 1129 1130; do echo \\\"===== PR $n\\\"; rtk gh api repos/$R/pulls/$n/comments -q '.[] | select(.in_reply_to_id==null) | \\\"### id=\\\\(.id) \\\\(.user.login) \\\\(.path):\\\\(.line // .original_line)\\\\n\\\\(.body | split(\\\"<details>\\\")[0] | .[0:1500])\\\\n\\\"'; gh pr view $n -R $R --json comments,reviews -q '[.comments[], .reviews[]] | map(select(.author.login != \\\"coderabbitai\\\")) | .[] | \\\"HUMAN [\\\\(.author.login)] \\\\(.body)\\\"'; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:52:32.664Z",
+      "lastAccessed": "2026-10-08T13:52:32.664Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:52:32.664Z"
+    },
+    "cmd-1791467572064": {
+      "key": "cmd-1791467572064",
+      "value": "{\"command\":\"R=securo-finance/securo; rtk gh api repos/$R/pulls/comments/4219739556 -q '.body' | sed -n 1,40p | cut -c1-400; for n in 1128 1129 1130; do echo \\\"== $n\\\"; rtk gh pr checks $n -R $R 2>&1 | head -12; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:52:52.064Z",
+      "lastAccessed": "2026-10-08T13:52:52.064Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:52:52.064Z"
+    },
+    "cmd-1791467611743": {
+      "key": "cmd-1791467611743",
+      "value": "{\"command\":\"R=securo-finance/securo; rtk gh api repos/$R/pulls/comments/4219739556 -q '.body' | awk '/<\\\\/details>/{f=1;next} f' | sed 's/<!--.*-->//' | grep -v \\\"^\\\\s*$\\\" | head -30 | cut -c1-600\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:53:31.743Z",
+      "lastAccessed": "2026-10-08T13:53:31.743Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:53:31.743Z"
+    },
+    "cmd-1791467649654": {
+      "key": "cmd-1791467649654",
+      "value": "{\"command\":\"git checkout -q fix/1072-amount-locale && rtk git status --short | head; rtk grep -n \\\"\\\\\\\"invalidAmount\\\\\\\"\\\" frontend/src/locales/*.json | cut -c1-120; rtk grep -n \\\"react-hooks\\\" frontend/eslint.config.js\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:54:09.654Z",
+      "lastAccessed": "2026-10-08T13:54:09.654Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:54:09.654Z"
+    },
+    "cmd-1791468108053": {
+      "key": "cmd-1791468108053",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && rtk git add frontend/src/lib/format.ts frontend/src/lib/format.test.ts frontend/src/components/amount-input.tsx frontend/src/hooks/use-display-locale-change.ts frontend/src/hooks/use-display-locale-change.test.tsx frontend/src/components/transaction-splits-section.tsx frontend/src/components/transfer-dialog.tsx frontend/src/pages/recurring.tsx frontend/src/pages/accounts.tsx frontend/src/pages/account-detail.tsx frontend/src/pages/group-detail.tsx frontend/src/pages/budgets.tsx frontend/src/pages/goals.tsx && rtk git diff --cached --stat | tail -2 && rtk git commit -q -m \\\"fix(frontend): keep typed amounts valid when the display locale resolves\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:01:48.053Z",
+      "lastAccessed": "2026-10-08T14:01:48.053Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:01:48.053Z"
+    },
+    "cmd-1791468136093": {
+      "key": "cmd-1791468136093",
+      "value": "{\"command\":\"git checkout -q feat/1127-description-autocomplete && rtk grep -n \\\"^from sqlalchemy import\\\" backend/app/services/transaction_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:02:16.093Z",
+      "lastAccessed": "2026-10-08T14:02:16.093Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:02:16.093Z"
+    },
+    "cmd-1791468203867": {
+      "key": "cmd-1791468203867",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && sed -n 76,92p docker-compose.yml\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:03:23.867Z",
+      "lastAccessed": "2026-10-08T14:03:23.867Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:03:23.867Z"
+    },
+    "cmd-1791468222349": {
+      "key": "cmd-1791468222349",
+      "value": "{\"command\":\"sleep 3; B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); for q in super market \\\"0%\\\" sup; do echo \\\"q=$q: $(curl -s -m 15 -G \\\"$B/transactions/description-suggestions\\\" --data-urlencode \\\"q=$q\\\" -H \\\"Authorization: Bearer $TOKEN\\\")\\\"; done; docker compose -p securo-qa logs backend --tail 50 2>&1 | grep -iE \\\"error|traceback\\\" | head -5\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:03:42.349Z",
+      "lastAccessed": "2026-10-08T14:03:42.349Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:03:42.349Z"
+    },
+    "cmd-1791468233439": {
+      "key": "cmd-1791468233439",
+      "value": "{\"command\":\"docker compose -p securo-qa logs backend --tail 400 2>&1 | grep -A4 \\\"GROUP BY transactions.description\\\" | head -8\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:03:53.439Z",
+      "lastAccessed": "2026-10-08T14:03:53.439Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:03:53.439Z"
+    },
+    "cmd-1791468275935": {
+      "key": "cmd-1791468275935",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && npm --prefix frontend run typecheck > \\\"$TEMP/tc.log\\\" 2>&1; grep \\\"error TS\\\" \\\"$TEMP/tc.log\\\" | grep -v \\\"vite.config\\\"; git add backend/app/services/transaction_service.py backend/tests/test_description_suggestions.py frontend/src/components/description-input.tsx frontend/src/components/description-input.test.tsx && git commit -q -m \\\"fix(transactions): rank description suggestions before limiting them\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:04:35.935Z",
+      "lastAccessed": "2026-10-08T14:04:35.935Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:04:35.935Z"
+    },
+    "cmd-1791468288963": {
+      "key": "cmd-1791468288963",
+      "value": "{\"command\":\"git checkout -q feat/1053-remember-date-range && sed -n 44,70p frontend/src/lib/remembered-range.ts; rtk grep -n \\\"restoredReportsRange\\\\|saveReportsRange\\\\|handleSelectTab = \\\" -A2 frontend/src/pages/reports.tsx | head -30\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:04:48.963Z",
+      "lastAccessed": "2026-10-08T14:04:48.963Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:04:48.963Z"
+    },
+    "cmd-1791468435688": {
+      "key": "cmd-1791468435688",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && rtk git add frontend/src/lib/remembered-range.ts frontend/src/lib/remembered-range.test.ts frontend/src/pages/reports.tsx && rtk git commit -q -m \\\"fix(frontend): remember the Reports range per tab and reject impossible dates\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:07:15.688Z",
+      "lastAccessed": "2026-10-08T14:07:15.688Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:07:15.688Z"
+    },
+    "cmd-1791468448514": {
+      "key": "cmd-1791468448514",
+      "value": "{\"command\":\"rtk git diff fix/1072-amount-locale~1..fix/1072-amount-locale -- frontend/src/components frontend/src/pages | head -220\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:07:28.514Z",
+      "lastAccessed": "2026-10-08T14:07:28.514Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:07:28.514Z"
+    },
+    "cmd-1791468472690": {
+      "key": "cmd-1791468472690",
+      "value": "{\"command\":\"git checkout -q feat/1127-description-autocomplete && rtk grep -n \\\"# Category and payee from the latest use\\\" -A16 backend/app/services/transaction_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:07:52.690Z",
+      "lastAccessed": "2026-10-08T14:07:52.690Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:07:52.690Z"
+    },
+    "cmd-1791468518858": {
+      "key": "cmd-1791468518858",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && sleep 4; B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); curl -s -m 15 -G \\\"$B/transactions/description-suggestions\\\" --data-urlencode \\\"q=sup\\\" -H \\\"Authorization: Bearer $TOKEN\\\"; echo; docker compose -p securo-qa logs backend --tail 60 2>&1 | grep -c \\\"row_number() OVER\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:08:38.858Z",
+      "lastAccessed": "2026-10-08T14:08:38.858Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:08:38.858Z"
+    },
+    "cmd-1791468531921": {
+      "key": "cmd-1791468531921",
+      "value": "{\"command\":\"rtk git add backend/app/services/transaction_service.py && rtk git commit -q --amend --no-edit && rtk git log --oneline -2 && git checkout -q feat/1053-remember-date-range\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:08:51.921Z",
+      "lastAccessed": "2026-10-08T14:08:51.921Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:08:51.921Z"
+    },
+    "cmd-1791468563770": {
+      "key": "cmd-1791468563770",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/frontend && NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run src/lib/remembered-range.test.ts src/pages/reports.test.tsx 2>&1 | grep -aE \\\"Tests  |FAIL|×\\\"; node node_modules/eslint/bin/eslint.js src/lib/remembered-range.ts --max-warnings=0; echo lint $?; npm run typecheck > \\\"$TEMP/tc.log\\\" 2>&1; grep \\\"error TS\\\" \\\"$TEMP/tc.log\\\" | grep -v vite.config; cd .. && git add frontend/src/lib/remembered-range.ts && git commit -q --amend --no-edit && git log --oneline -1\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:09:23.770Z",
+      "lastAccessed": "2026-10-08T14:09:23.770Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:09:23.770Z"
+    },
+    "cmd-1791468667836": {
+      "key": "cmd-1791468667836",
+      "value": "{\"command\":\"for b in fix/1072-amount-locale feat/1127-description-autocomplete feat/1053-remember-date-range; do git checkout -q $b; (cd frontend && NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run > \\\"$TEMP/vt-$$.log\\\" 2>&1; echo \\\"$b: $(grep -aE 'Tests  ' \\\"$TEMP/vt-$$.log\\\")\\\"; grep -aE \\\"FAIL \\\" \\\"$TEMP/vt-$$.log\\\" | sort -u | head -5); done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:11:07.836Z",
+      "lastAccessed": "2026-10-08T14:11:07.836Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:11:07.836Z"
+    },
+    "cmd-1791469563125": {
+      "key": "cmd-1791469563125",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && for b in fix/1072-amount-locale feat/1127-description-autocomplete feat/1053-remember-date-range; do echo \\\"$b: $(git log fork/$b..$b --format=%B | grep -ci 'claude\\\\|co-authored\\\\|anthropic') traces, $(git rev-list --count fork/$b..$b) new\\\"; done; git push fork fix/1072-amount-locale feat/1127-description-autocomplete feat/1053-remember-date-range 2>&1 | grep -E \\\"\\\\->|rejected|error\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:26:03.125Z",
+      "lastAccessed": "2026-10-08T14:26:03.125Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:26:03.125Z"
+    },
+    "cmd-1791469594120": {
+      "key": "cmd-1791469594120",
+      "value": "{\"command\":\"R=securo-finance/securo\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:26:34.120Z",
+      "lastAccessed": "2026-10-08T14:26:34.120Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:26:34.120Z"
+    },
+    "cmd-1791469608059": {
+      "key": "cmd-1791469608059",
+      "value": "{\"command\":\"for n in 1128 1129 1130; do gh api graphql -f query=\\\"query{repository(owner:\\\\\\\"securo-finance\\\\\\\",name:\\\\\\\"securo\\\\\\\"){pullRequest(number:$n){reviewThreads(first:50){nodes{id isResolved comments(first:1){nodes{databaseId}}}}}}}\\\" -q '.data.repository.pullRequest.reviewThreads.nodes[] | \\\"\\\\(.id) \\\\(.isResolved) \\\\(.comments.nodes[0].databaseId)\\\"'; done > \\\"$TEMP/threads.txt\\\"; cat \\\"$TEMP/threads.txt\\\"; while read tid resolved cid; do [ \\\"$cid\\\" = \\\"4219739580\\\" ] && continue; [ \\\"$resolved\\\" = \\\"true\\\" ] && continue; gh api graphql -f query=\\\"mutation{resolveReviewThread(input:{threadId:\\\\\\\"$tid\\\\\\\"}){thread{isResolved}}}\\\" -q '.data.resolveReviewThread.thread.isResolved' | sed \\\"s/^/$cid resolved=/\\\"; done < \\\"$TEMP/threads.txt\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:26:48.059Z",
+      "lastAccessed": "2026-10-08T14:26:48.059Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:26:48.059Z"
+    },
+    "cmd-1791469627265": {
+      "key": "cmd-1791469627265",
+      "value": "{\"command\":\"R=securo-finance/securo; for n in 1128 1129 1130; do echo \\\"== $n $(gh pr view $n -R $R --json headRefOid -q .headRefOid | cut -c1-7)\\\"; gh pr checks $n -R $R 2>&1 | grep -E \\\"Passed|Failed|Pending\\\" | tr '\\\\n' ' '; echo; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:27:07.265Z",
+      "lastAccessed": "2026-10-08T14:27:07.265Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:27:07.265Z"
+    },
+    "cmd-1791469637116": {
+      "key": "cmd-1791469637116",
+      "value": "{\"command\":\"R=securo-finance/securo; for n in 1128 1129 1130; do echo \\\"== $n\\\"; gh pr view $n -R $R --json statusCheckRollup -q '.statusCheckRollup[] | \\\"\\\\(.name // .context): \\\\(.conclusion // .state // .status)\\\"'; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:27:17.116Z",
+      "lastAccessed": "2026-10-08T14:27:17.116Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:27:17.116Z"
+    },
+    "cmd-1791472412053": {
+      "key": "cmd-1791472412053",
+      "value": "{\"command\":\"R=securo-finance/securo; gh issue list -R $R --state open --limit 200 --json number,title,labels,assignees,comments -q '.[] | select((.assignees|length)==0) | \\\"\\\\(.number)\\\\t\\\\([.labels[].name]|join(\\\",\\\"))\\\\t\\\\(.comments|length)c\\\\t\\\\(.title)\\\"' > \\\"$TEMP/issues.tsv\\\"; wc -l < \\\"$TEMP/issues.tsv\\\"; gh pr list -R $R --state open --limit 200 --json number,title,body -q '.[] | \\\"\\\\(.number) \\\\(.title) \\\\(.body // \\\"\\\" | [scan(\\\"#[0-9]{3,4}\\\")] | unique | join(\\\" \\\"))\\\"' > \\\"$TEMP/prs.txt\\\"; grep -oE \\\"#[0-9]{3,4}\\\" \\\"$TEMP/prs.txt\\\" | sort -u | tr -d '#' > \\\"$TEMP/linked.txt\\\"; wc -l < \\\"$TEMP/linked.txt\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:13:32.053Z",
+      "lastAccessed": "2026-10-08T15:13:32.053Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:13:32.053Z"
+    },
+    "cmd-1791472419548": {
+      "key": "cmd-1791472419548",
+      "value": "{\"command\":\"cd \\\"$TEMP\\\" && awk -F'\\\\t' 'NR==FNR{l[$1]=1;next} !($1 in l)' linked.txt issues.tsv | grep -iE \\\"bug|risk: ?low|prio: ?(high|critical)\\\" | grep -viE \\\"risk: ?high\\\" | head -60\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:13:39.548Z",
+      "lastAccessed": "2026-10-08T15:13:39.548Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:13:39.548Z"
+    },
+    "cmd-1791472434144": {
+      "key": "cmd-1791472434144",
+      "value": "{\"command\":\"R=securo-finance/securo; for n in 981 966 1107 993 1112 880 1036; do echo \\\"=========== #$n\\\"; gh issue view $n -R $R --json title,body,comments,createdAt -q '\\\"\\\\(.title) (\\\\(.createdAt[0:10]))\\\\n\\\" + (.body|.[0:1400]) + \\\"\\\\n--comments: \\\" + ([.comments[].body[0:300]]|join(\\\" || \\\"))'; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:13:54.144Z",
+      "lastAccessed": "2026-10-08T15:13:54.144Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:13:54.144Z"
+    },
+    "cmd-1791472517293": {
+      "key": "cmd-1791472517293",
+      "value": "{\"command\":\"git checkout -q main && rtk git pull -q origin main 2>&1 | tail -1; rtk git log --oneline -1; rtk grep -n \\\"amount\\\" backend/app/services/rule_engine.py | head -30\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:15:17.293Z",
+      "lastAccessed": "2026-10-08T15:15:17.293Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:15:17.293Z"
+    },
+    "cmd-1791472650186": {
+      "key": "cmd-1791472650186",
+      "value": "{\"command\":\"rtk git fetch -q origin && rtk git log --oneline -1 origin/main; rtk grep -rn \\\"\\\\\\\"amount\\\\\\\"\\\\|'amount'\\\" backend/app/services/rule_engine.py backend/app/services/rule_service.py | head -20\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:17:30.186Z",
+      "lastAccessed": "2026-10-08T15:17:30.186Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:17:30.186Z"
+    },
+    "cmd-1791472721734": {
+      "key": "cmd-1791472721734",
+      "value": "{\"command\":\"rtk read \\\"C:\\\\Users\\\\camor\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--ProjetosPessoal-securo\\\\6070e381-41b2-4cee-9604-6c5295b8cf02\\\\tasks\\\\b0h0ehkv6.output\\\" | head -3; cd /d/ProjetosPessoal/securo && rtk git log --oneline -1 origin/main; rtk git log --oneline main..origin/main | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:18:41.734Z",
+      "lastAccessed": "2026-10-08T15:18:41.734Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:18:41.734Z"
+    },
+    "cmd-1791472745405": {
+      "key": "cmd-1791472745405",
+      "value": "{\"command\":\"rtk grep -n \\\"transfer\\\" backend/app/services/transaction_calendar_service.py | head -30; rtk grep -n \\\"def is_transfer\\\" -A15 backend/app/services/_query_filters.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:19:05.405Z",
+      "lastAccessed": "2026-10-08T15:19:05.405Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:19:05.405Z"
+    },
+    "cmd-1791472901690": {
+      "key": "cmd-1791472901690",
+      "value": "{\"command\":\"gh issue view 1046 -R securo-finance/securo --json body -q .body; rtk grep -n \\\"archived\\\\|is_archived\\\\|include_archived\\\\|showArchived\\\" backend/app/api/assets.py frontend/src/pages/assets.tsx frontend/src/lib/api.ts | head -30\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:21:41.690Z",
+      "lastAccessed": "2026-10-08T15:21:41.690Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:21:41.690Z"
+    },
+    "cmd-1791472972259": {
+      "key": "cmd-1791472972259",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && git checkout -q -b feat/1046-show-archived-assets main && python -c \\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:22:52.259Z",
+      "lastAccessed": "2026-10-08T15:22:52.259Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:22:52.259Z"
+    },
+    "cmd-1791472979986": {
+      "key": "cmd-1791472979986",
+      "value": "{\"command\":\"python -X utf8 -c \\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:22:59.986Z",
+      "lastAccessed": "2026-10-08T15:22:59.986Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:22:59.986Z"
+    },
+    "cmd-1791473199003": {
+      "key": "cmd-1791473199003",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); H=\\\"Authorization: Bearer $TOKEN\\\"; for n in \\\"Index Fund\\\" \\\"Synced 401k Holding\\\"; do curl -s -m 15 -X POST $B/assets -H \\\"$H\\\" -H 'Content-Type: application/json' -d \\\"{\\\\\\\"name\\\\\\\":\\\\\\\"$n\\\\\\\",\\\\\\\"type\\\\\\\":\\\\\\\"stock\\\\\\\",\\\\\\\"currency\\\\\\\":\\\\\\\"EUR\\\\\\\",\\\\\\\"valuation_method\\\\\\\":\\\\\\\"manual\\\\\\\",\\\\\\\"current_value\\\\\\\":1000}\\\" | python -c \\\"import sys,json;d=json.load(sys.stdin);print(d.get('id',d))\\\"; done > \\\"$TEMP/assetids.txt\\\"; cat \\\"$TEMP/assetids.txt\\\"; AID=$(sed -n 2p \\\"$TEMP/assetids.txt\\\"); curl -s -m 15 -X PATCH $B/assets/$AID -H \\\"$H\\\" -H 'Content-Type: application/json' -d '{\\\"is_archived\\\":true}' -o /dev/null -w \\\"archive %{http_code}\\\\n\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:26:39.003Z",
+      "lastAccessed": "2026-10-08T15:26:39.003Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:26:39.003Z"
+    },
+    "cmd-1791473308918": {
+      "key": "cmd-1791473308918",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && node frontend/node_modules/eslint/bin/eslint.js --config frontend/eslint.config.js frontend/src/pages/assets.tsx frontend/src/pages/assets-archived.test.tsx --max-warnings=0 >/dev/null 2>&1; (cd frontend && node node_modules/eslint/bin/eslint.js src/pages/assets.tsx src/pages/assets-archived.test.tsx --max-warnings=0; echo lint $?); rtk git add frontend/src/pages/assets.tsx frontend/src/pages/assets-archived.test.tsx frontend/src/locales/*.json && rtk git commit -q -m \\\"feat(assets): add a \\\\\\\"Show archived\\\\\\\" toggle to the Assets page\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:28:28.918Z",
+      "lastAccessed": "2026-10-08T15:28:28.918Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:28:28.918Z"
+    },
+    "cmd-1791473321308": {
+      "key": "cmd-1791473321308",
+      "value": "{\"command\":\"git checkout -q -b fix/1036-tour-button-overflow main && rtk read frontend/src/components/onboarding-tour.tsx | sed -n 1,200p | grep -n \\\"className\\\\|Button\\\\|width\\\\|w-\\\\[\\\" | head -40\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:28:41.308Z",
+      "lastAccessed": "2026-10-08T15:28:41.308Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:28:41.308Z"
+    },
+    "cmd-1791473331343": {
+      "key": "cmd-1791473331343",
+      "value": "{\"command\":\"sed -n 40,87p frontend/src/components/onboarding-tour.tsx; sed -n 133,160p frontend/src/components/onboarding-tour.tsx; python -X utf8 -c \\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:28:51.343Z",
+      "lastAccessed": "2026-10-08T15:28:51.343Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:28:51.343Z"
+    },
+    "cmd-1791473370411": {
+      "key": "cmd-1791473370411",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && sed -n 160,175p frontend/src/components/app-layout.tsx; rtk grep -n \\\"updateMe\\\\|users/me\\\" frontend/src/lib/api.ts | head -3\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:29:30.411Z",
+      "lastAccessed": "2026-10-08T15:29:30.411Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:29:30.411Z"
+    },
+    "cmd-1791473380356": {
+      "key": "cmd-1791473380356",
+      "value": "{\"command\":\"B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); H=\\\"Authorization: Bearer $TOKEN\\\"; PREFS=$(curl -s -m 15 $B/users/me -H \\\"$H\\\" | python -c \\\"import sys,json;p=json.load(sys.stdin)['preferences'];p['onboarding_completed']=False;p['language']='de';print(json.dumps({'preferences':p}))\\\"); curl -s -m 15 -X PATCH $B/users/me -H \\\"$H\\\" -H 'Content-Type: application/json' -d \\\"$PREFS\\\" -o /dev/null -w \\\"prefs %{http_code}\\\\n\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:29:40.356Z",
+      "lastAccessed": "2026-10-08T15:29:40.356Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:29:40.356Z"
+    },
+    "cmd-1791473469849": {
+      "key": "cmd-1791473469849",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); H=\\\"Authorization: Bearer $TOKEN\\\"; PREFS=$(curl -s -m 15 $B/users/me -H \\\"$H\\\" | python -c \\\"import sys,json;p=json.load(sys.stdin)['preferences'];p['onboarding_completed']=True;p['language']='en';print(json.dumps({'preferences':p}))\\\"); curl -s -m 15 -X PATCH $B/users/me -H \\\"$H\\\" -H 'Content-Type: application/json' -d \\\"$PREFS\\\" -o /dev/null -w \\\"prefs %{http_code}\\\\n\\\"; ls frontend/src/components | grep -i onboarding\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:31:09.849Z",
+      "lastAccessed": "2026-10-08T15:31:09.849Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:31:09.849Z"
+    },
+    "cmd-1791473536821": {
+      "key": "cmd-1791473536821",
+      "value": "{\"command\":\"npm run typecheck > \\\"$TEMP/tc.log\\\" 2>&1; grep \\\"error TS\\\" \\\"$TEMP/tc.log\\\" | grep -v vite.config; cd .. && git add frontend/src/components/onboarding-tour.tsx frontend/src/components/onboarding-tour.test.tsx && git commit -q -m \\\"fix(onboarding): keep the tour buttons inside the card\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:32:16.821Z",
+      "lastAccessed": "2026-10-08T15:32:16.821Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:32:16.821Z"
+    },
+    "cmd-1791473555521": {
+      "key": "cmd-1791473555521",
+      "value": "{\"command\":\"rtk git diff main..feat/1046-show-archived-assets -- frontend/src/pages/assets.tsx | grep \\\"^[+-]\\\" | grep -v \\\"^+++\\\\|^---\\\"; rtk git diff main..fix/1036-tour-button-overflow -- frontend/src/components/onboarding-tour.tsx | grep \\\"^[+-]\\\" | grep -v \\\"^+++\\\\|^---\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:32:35.521Z",
+      "lastAccessed": "2026-10-08T15:32:35.521Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:32:35.521Z"
+    },
+    "cmd-1791473563265": {
+      "key": "cmd-1791473563265",
+      "value": "{\"command\":\"rtk proxy git diff main..feat/1046-show-archived-assets -- frontend/src/pages/assets.tsx | grep -E \\\"^[+-]\\\" | grep -vE \\\"^(\\\\+\\\\+\\\\+|---)\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:32:43.265Z",
+      "lastAccessed": "2026-10-08T15:32:43.265Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:32:43.265Z"
+    },
+    "cmd-1791473686739": {
+      "key": "cmd-1791473686739",
+      "value": "{\"command\":\"git checkout -q main && git log --oneline -1 && B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); H=\\\"Authorization: Bearer $TOKEN\\\"; PREFS=$(curl -s -m 15 $B/users/me -H \\\"$H\\\" | python -c \\\"import sys,json;p=json.load(sys.stdin)['preferences'];p['onboarding_completed']=False;p['language']='de';print(json.dumps({'preferences':p}))\\\"); curl -s -m 15 -X PATCH $B/users/me -H \\\"$H\\\" -H 'Content-Type: application/json' -d \\\"$PREFS\\\" -o /dev/null -w \\\"prefs %{http_code}\\\\n\\\"; mkdir -p \\\"$TEMP/../shots\\\" 2>/dev/null; echo ok\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:34:46.739Z",
+      "lastAccessed": "2026-10-08T15:34:46.739Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:34:46.739Z"
+    },
+    "cmd-1791473721744": {
+      "key": "cmd-1791473721744",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; mkdir -p \\\"$SHOTS\\\" && cp \\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results/mcp-Claude_Browser-blob-1791473708946-hk1tls.png\\\" \\\"$SHOTS/1036-before.png\\\" && cd /d/ProjetosPessoal/securo && git checkout -q fix/1036-tour-button-overflow && rtk git log --oneline -1 && rtk ls -la \\\"$SHOTS\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:35:21.744Z",
+      "lastAccessed": "2026-10-08T15:35:21.744Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:35:21.744Z"
+    },
+    "cmd-1791473774947": {
+      "key": "cmd-1791473774947",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; cp \\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results/mcp-Claude_Browser-blob-1791473760672-832dxc.png\\\" \\\"$SHOTS/1036-after.png\\\"; cd /d/ProjetosPessoal/securo && git checkout -q feat/1046-show-archived-assets && B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); H=\\\"Authorization: Bearer $TOKEN\\\"; PREFS=$(curl -s -m 15 $B/users/me -H \\\"$H\\\" | python -c \\\"import sys,json;p=json.load(sys.stdin)['preferences'];p['onboarding_completed']=True;p['language']='en';print(json.dumps({'preferences':p}))\\\"); curl -s -m 15 -X PATCH $B/users/me -H \\\"$H\\\" -H 'Content-Type: application/json' -d \\\"$PREFS\\\" -o /dev/null -w \\\"prefs %{http_code}\\\\n\\\"; ls \\\"$SHOTS\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:36:14.947Z",
+      "lastAccessed": "2026-10-08T15:36:14.947Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:36:14.947Z"
+    },
+    "cmd-1791473822324": {
+      "key": "cmd-1791473822324",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791473791810-4xf5wh.png\\\" \\\"$SHOTS/1046-toggle-off.png\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791473806518-wzg1nt.png\\\" \\\"$SHOTS/1046-toggle-on.png\\\"; ls -la \\\"$SHOTS\\\"; F=rogeriocamorim/securo; gh api repos/$F/branches/pr-screenshots -q .name 2>/dev/null || { SHA=$(gh api repos/$F/git/ref/heads/main -q .object.sha); gh api -X POST repos/$F/git/refs -f ref=refs/heads/pr-screenshots -f sha=$SHA -q .ref; }\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:37:02.324Z",
+      "lastAccessed": "2026-10-08T15:37:02.324Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:37:02.324Z"
+    },
+    "cmd-1791473843974": {
+      "key": "cmd-1791473843974",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; F=rogeriocamorim/securo; for f in 1036-before 1036-after 1046-toggle-off 1046-toggle-on; do base64 -w0 \\\"$SHOTS/$f.png\\\" > \\\"$SHOTS/$f.b64\\\"; python -c \\\"import json,sys;print(json.dumps({'message':'Add screenshot $f','branch':'pr-screenshots','content':open(sys.argv[1]).read()}))\\\" \\\"$SHOTS/$f.b64\\\" > \\\"$SHOTS/$f.json\\\"; gh api -X PUT repos/$F/contents/screenshots/$f.png --input \\\"$SHOTS/$f.json\\\" -q .content.download_url; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:37:23.974Z",
+      "lastAccessed": "2026-10-08T15:37:23.974Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:37:23.974Z"
+    },
+    "cmd-1791473855867": {
+      "key": "cmd-1791473855867",
+      "value": "{\"command\":\"for b in feat/1046-show-archived-assets fix/1036-tour-button-overflow; do echo \\\"$b: $(git log main..$b --format=%B | grep -ci 'claude\\\\|co-authored\\\\|anthropic') traces, $(git rev-list --count main..$b) commits\\\"; done; git push -u fork feat/1046-show-archived-assets fix/1036-tour-button-overflow 2>&1 | grep -E \\\"\\\\->|rejected|error\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:37:35.867Z",
+      "lastAccessed": "2026-10-08T15:37:35.867Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:37:35.867Z"
+    },
+    "cmd-1791473883756": {
+      "key": "cmd-1791473883756",
+      "value": "{\"command\":\"IMG=https://raw.githubusercontent.com/rogeriocamorim/securo/pr-screenshots/screenshots; cat > \\\"$TEMP/pr1046.md\\\" <<EOF\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:38:03.756Z",
+      "lastAccessed": "2026-10-08T15:38:03.756Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:38:03.756Z"
+    },
+    "cmd-1791473899353": {
+      "key": "cmd-1791473899353",
+      "value": "{\"command\":\"R=securo-finance/securo\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:38:19.353Z",
+      "lastAccessed": "2026-10-08T15:38:19.353Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:38:19.353Z"
+    },
+    "cmd-1791473913388": {
+      "key": "cmd-1791473913388",
+      "value": "{\"command\":\"for f in 1036-before 1036-after 1046-toggle-off 1046-toggle-on; do curl -s -o /dev/null -m 15 -w \\\"$f %{http_code} %{content_type}\\\\n\\\" https://raw.githubusercontent.com/rogeriocamorim/securo/pr-screenshots/screenshots/$f.png; done; cd /d/ProjetosPessoal/securo && git checkout -q local/test-quick-wins 2>/dev/null; rtk git branch --show-current\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:38:33.388Z",
+      "lastAccessed": "2026-10-08T15:38:33.388Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:38:33.388Z"
+    },
+    "cmd-1791474463957": {
+      "key": "cmd-1791474463957",
+      "value": "{\"command\":\"R=securo-finance/securo; for n in 1128 1129 1130 1131 1132; do echo \\\"===== PR $n $(gh pr view $n -R $R --json state,reviewDecision -q '\\\"\\\\(.state) \\\\(.reviewDecision)\\\"')\\\"; gh api graphql -f query=\\\"query{repository(owner:\\\\\\\"securo-finance\\\\\\\",name:\\\\\\\"securo\\\\\\\"){pullRequest(number:$n){reviewThreads(first:50){nodes{id isResolved comments(first:20){nodes{databaseId author{login} createdAt path line body}}}}}}}\\\" -q '.data.repository.pullRequest.reviewThreads.nodes[] | select(.isResolved==false) | \\\"THREAD \\\\(.id) [\\\\(.comments.nodes[0].path):\\\\(.comments.nodes[0].line)]\\\\n\\\" + ([.comments.nodes[] | \\\"  - \\\\(.author.login) \\\\(.createdAt[0:16]) id=\\\\(.databaseId): \\\\(.body | split(\\\"<details>\\\")[0] | gsub(\\\"<!--[^>]*-->\\\";\\\"\\\") | .[0:700])\\\"] | join(\\\"\\\\n\\\"))'; gh pr view $n -R $R --json comments,reviews -q '[.comments[], .reviews[]] | map(select(.author.login != \\\"coderabbitai\\\" and .author.login != \\\"github-actions\\\" and .author.login != \\\"rogeriocamorim\\\")) | .[] | \\\"HUMAN \\\\(.author.login): \\\\(.body[0:400])\\\"'; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:47:43.957Z",
+      "lastAccessed": "2026-10-08T15:47:43.957Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:47:43.957Z"
+    },
+    "cmd-1791474625425": {
+      "key": "cmd-1791474625425",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && rtk git add frontend/src/components/amount-input.tsx frontend/src/components/form-amount-input.test.tsx frontend/src/pages/budgets.tsx frontend/src/pages/goals.tsx && rtk git commit -q -m \\\"fix(frontend): keep budget and goal drafts when the locale resolves\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:50:25.425Z",
+      "lastAccessed": "2026-10-08T15:50:25.425Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:50:25.425Z"
+    },
+    "cmd-1791474638394": {
+      "key": "cmd-1791474638394",
+      "value": "{\"command\":\"git checkout -q feat/1046-show-archived-assets && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:50:38.394Z",
+      "lastAccessed": "2026-10-08T15:50:38.394Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:50:38.394Z"
+    },
+    "cmd-1791474706420": {
+      "key": "cmd-1791474706420",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && rtk git add frontend/src/pages/assets.tsx frontend/src/pages/assets-archived.test.tsx && rtk git commit -q -m \\\"fix(assets): keep the archived toggle and holdings to the Holdings tab\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:51:46.420Z",
+      "lastAccessed": "2026-10-08T15:51:46.420Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:51:46.420Z"
+    },
+    "cmd-1791474726865": {
+      "key": "cmd-1791474726865",
+      "value": "{\"command\":\"R=securo-finance/securo\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:52:06.865Z",
+      "lastAccessed": "2026-10-08T15:52:06.865Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:52:06.865Z"
+    },
+    "cmd-1791474742163": {
+      "key": "cmd-1791474742163",
+      "value": "{\"command\":\"for n in 1128 1129 1130 1131 1132; do gh api graphql -f query=\\\"query{repository(owner:\\\\\\\"securo-finance\\\\\\\",name:\\\\\\\"securo\\\\\\\"){pullRequest(number:$n){reviewThreads(first:50){nodes{isResolved comments(last:1){nodes{author{login} body path}}}}}}}\\\" -q \\\".data.repository.pullRequest.reviewThreads.nodes[] | select(.isResolved==false) | \\\\\\\"$n open: \\\\(.comments.nodes[0].path) last by \\\\(.comments.nodes[0].author.login): \\\\(.comments.nodes[0].body[0:300])\\\\\\\"\\\"; done; echo sweep-done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:52:22.163Z",
+      "lastAccessed": "2026-10-08T15:52:22.163Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:52:22.163Z"
+    },
+    "cmd-1791475509021": {
+      "key": "cmd-1791475509021",
+      "value": "{\"command\":\"gh issue view 1125 -R securo-finance/securo --json title,body,labels,comments,createdAt -q '\\\"\\\\(.title) [\\\\([.labels[].name]|join(\\\",\\\"))] \\\\(.createdAt[0:10])\\\\n\\\\(.body)\\\\n--comments--\\\\n\\\" + ([.comments[] | \\\"\\\\(.author.login): \\\\(.body)\\\"]|join(\\\"\\\\n---\\\\n\\\"))'; gh pr list -R securo-finance/securo --state all --search \\\"month start OR cycle start OR payday OR 1125\\\" --limit 10 --json number,title,state -q '.[]|\\\"\\\\(.number) \\\\(.state) \\\\(.title)\\\"'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:05:09.021Z",
+      "lastAccessed": "2026-10-08T16:05:09.021Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:05:09.021Z"
+    },
+    "cmd-1791475524718": {
+      "key": "cmd-1791475524718",
+      "value": "{\"command\":\"echo \\\"backend month-boundary sites:\\\"; rtk grep -rnE \\\"replace\\\\(day=1\\\\)|monthrange\\\\(|relativedelta\\\\(months|month_start|month_end\\\" backend/app --include=*.py | grep -v test | awk -F: '{print $1}' | sort | uniq -c | sort -rn | head -12; echo \\\"frontend:\\\"; rtk grep -rnE \\\"monthRange\\\\(|currentMonth\\\\(|shiftMonth\\\\(\\\" frontend/src --include=*.tsx --include=*.ts | grep -v test | awk -F: '{print $1}' | sort | uniq -c | sort -rn | head -10; rtk grep -n \\\"month\\\" backend/app/models/budget.py | head -5; rtk grep -n \\\"statement_close_day\\\" -l backend/app/services/*.py | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:05:24.718Z",
+      "lastAccessed": "2026-10-08T16:05:24.718Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:05:24.718Z"
+    },
+    "cmd-1791475742799": {
+      "key": "cmd-1791475742799",
+      "value": "{\"command\":\"R=securo-finance/securo; rtk gh api repos/$R/issues/1072/timeline --paginate -q '.[] | select(.event==\\\"cross-referenced\\\" or .event==\\\"connected\\\" or .event==\\\"referenced\\\") | \\\"\\\\(.event) \\\\(.source.issue.number // \\\"\\\") \\\\(.source.issue.state // \\\"\\\") \\\\(.source.issue.user.login // \\\"\\\") \\\\(.source.issue.title // .commit_id // \\\"\\\")\\\"' | sort -u; gh pr list -R $R --state all --search \\\"1072 in:body\\\" --json number,title,state,author,createdAt -q '.[]|\\\"\\\\(.number) \\\\(.state) \\\\(.author.login) \\\\(.createdAt[0:10]) \\\\(.title)\\\"'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:09:02.799Z",
+      "lastAccessed": "2026-10-08T16:09:02.799Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:09:02.799Z"
+    },
+    "cmd-1791475757995": {
+      "key": "cmd-1791475757995",
+      "value": "{\"command\":\"R=securo-finance/securo; gh pr view 1078 -R $R --json body,files,reviews,comments -q '.body[0:2500] + \\\"\\\\n--files: \\\" + ([.files[] | \\\"\\\\(.path) +\\\\(.additions)/-\\\\(.deletions)\\\"]|join(\\\", \\\")) + \\\"\\\\n--reviews: \\\" + ([.reviews[] | \\\"\\\\(.author.login) \\\\(.state)\\\"]|join(\\\", \\\"))'; rtk gh pr diff 1078 -R $R | grep -E \\\"^[+-]\\\" | grep -vE \\\"^(\\\\+\\\\+\\\\+|---)\\\" | grep -v \\\"test\\\" | head -80\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:09:17.995Z",
+      "lastAccessed": "2026-10-08T16:09:17.995Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:09:17.995Z"
+    },
+    "cmd-1791475769779": {
+      "key": "cmd-1791475769779",
+      "value": "{\"command\":\"R=securo-finance/securo; comm -12 <(gh pr view 1078 -R $R --json files -q '.files[].path' | sort) <(gh pr view 1128 -R $R --json files -q '.files[].path' | sort); echo \\\"--- overlap above\\\"; gh pr view 798 -R $R --json title,mergedAt,files -q '\\\"\\\\(.title) merged \\\\(.mergedAt[0:10])\\\\n\\\" + ([.files[].path]|join(\\\", \\\"))'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:09:29.779Z",
+      "lastAccessed": "2026-10-08T16:09:29.779Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:09:29.779Z"
+    },
+    "cmd-1791475904529": {
+      "key": "cmd-1791475904529",
+      "value": "{\"command\":\"git checkout -q main && git branch --show-current && B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); curl -s -m 15 $B/admin/number-format -H \\\"Authorization: Bearer $TOKEN\\\"; echo; gh pr view 1128 -R securo-finance/securo --json body -q .body | head -40\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:11:44.529Z",
+      "lastAccessed": "2026-10-08T16:11:44.529Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:11:44.529Z"
+    },
+    "cmd-1791475944414": {
+      "key": "cmd-1791475944414",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791475932207-26r0ql.png\\\" \\\"$SHOTS/1072-recurring-before.png\\\" && rtk ls \\\"$SHOTS\\\" | grep 1072\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:12:24.414Z",
+      "lastAccessed": "2026-10-08T16:12:24.414Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:12:24.414Z"
+    },
+    "cmd-1791475976878": {
+      "key": "cmd-1791475976878",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791475963318-6n26ez.png\\\" \\\"$SHOTS/1072-transaction-before.png\\\"; cd /d/ProjetosPessoal/securo && git checkout -q fix/1072-amount-locale && rtk git log --oneline -1 && rtk git status --short | grep -v \\\"^??\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:12:56.878Z",
+      "lastAccessed": "2026-10-08T16:12:56.878Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:12:56.878Z"
+    },
+    "cmd-1791476013640": {
+      "key": "cmd-1791476013640",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791476003889-bt5mhv.png\\\" \\\"$SHOTS/1072-recurring-after.png\\\"; echo saved\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:13:33.640Z",
+      "lastAccessed": "2026-10-08T16:13:33.640Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:13:33.640Z"
+    },
+    "cmd-1791476035086": {
+      "key": "cmd-1791476035086",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791476026546-fuutpf.png\\\" \\\"$SHOTS/1072-invalid-after.png\\\"; echo saved\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:13:55.086Z",
+      "lastAccessed": "2026-10-08T16:13:55.086Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:13:55.086Z"
+    },
+    "cmd-1791476209548": {
+      "key": "cmd-1791476209548",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && rtk git stash push -q frontend/src/components/transaction-dialog.tsx && (cd frontend && NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run src/components/transaction-dialog.test.tsx 2>&1 | grep -aE \\\"Tests  |×\\\" | head -3); rtk git stash pop -q && rtk git status --short | grep -v \\\"^??\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:16:49.548Z",
+      "lastAccessed": "2026-10-08T16:16:49.548Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:16:49.548Z"
+    },
+    "cmd-1791476253491": {
+      "key": "cmd-1791476253491",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791476228869-697ch4.png\\\" \\\"$SHOTS/1072-transaction-invalid-after.png\\\"; ls \\\"$SHOTS\\\" | grep 1072; F=rogeriocamorim/securo; for f in 1072-recurring-before 1072-recurring-after 1072-transaction-before 1072-transaction-after 1072-transaction-invalid-after 1072-invalid-after; do base64 -w0 \\\"$SHOTS/$f.png\\\" > \\\"$SHOTS/$f.b64\\\"; python -c \\\"import json,sys;print(json.dumps({'message':'Add screenshot $f','branch':'pr-screenshots','content':open(sys.argv[1]).read()}))\\\" \\\"$SHOTS/$f.b64\\\" > \\\"$SHOTS/$f.json\\\"; gh api -X PUT repos/$F/contents/screenshots/$f.png --input \\\"$SHOTS/$f.json\\\" -q .content.download_url; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:17:33.491Z",
+      "lastAccessed": "2026-10-08T16:17:33.491Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:17:33.491Z"
+    },
+    "cmd-1791476345167": {
+      "key": "cmd-1791476345167",
+      "value": "{\"command\":\"NODE_OPTIONS=--no-experimental-webstorage node node_modules/vitest/vitest.mjs run src/pages/products.test.tsx 2>&1 | grep -aE \\\"Tests  \\\"; cd .. && rtk git add frontend/src/components/transaction-dialog.tsx frontend/src/components/transaction-dialog.test.tsx && rtk git commit -q -m \\\"fix(transactions): name the problem when the amount can't be read\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:19:05.167Z",
+      "lastAccessed": "2026-10-08T16:19:05.167Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:19:05.167Z"
+    },
+    "cmd-1791476403489": {
+      "key": "cmd-1791476403489",
+      "value": "{\"command\":\"git stash push -q frontend/vite.config.ts && (cd frontend && npm run build > \\\"$TEMP/build.log\\\" 2>&1; echo \\\"build exit $?\\\"; tail -4 \\\"$TEMP/build.log\\\"); git stash pop -q; git status --short | grep -v \\\"^??\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:20:03.489Z",
+      "lastAccessed": "2026-10-08T16:20:03.489Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:20:03.489Z"
+    },
+    "cmd-1791476420225": {
+      "key": "cmd-1791476420225",
+      "value": "{\"command\":\"for f in 1072-recurring-before 1072-recurring-after 1072-transaction-before 1072-transaction-after 1072-transaction-invalid-after 1072-invalid-after; do curl -s -o /dev/null -m 15 -w \\\"$f %{http_code}\\\\n\\\" https://raw.githubusercontent.com/rogeriocamorim/securo/pr-screenshots/screenshots/$f.png; done; rtk gh api graphql -f query='query{repository(owner:\\\"securo-finance\\\",name:\\\"securo\\\"){pullRequest(number:1128){reviewThreads(first:50){nodes{isResolved}} commits(last:1){nodes{commit{oid}}}}}}' -q '.data.repository.pullRequest | \\\"head \\\\(.commits.nodes[0].commit.oid[0:7]) unresolved: \\\\([.reviewThreads.nodes[]|select(.isResolved==false)]|length)\\\"'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:20:20.225Z",
+      "lastAccessed": "2026-10-08T16:20:20.225Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:20:20.225Z"
+    },
+    "cmd-1791476485417": {
+      "key": "cmd-1791476485417",
+      "value": "{\"command\":\"git checkout -q feat/1127-description-autocomplete && git log --oneline -1 && git status --short | grep -v \\\"^??\\\"; B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); sleep 4; TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); curl -s -m 15 -G \\\"$B/transactions/description-suggestions\\\" --data-urlencode \\\"q=sup\\\" -H \\\"Authorization: Bearer $TOKEN\\\"; echo\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:21:25.417Z",
+      "lastAccessed": "2026-10-08T16:21:25.417Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:21:25.417Z"
+    },
+    "cmd-1791476501358": {
+      "key": "cmd-1791476501358",
+      "value": "{\"command\":\"B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); try() { TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); curl -s -m 15 -G \\\"$B/transactions/description-suggestions\\\" --data-urlencode \\\"q=sup\\\" -H \\\"Authorization: Bearer $TOKEN\\\" | head -c 160; echo; }; try; grep -c \\\"description-suggestions\\\" backend/app/api/transactions.py; docker compose -p securo-qa logs backend --tail 5 2>&1 | tail -4\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:21:41.358Z",
+      "lastAccessed": "2026-10-08T16:21:41.358Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:21:41.358Z"
+    },
+    "cmd-1791476554577": {
+      "key": "cmd-1791476554577",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791476538010-yigrre.png\\\" \\\"$SHOTS/1127-suggestions.png\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791476540419-i6cfqp.png\\\" \\\"$SHOTS/1127-picked.png\\\"; rtk ls \\\"$SHOTS\\\" | grep 1127; cd /d/ProjetosPessoal/securo && git checkout -q feat/1053-remember-date-range && rtk git log --oneline -1\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:22:34.577Z",
+      "lastAccessed": "2026-10-08T16:22:34.577Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:22:34.577Z"
+    },
+    "cmd-1791476623058": {
+      "key": "cmd-1791476623058",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791476612541-ly7vdg.png\\\" \\\"$SHOTS/1053-transactions-after.png\\\"; echo saved\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:23:43.058Z",
+      "lastAccessed": "2026-10-08T16:23:43.058Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:23:43.058Z"
+    },
+    "cmd-1791476659870": {
+      "key": "cmd-1791476659870",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791476638650-y123v3.png\\\" \\\"$SHOTS/1053-reports-after.png\\\"; cd /d/ProjetosPessoal/securo && git checkout -q main && rtk git log --oneline -1; sleep 6; rtk curl -s -m 10 -o /dev/null -w \\\"backend %{http_code}\\\\n\\\" http://127.0.0.1:8000/api/info\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:24:19.870Z",
+      "lastAccessed": "2026-10-08T16:24:19.870Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:24:19.870Z"
+    },
+    "cmd-1791476717660": {
+      "key": "cmd-1791476717660",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791476682708-dx0bgd.png\\\" \\\"$SHOTS/1053-transactions-before.png\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791476696433-joyhe3.png\\\" \\\"$SHOTS/1053-reports-before.png\\\"; cd /d/ProjetosPessoal/securo && git checkout -q local/test-quick-wins; F=rogeriocamorim/securo; for f in 1127-suggestions 1127-picked 1053-transactions-before 1053-transactions-after 1053-reports-before 1053-reports-after; do base64 -w0 \\\"$SHOTS/$f.png\\\" > \\\"$SHOTS/$f.b64\\\"; python -c \\\"import json,sys;print(json.dumps({'message':'Add screenshot $f','branch':'pr-screenshots','content':open(sys.argv[1]).read()}))\\\" \\\"$SHOTS/$f.b64\\\" > \\\"$SHOTS/$f.json\\\"; gh api -X PUT repos/$F/contents/screenshots/$f.png --input \\\"$SHOTS/$f.json\\\" -q .content.download_url; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:25:17.660Z",
+      "lastAccessed": "2026-10-08T16:25:17.660Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:25:17.660Z"
+    },
+    "cmd-1791476742736": {
+      "key": "cmd-1791476742736",
+      "value": "{\"command\":\"R=securo-finance/securo; for n in 1128 1129 1130 1131 1132; do echo \\\"===== PR $n $(gh pr view $n -R $R --json state,reviewDecision,mergeable,headRefOid -q '\\\"\\\\(.state) decision=\\\\(.reviewDecision) \\\\(.mergeable) head=\\\\(.headRefOid[0:7])\\\"')\\\"; gh api graphql -f query=\\\"query{repository(owner:\\\\\\\"securo-finance\\\\\\\",name:\\\\\\\"securo\\\\\\\"){pullRequest(number:$n){reviewThreads(first:50){nodes{id isResolved comments(first:20){nodes{databaseId author{login} createdAt path line body}}}}}}}\\\" -q '.data.repository.pullRequest.reviewThreads.nodes[] | select(.isResolved==false) | \\\"UNRESOLVED THREAD \\\\(.id) [\\\\(.comments.nodes[0].path):\\\\(.comments.nodes[0].line)]\\\\n\\\" + ([.comments.nodes[] | \\\"  - \\\\(.author.login) \\\\(.createdAt[0:16]) id=\\\\(.databaseId): \\\\(.body | split(\\\"<details>\\\")[0] | gsub(\\\"<!--[^>]*-->\\\";\\\"\\\") | .[0:900])\\\"] | join(\\\"\\\\n\\\"))'; gh pr view $n -R $R --json comments,reviews -q '[.comments[], .reviews[]] | map(select(.author.login != \\\"coderabbitai\\\" and .author.login != \\\"github-actions\\\" and .author.login != \\\"rogeriocamorim\\\")) | .[] | \\\"HUMAN \\\\(.author.login) \\\\(.createdAt // .submittedAt): \\\\(.body[0:600])\\\"'; gh pr checks $n -R $R 2>&1 | head -8; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:25:42.736Z",
+      "lastAccessed": "2026-10-08T16:25:42.736Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:25:42.736Z"
+    },
+    "cmd-1791476762378": {
+      "key": "cmd-1791476762378",
+      "value": "{\"command\":\"R=securo-finance/securo; for n in 1128 1129 1130 1131 1132; do echo \\\"== $n\\\"; rtk gh api repos/$R/pulls/$n/reviews --paginate -q '.[] | select(.user.login==\\\"coderabbitai[bot]\\\") | \\\"\\\\(.submitted_at[0:16]) \\\\(.state) commit=\\\\(.commit_id[0:7]) :: \\\" + ((.body | gsub(\\\"<!--[^>]*-->\\\";\\\"\\\") | capture(\\\"(?<a>Actionable comments posted: [0-9]+)\\\") | .a) // \\\"no-actionable-line\\\")'; rtk gh api repos/$R/issues/$n/comments --paginate -q '.[] | select(.user.login==\\\"coderabbitai[bot]\\\") | .body' | grep -oE \\\"(Nitpick|nitpick)[^<]{0,80}|Actionable comments posted: [0-9]+\\\" | sort -u | head -5; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:26:02.378Z",
+      "lastAccessed": "2026-10-08T16:26:02.378Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:26:02.378Z"
+    },
+    "cmd-1791476807282": {
+      "key": "cmd-1791476807282",
+      "value": "{\"command\":\"for f in 1127-suggestions 1127-picked 1053-transactions-before 1053-transactions-after 1053-reports-before 1053-reports-after; do curl -s -o /dev/null -m 15 -w \\\"$f %{http_code}\\\\n\\\" https://raw.githubusercontent.com/rogeriocamorim/securo/pr-screenshots/screenshots/$f.png; done; cd /d/ProjetosPessoal/securo && rtk git branch --show-current\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:26:47.282Z",
+      "lastAccessed": "2026-10-08T16:26:47.282Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:26:47.282Z"
+    },
+    "cmd-1791478043944": {
+      "key": "cmd-1791478043944",
+      "value": "{\"command\":\"R=securo-finance/securo; gh issue view 1112 -R $R --json title,labels,comments,assignees -q '\\\"\\\\(.title) [\\\\([.labels[].name]|join(\\\",\\\"))] assignees=\\\\([.assignees[].login]|join(\\\",\\\"))\\\\n\\\" + ([.comments[] | \\\"\\\\(.author.login): \\\\(.body)\\\"]|join(\\\"\\\\n---\\\\n\\\"))'; echo \\\"=== PRs mentioning it\\\"; gh pr list -R $R --state all --search \\\"1112 OR closed account\\\" --limit 15 --json number,title,state -q '.[]|\\\"\\\\(.number) \\\\(.state) \\\\(.title)\\\"'; echo \\\"=== docs\\\"; rtk gh api repos/$R/contents/docs -q '.[].name' 2>/dev/null | head; cd /d/ProjetosPessoal/securo && git checkout -q main && rtk git log --oneline -1\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:47:23.944Z",
+      "lastAccessed": "2026-10-08T16:47:23.944Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:47:23.944Z"
+    },
+    "cmd-1791478054430": {
+      "key": "cmd-1791478054430",
+      "value": "{\"command\":\"R=securo-finance/securo; gh pr view 469 -R $R --json title,body,state,closedAt,comments,reviews -q '\\\"\\\\(.title) closed \\\\(.closedAt[0:10])\\\\n\\\\(.body[0:1800])\\\\n--- comments: \\\" + ([.comments[] | \\\"\\\\(.author.login): \\\\(.body[0:600])\\\"]|join(\\\"\\\\n---\\\\n\\\")) + \\\"\\\\n--- reviews: \\\" + ([.reviews[] | \\\"\\\\(.author.login) \\\\(.state): \\\\(.body[0:400])\\\"]|join(\\\"\\\\n\\\"))'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:47:34.430Z",
+      "lastAccessed": "2026-10-08T16:47:34.430Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:47:34.430Z"
+    },
+    "cmd-1791478066602": {
+      "key": "cmd-1791478066602",
+      "value": "{\"command\":\"R=securo-finance/securo; rtk gh api repos/$R/issues/469/comments -q '.[0].body' | head -80; echo ...; gh pr view 469 -R $R --json files -q '[.files[]|\\\"\\\\(.path) +\\\\(.additions)/-\\\\(.deletions)\\\"]|join(\\\"\\\\n\\\")' | head -40\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:47:46.602Z",
+      "lastAccessed": "2026-10-08T16:47:46.602Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:47:46.602Z"
+    },
+    "cmd-1791478176402": {
+      "key": "cmd-1791478176402",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && git log --format=\\\"%h %ad %s\\\" --date=short -S\\\"excludes_closed_accounts\\\" -- backend/tests/test_dashboard_service.py | tail -3; C=$(git log --format=%h -S\\\"test_summary_matches_drilldown_and_excludes_closed_accounts\\\" -- backend/tests/test_dashboard_service.py | tail -1); echo \\\"commit $C\\\"; git show $C --stat --format=\\\"%h %s%n%b\\\" | head -30\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:49:36.402Z",
+      "lastAccessed": "2026-10-08T16:49:36.402Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:49:36.402Z"
+    },
+    "cmd-1791478218592": {
+      "key": "cmd-1791478218592",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && rtk grep -rn \\\"user_pnl_only\\\" backend/app frontend/src --include=*.py --include=*.ts --include=*.tsx | grep -v \\\"test\\\"; echo ---frontend closed; rtk grep -rn \\\"is_closed\\\\|include_closed\\\\|includeClosed\\\" frontend/src --include=*.ts --include=*.tsx | grep -v test | head -30\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:50:18.592Z",
+      "lastAccessed": "2026-10-08T16:50:18.592Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:50:18.592Z"
+    },
+    "cmd-1791478237391": {
+      "key": "cmd-1791478237391",
+      "value": "{\"command\":\"git checkout -q -b fix/1112-closed-account-history main && cd backend/app/services && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:50:37.391Z",
+      "lastAccessed": "2026-10-08T16:50:37.391Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:50:37.391Z"
+    },
+    "cmd-1791478609843": {
+      "key": "cmd-1791478609843",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo && git branch --show-current && B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); sleep 5; TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); H=\\\"Authorization: Bearer $TOKEN\\\"; echo \\\"$TOKEN\\\" > \\\"$TEMP/qa_token.txt\\\"; ACC=$(curl -s -m 15 -X POST $B/accounts -H \\\"$H\\\" -H 'Content-Type: application/json' -d '{\\\"name\\\":\\\"Old Savings\\\",\\\"type\\\":\\\"savings\\\",\\\"balance\\\":\\\"0\\\",\\\"currency\\\":\\\"EUR\\\"}' | python -c \\\"import sys,json;print(json.load(sys.stdin)['id'])\\\"); echo \\\"acct $ACC\\\" > \\\"$TEMP/qa_acct.txt\\\"; CAT=$(curl -s -m 15 $B/categories -H \\\"$H\\\" | python -c \\\"import sys,json;d=json.load(sys.stdin);print(d[0]['id'])\\\"); for row in \\\"credit|200|Interest\\\" \\\"debit|80|Account fee\\\"; do t=${row%%|*}; r=${row#*|}; a=${r%%|*}; d=${r#*|}; curl -s -m 15 -X POST $B/transactions -H \\\"$H\\\" -H 'Content-Type: application/json' -d \\\"{\\\\\\\"account_id\\\\\\\":\\\\\\\"$ACC\\\\\\\",\\\\\\\"description\\\\\\\":\\\\\\\"$d\\\\\\\",\\\\\\\"amount\\\\\\\":\\\\\\\"$a\\\\\\\",\\\\\\\"currency\\\\\\\":\\\\\\\"EUR\\\\\\\",\\\\\\\"date\\\\\\\":\\\\\\\"$(date +%Y-%m-%d)\\\\\\\",\\\\\\\"type\\\\\\\":\\\\\\\"$t\\\\\\\",\\\\\\\"source\\\\\\\":\\\\\\\"manual\\\\\\\",\\\\\\\"category_id\\\\\\\":\\\\\\\"$CAT\\\\\\\"}\\\" -o /dev/null -w \\\"$d %{http_code}\\\\n\\\"; done; curl -s -m 15 -X POST $B/accounts/$ACC/close -H \\\"$H\\\" -o /dev/null -w \\\"close %{http_code}\\\\n\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:56:49.843Z",
+      "lastAccessed": "2026-10-08T16:56:49.843Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:56:49.843Z"
+    },
+    "cmd-1791478621063": {
+      "key": "cmd-1791478621063",
+      "value": "{\"command\":\"B=http://127.0.0.1:8000/api; TOKEN=$(cat \\\"$TEMP/qa_token.txt\\\"); H=\\\"Authorization: Bearer $TOKEN\\\"; M=$(date +%Y-%m)-01; probe() { echo \\\"--- $1\\\"; python - \\\"$B\\\" \\\"$TOKEN\\\" \\\"$M\\\" <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:57:01.063Z",
+      "lastAccessed": "2026-10-08T16:57:01.063Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:57:01.063Z"
+    },
+    "cmd-1791478642345": {
+      "key": "cmd-1791478642345",
+      "value": "{\"command\":\"git checkout -q main && sleep 8 && B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); echo \\\"$TOKEN\\\" > \\\"$TEMP/qa_token.txt\\\"; M=$(date +%Y-%m)-01; python - \\\"$B\\\" \\\"$TOKEN\\\" \\\"$M\\\" <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:57:22.345Z",
+      "lastAccessed": "2026-10-08T16:57:22.345Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:57:22.345Z"
+    },
+    "cmd-1791478656665": {
+      "key": "cmd-1791478656665",
+      "value": "{\"command\":\"rtk git branch --show-current; rtk grep -c \\\"Account.is_closed == False\\\" backend/app/services/dashboard_service.py; docker compose -p securo-qa exec -T backend grep -c \\\"Account.is_closed == False\\\" /app/app/services/dashboard_service.py; docker compose -p securo-qa logs backend --tail 400 2>&1 | grep -iE \\\"Detected|reloading|Reloading|changes in\\\" | tail -3\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:57:36.665Z",
+      "lastAccessed": "2026-10-08T16:57:36.665Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:57:36.665Z"
+    },
+    "cmd-1791478674797": {
+      "key": "cmd-1791478674797",
+      "value": "{\"command\":\"git checkout -q fix/1112-closed-account-history && rtk git add backend/app/services/dashboard_service.py backend/app/services/report_service.py backend/app/services/transaction_calendar_service.py backend/app/services/transaction_service.py backend/tests/test_dashboard_service.py backend/tests/test_report_service_coverage.py backend/tests/test_transaction_calendar_service.py && rtk git status --short | grep -v \\\"^??\\\" && rtk git commit -q -m \\\"fix(accounts): keep a closed account's history in period reports\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:57:54.797Z",
+      "lastAccessed": "2026-10-08T16:57:54.797Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:57:54.797Z"
+    },
+    "cmd-1791478697753": {
+      "key": "cmd-1791478697753",
+      "value": "{\"command\":\"sleep 10; B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); echo \\\"$TOKEN\\\" > \\\"$TEMP/qa_token.txt\\\"; M=$(date +%Y-%m)-01; cat > \\\"$TEMP/probe.py\\\" <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:58:17.753Z",
+      "lastAccessed": "2026-10-08T16:58:17.753Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:58:17.753Z"
+    },
+    "cmd-1791478745019": {
+      "key": "cmd-1791478745019",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791478735935-52b9n9.png\\\" \\\"$SHOTS/1112-dashboard-before.png\\\"; echo ok\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:59:05.019Z",
+      "lastAccessed": "2026-10-08T16:59:05.019Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:59:05.019Z"
+    },
+    "cmd-1791478784060": {
+      "key": "cmd-1791478784060",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791478758169-jxowg6.png\\\" \\\"$SHOTS/1112-report-before.png\\\"; cd /d/ProjetosPessoal/securo && git checkout -q fix/1112-closed-account-history && git log --oneline -1 && sleep 10; B=http://127.0.0.1:8000/api; EMAIL=$(sed -n 1p secrets/qa-test-account.txt); PASS=$(sed -n 2p secrets/qa-test-account.txt); TOKEN=$(curl -s -m 15 -X POST $B/auth/login --data-urlencode \\\"username=$EMAIL\\\" --data-urlencode \\\"password=$PASS\\\" | python -c \\\"import sys,json;print(json.load(sys.stdin)['access_token'])\\\"); python \\\"$TEMP/probe.py\\\" \\\"$B\\\" \\\"$TOKEN\\\" \\\"$(date +%Y-%m)-01\\\" \\\"BRANCH\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:59:44.060Z",
+      "lastAccessed": "2026-10-08T16:59:44.060Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:59:44.060Z"
+    },
+    "cmd-1791479943756": {
+      "key": "cmd-1791479943756",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791479933774-avrnhb.png\\\" \\\"$SHOTS/1112-report-after.png\\\"; echo ok\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T17:19:03.756Z",
+      "lastAccessed": "2026-10-08T17:19:03.756Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T17:19:03.756Z"
+    },
+    "cmd-1791479964253": {
+      "key": "cmd-1791479964253",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; TR=\\\"C:/Users/camor/.claude/projects/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/tool-results\\\"; cp \\\"$TR/mcp-Claude_Browser-blob-1791479947637-gdhfj5.png\\\" \\\"$SHOTS/1112-dashboard-after.png\\\"; F=rogeriocamorim/securo; for f in 1112-dashboard-before 1112-dashboard-after 1112-report-before 1112-report-after; do base64 -w0 \\\"$SHOTS/$f.png\\\" > \\\"$SHOTS/$f.b64\\\"; python -c \\\"import json,sys;print(json.dumps({'message':'Add screenshot $f','branch':'pr-screenshots','content':open(sys.argv[1]).read()}))\\\" \\\"$SHOTS/$f.b64\\\" > \\\"$SHOTS/$f.json\\\"; gh api -X PUT repos/$F/contents/screenshots/$f.png --input \\\"$SHOTS/$f.json\\\" -q .content.download_url; done; echo \\\"upstream main: $(gh api repos/securo-finance/securo/commits/main -q .sha | cut -c1-7)  local base: $(cd /d/ProjetosPessoal/securo && git merge-base main fix/1112-closed-account-history | cut -c1-7)\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T17:19:24.253Z",
+      "lastAccessed": "2026-10-08T17:19:24.253Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T17:19:24.253Z"
+    },
+    "cmd-1791479989491": {
+      "key": "cmd-1791479989491",
+      "value": "{\"command\":\"F=rogeriocamorim/securo; rtk gh api repos/$F/branches --paginate -q '.[].name' | head -20; for f in 1036-before 1072-recurring-before 1127-picked; do curl -s -o /dev/null -m 15 -w \\\"$f %{http_code}\\\\n\\\" https://raw.githubusercontent.com/$F/pr-screenshots/screenshots/$f.png; done; rtk gh api repos/$F -q '\\\"default=\\\\(.default_branch) pushed=\\\\(.pushed_at) updated=\\\\(.updated_at)\\\"'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T17:19:49.491Z",
+      "lastAccessed": "2026-10-08T17:19:49.491Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T17:19:49.491Z"
+    },
+    "cmd-1791480036742": {
+      "key": "cmd-1791480036742",
+      "value": "{\"command\":\"SHOTS=\\\"C:/Users/camor/AppData/Local/Temp/claude/D--ProjetosPessoal-securo/6070e381-41b2-4cee-9604-6c5295b8cf02/scratchpad/shots\\\"; F=rogeriocamorim/securo; SHA=$(gh api repos/$F/git/ref/heads/main -q .object.sha); gh api -X POST repos/$F/git/refs -f ref=refs/heads/pr-screenshots -f sha=$SHA -q .ref; ls \\\"$SHOTS\\\"/*.png | wc -l; for p in \\\"$SHOTS\\\"/*.png; do f=$(basename \\\"$p\\\" .png); base64 -w0 \\\"$p\\\" > \\\"$SHOTS/$f.b64\\\"; python -c \\\"import json,sys;print(json.dumps({'message':'Add screenshot $f','branch':'pr-screenshots','content':open(sys.argv[1]).read()}))\\\" \\\"$SHOTS/$f.b64\\\" > \\\"$SHOTS/$f.json\\\"; gh api -X PUT repos/$F/contents/screenshots/$f.png --input \\\"$SHOTS/$f.json\\\" -q '.content.path' ; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T17:20:36.742Z",
+      "lastAccessed": "2026-10-08T17:20:36.742Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T17:20:36.742Z"
+    },
+    "cmd-1791480054857": {
+      "key": "cmd-1791480054857",
+      "value": "{\"command\":\"F=rogeriocamorim/securo; bad=0; for f in $(gh api \\\"repos/$F/contents/screenshots?ref=pr-screenshots\\\" -q '.[].name'); do c=$(curl -s -o /dev/null -m 15 -w \\\"%{http_code}\\\" https://raw.githubusercontent.com/$F/pr-screenshots/screenshots/$f); [ \\\"$c\\\" != 200 ] && { echo \\\"$f $c\\\"; bad=1; }; done; echo \\\"all-200: $([ $bad = 0 ] && echo yes || echo no)\\\"; gh api repos/$F/branches/pr-screenshots -q .protected\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T17:20:54.857Z",
+      "lastAccessed": "2026-10-08T17:20:54.857Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T17:20:54.857Z"
+    },
+    "cmd-1791480083400": {
+      "key": "cmd-1791480083400",
+      "value": "{\"command\":\"echo \\\"traces: $(git log main..fix/1112-closed-account-history --format=%B | grep -ci 'claude\\\\|co-authored\\\\|anthropic')\\\"; git push -q -u fork fix/1112-closed-account-history 2>&1 | tail -1; IMG=https://raw.githubusercontent.com/rogeriocamorim/securo/pr-screenshots/screenshots; cat > \\\"$TEMP/pr1112.md\\\" <<EOF\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T17:21:23.400Z",
+      "lastAccessed": "2026-10-08T17:21:23.400Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T17:21:23.400Z"
+    },
+    "cmd-1791480100758": {
+      "key": "cmd-1791480100758",
+      "value": "{\"command\":\"R=securo-finance/securo; gh pr view 1133 -R $R --json body -q .body > \\\"$TEMP/b1133.md\\\"; python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T17:21:40.758Z",
+      "lastAccessed": "2026-10-08T17:21:40.758Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T17:21:40.758Z"
+    },
+    "cmd-1791480124401": {
+      "key": "cmd-1791480124401",
+      "value": "{\"command\":\"R=securo-finance/securo; for n in 1128 1129 1130 1131 1132 1133; do echo \\\"== $n $(gh pr view $n -R $R --json state,mergeable -q '\\\"\\\\(.state) \\\\(.mergeable)\\\"') | unresolved: $(gh api graphql -f query=\\\"query{repository(owner:\\\\\\\"securo-finance\\\\\\\",name:\\\\\\\"securo\\\\\\\"){pullRequest(number:$n){reviewThreads(first:50){nodes{isResolved}}}}}\\\" -q '[.data.repository.pullRequest.reviewThreads.nodes[]|select(.isResolved==false)]|length') | human comments: $(gh pr view $n -R $R --json comments,reviews -q '[.comments[], .reviews[]] | map(select(.author.login != \\\"coderabbitai\\\" and .author.login != \\\"github-actions\\\" and .author.login != \\\"rogeriocamorim\\\")) | length')\\\"; done; gh pr checks 1133 -R $R 2>&1 | head -4\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T17:22:04.401Z",
+      "lastAccessed": "2026-10-08T17:22:04.401Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T17:22:04.401Z"
+    }
+  },
+  "version": "3.0.0"
+}

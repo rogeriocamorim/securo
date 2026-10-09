@@ -147,6 +147,8 @@ def counts_as_pnl():
       - transactions flagged `exclude_from_pnl=True` (kept in balance,
         omitted from income and expense calculations),
       - transactions in categories flagged `is_ignored=True` (user-marked as not to be reported).
+      - return/refund credits (type=credit in expense categories): these
+        reduce expenses, they are not income.
 
     Does NOT exclude `source='opening_balance'` — callers that already
     filter those keep doing so; this helper only handles the transfer-like
@@ -163,6 +165,18 @@ def counts_as_pnl():
         # over-recorded expense from when the receiver paid the full
         # parent transaction. So we keep credits, drop debits.
         ~and_(Transaction.source == "settlement", Transaction.type == "debit"),
+        # Product returns / credit-notes are credits booked in expense
+        # categories. They reduce net expense but are not income. When a
+        # credit lands in a transfer-like or expense category without a
+        # paired transfer, it's almost certainly a return and must not
+        # inflate income totals (issue #804).
+        ~and_(
+            Transaction.type == "credit",
+            or_(
+                Transaction.category_id.is_not(None),
+                Transaction.transfer_pair_id.is_not(None),
+            ),
+        ),
         or_(
             Transaction.category_id.is_(None),
             Transaction.category_id.not_in(

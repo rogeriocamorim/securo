@@ -1,0 +1,419 @@
+{
+  "entries": {
+    "cmd-1791462061118": {
+      "key": "cmd-1791462061118",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend && rtk grep -n -A25 'tool.pytest' pyproject.toml; sed -n 1,80p tests/conftest.py; rtk read app/core/workspace_context.py --max-lines 60; rtk read app/core/workspace_autostamp.py --max-lines 50; rtk read app/core/module_gate.py --max-lines 40; rtk read app/core/app_clock.py --max-lines 40\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:21:01.118Z",
+      "lastAccessed": "2026-10-08T12:21:01.118Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:21:01.118Z"
+    },
+    "cmd-1791463768199": {
+      "key": "cmd-1791463768199",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend && sed -n 1,80p app/services/search_service.py; rtk grep -n \\\"Mapped\\\\[\\\" app/models/transaction.py | head -40\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:49:28.199Z",
+      "lastAccessed": "2026-10-08T12:49:28.199Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:49:28.199Z"
+    },
+    "cmd-1791463777690": {
+      "key": "cmd-1791463777690",
+      "value": "{\"command\":\"sed -n 64,90p app/models/transaction.py | grep -n \\\"Mapped\\\"; rtk grep -n \\\"Transaction\\\\.\\\" app/services/search_service.py | head -20\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:49:37.690Z",
+      "lastAccessed": "2026-10-08T12:49:37.690Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:49:37.690Z"
+    },
+    "cmd-1791463787366": {
+      "key": "cmd-1791463787366",
+      "value": "{\"command\":\"rtk grep -n \\\"opening_balance\\\\|is_ignored\\\\|ignored\\\" app/models/transaction.py | head; rtk grep -n \\\"include_opening_balance\\\" app/services/transaction_service.py | head -5; rtk grep -n \\\"OPENING\\\\|opening\\\" app/services/transaction_service.py | head -8\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:49:47.366Z",
+      "lastAccessed": "2026-10-08T12:49:47.366Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:49:47.366Z"
+    },
+    "cmd-1791463803494": {
+      "key": "cmd-1791463803494",
+      "value": "{\"command\":\"sed -n 1,37p app/services/transaction_service.py; rtk read app/services/transaction_service.py --tail-lines 5; sed -n 440,457p app/api/transactions.py; sed -n 26,32p app/api/transactions.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:50:03.494Z",
+      "lastAccessed": "2026-10-08T12:50:03.494Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:50:03.494Z"
+    },
+    "cmd-1791463810686": {
+      "key": "cmd-1791463810686",
+      "value": "{\"command\":\"sed -n 265,276p app/schemas/transaction.py; sed -n 170,190p app/api/transactions.py; sed -n 1,15p app/schemas/transaction.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:50:10.686Z",
+      "lastAccessed": "2026-10-08T12:50:10.686Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:50:10.686Z"
+    },
+    "cmd-1791463831016": {
+      "key": "cmd-1791463831016",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:50:31.016Z",
+      "lastAccessed": "2026-10-08T12:50:31.016Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:50:31.016Z"
+    },
+    "cmd-1791463848263": {
+      "key": "cmd-1791463848263",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:50:48.263Z",
+      "lastAccessed": "2026-10-08T12:50:48.263Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:50:48.263Z"
+    },
+    "cmd-1791463856886": {
+      "key": "cmd-1791463856886",
+      "value": "{\"command\":\"sed -n 1960,2025p app/services/transaction_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:50:56.886Z",
+      "lastAccessed": "2026-10-08T12:50:56.886Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:50:56.886Z"
+    },
+    "cmd-1791463883654": {
+      "key": "cmd-1791463883654",
+      "value": "{\"command\":\"rtk grep -n \\\"^async def \\\\|^def \\\\|@pytest_asyncio.fixture\\\\|@pytest.fixture\\\" tests/conftest.py | grep -v \\\"^.*fixture$\\\" | head -40; rtk ls tests | grep -i \\\"transactions_api\\\\|search\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:51:23.654Z",
+      "lastAccessed": "2026-10-08T12:51:23.654Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:51:23.654Z"
+    },
+    "cmd-1791463896573": {
+      "key": "cmd-1791463896573",
+      "value": "{\"command\":\"sed -n 1,80p tests/test_search_api.py; rtk grep -n \\\"^async def \\\\|^def \\\" tests/conftest.py | sed -n 14,60p\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:51:36.573Z",
+      "lastAccessed": "2026-10-08T12:51:36.573Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:51:36.573Z"
+    },
+    "cmd-1791463908913": {
+      "key": "cmd-1791463908913",
+      "value": "{\"command\":\"sed -n 244,300p tests/conftest.py; sed -n 1,60p tests/test_asset_group_workspace_scope.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:51:48.913Z",
+      "lastAccessed": "2026-10-08T12:51:48.913Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:51:48.913Z"
+    },
+    "cmd-1791463945525": {
+      "key": "cmd-1791463945525",
+      "value": "{\"command\":\"rtk ls .venv >/dev/null 2>&1 && echo venv; uv run --no-sync pytest tests/test_description_suggestions.py -q -W error 2>&1 | tail -20\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:52:25.525Z",
+      "lastAccessed": "2026-10-08T12:52:25.525Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:52:25.525Z"
+    },
+    "cmd-1791463967530": {
+      "key": "cmd-1791463967530",
+      "value": "{\"command\":\"rtk read .python-version; rtk uv sync --all-extras --locked 2>&1 | tail -5\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:52:47.530Z",
+      "lastAccessed": "2026-10-08T12:52:47.530Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:52:47.530Z"
+    },
+    "cmd-1791463982560": {
+      "key": "cmd-1791463982560",
+      "value": "{\"command\":\"uv run --no-sync pytest tests/test_description_suggestions.py -q -W error 2>&1 | tail -25\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:53:02.560Z",
+      "lastAccessed": "2026-10-08T12:53:02.560Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:53:02.560Z"
+    },
+    "cmd-1791464016523": {
+      "key": "cmd-1791464016523",
+      "value": "{\"command\":\"uv run --no-sync ruff check app/services/transaction_service.py app/api/transactions.py app/schemas/transaction.py tests/test_description_suggestions.py && uv run --no-sync ty check . 2>&1 | tail -5\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:53:36.523Z",
+      "lastAccessed": "2026-10-08T12:53:36.523Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:53:36.523Z"
+    },
+    "cmd-1791464023768": {
+      "key": "cmd-1791464023768",
+      "value": "{\"command\":\"uv run --no-sync ty check . 2>&1 | grep -E \\\"^(error|warning)|-->\\\" | head -12\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T12:53:43.768Z",
+      "lastAccessed": "2026-10-08T12:53:43.768Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T12:53:43.768Z"
+    },
+    "cmd-1791465647106": {
+      "key": "cmd-1791465647106",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend && rtk grep -n \\\"@router\\\\|class .*BaseModel\\\" -A6 app/api/setup.py | grep -n \\\"router\\\\|:\\\" | head -20; rtk grep -n \\\"login\\\\|jwt\\\" app/main.py | head -5\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:20:47.106Z",
+      "lastAccessed": "2026-10-08T13:20:47.106Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:20:47.106Z"
+    },
+    "cmd-1791465656437": {
+      "key": "cmd-1791465656437",
+      "value": "{\"command\":\"sed -n 128,140p app/main.py; rtk grep -n \\\"@router.post\\\" -A3 app/api/custom_auth.py | head -12\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T13:20:56.437Z",
+      "lastAccessed": "2026-10-08T13:20:56.437Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T13:20:56.437Z"
+    },
+    "cmd-1791468161124": {
+      "key": "cmd-1791468161124",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:02:41.124Z",
+      "lastAccessed": "2026-10-08T14:02:41.124Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:02:41.124Z"
+    },
+    "cmd-1791468193040": {
+      "key": "cmd-1791468193040",
+      "value": "{\"command\":\"cat >> tests/test_description_suggestions.py <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:03:13.040Z",
+      "lastAccessed": "2026-10-08T14:03:13.040Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:03:13.040Z"
+    },
+    "cmd-1791468500091": {
+      "key": "cmd-1791468500091",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:08:20.091Z",
+      "lastAccessed": "2026-10-08T14:08:20.091Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:08:20.091Z"
+    },
+    "cmd-1791468747300": {
+      "key": "cmd-1791468747300",
+      "value": "{\"command\":\"git checkout -q feat/1127-description-autocomplete && cd backend && uv run --no-sync pytest -n auto --dist loadfile -q -W error -p no:cacheprovider 2>&1 | tail -4\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:12:27.300Z",
+      "lastAccessed": "2026-10-08T14:12:27.300Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:12:27.300Z"
+    },
+    "cmd-1791469551783": {
+      "key": "cmd-1791469551783",
+      "value": "{\"command\":\"R=securo-finance/securo; for n in 1128 1129 1130; do echo \\\"== $n\\\"; rtk gh api repos/$R/pulls/$n/comments -q '.[] | \\\"\\\\(.id) reply_to=\\\\(.in_reply_to_id) \\\\(.user.login) \\\\(.path):\\\\(.line // .original_line)\\\"'; gh pr view $n -R $R --json comments -q '.comments[] | select(.author.login!=\\\"coderabbitai\\\") | \\\"HUMAN \\\\(.author.login): \\\\(.body[0:120])\\\"'; done\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T14:25:51.783Z",
+      "lastAccessed": "2026-10-08T14:25:51.783Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T14:25:51.783Z"
+    },
+    "cmd-1791472664136": {
+      "key": "cmd-1791472664136",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend && rtk grep -n \\\"amount\\\" app/services/rule_service.py | head -40\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:17:44.136Z",
+      "lastAccessed": "2026-10-08T15:17:44.136Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:17:44.136Z"
+    },
+    "cmd-1791472710030": {
+      "key": "cmd-1791472710030",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend && rtk grep -n \\\"is_closed\\\\|closed_at\\\" app/services/report_service.py app/services/dashboard_service.py app/services/_query_filters.py | head -30; rtk grep -n \\\"is_closed\\\\|closed\\\" app/models/account.py | head\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T15:18:30.030Z",
+      "lastAccessed": "2026-10-08T15:18:30.030Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T15:18:30.030Z"
+    },
+    "cmd-1791478127177": {
+      "key": "cmd-1791478127177",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend && sed -n 722,736p app/services/dashboard_service.py; rtk git log --oneline -S\\\"Account.is_closed == False\\\" -- app/services/dashboard_service.py app/services/report_service.py app/services/transaction_service.py | tail -6\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:48:47.177Z",
+      "lastAccessed": "2026-10-08T16:48:47.177Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:48:47.177Z"
+    },
+    "cmd-1791478139721": {
+      "key": "cmd-1791478139721",
+      "value": "{\"command\":\"rtk grep -rln \\\"is_closed\\\\|close_account\\\\|/close\\\" tests | head; echo ---; rtk grep -rn \\\"closed\\\" tests/test_dashboard_service.py tests/test_report_service.py tests/test_report_service_coverage.py tests/test_transaction_calendar*.py tests/test_transactions_api*.py 2>/dev/null | head -20; echo ---; sed -n 1,80p tests/test_account_closure_api.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:48:59.721Z",
+      "lastAccessed": "2026-10-08T16:48:59.721Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:48:59.721Z"
+    },
+    "cmd-1791478165724": {
+      "key": "cmd-1791478165724",
+      "value": "{\"command\":\"sed -n 376,440p tests/test_dashboard_service.py; echo =====report; sed -n 462,478p app/services/report_service.py; sed -n 800,815p app/services/report_service.py; sed -n 864,880p app/services/report_service.py; sed -n 905,918p app/services/report_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:49:25.724Z",
+      "lastAccessed": "2026-10-08T16:49:25.724Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:49:25.724Z"
+    },
+    "cmd-1791478253265": {
+      "key": "cmd-1791478253265",
+      "value": "{\"command\":\"cd /d/ProjetosPessoal/securo/backend && rtk git diff app/services/report_service.py app/services/transaction_calendar_service.py | grep \\\"^[+-]\\\" | grep -v \\\"^+++\\\\|^---\\\"; rtk grep -n \\\"^from app.models.account\\\\|Account\\\\b\\\" app/services/transaction_service.py | head -5; uv run --no-sync ruff check app/services/ 2>&1 | tail -8\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:50:53.265Z",
+      "lastAccessed": "2026-10-08T16:50:53.265Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:50:53.265Z"
+    },
+    "cmd-1791478262294": {
+      "key": "cmd-1791478262294",
+      "value": "{\"command\":\"rtk proxy git diff -U2 app/services/report_service.py app/services/transaction_calendar_service.py | grep -E \\\"^(\\\\+|-|@@)\\\" | grep -vE \\\"^(\\\\+\\\\+\\\\+|---)\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:51:02.294Z",
+      "lastAccessed": "2026-10-08T16:51:02.294Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:51:02.294Z"
+    },
+    "cmd-1791478297509": {
+      "key": "cmd-1791478297509",
+      "value": "{\"command\":\"uv run --no-sync pytest tests/test_dashboard_service.py tests/test_dashboard_service_coverage.py tests/test_report_service.py tests/test_report_service_coverage.py tests/test_transaction_calendar_service.py tests/test_transaction_service_coverage.py tests/test_transactions_api.py tests/test_account_closure_api.py tests/test_accounts_api.py tests/test_api_extended.py -q -W error -p no:cacheprovider 2>&1 | tail -12\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:51:37.509Z",
+      "lastAccessed": "2026-10-08T16:51:37.509Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:51:37.509Z"
+    },
+    "cmd-1791478309552": {
+      "key": "cmd-1791478309552",
+      "value": "{\"command\":\"rtk grep -n \\\"def test_income_expenses_excludes_opening_and_closed\\\" -B2 -A40 tests/test_report_service_coverage.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:51:49.552Z",
+      "lastAccessed": "2026-10-08T16:51:49.552Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:51:49.552Z"
+    },
+    "cmd-1791478323233": {
+      "key": "cmd-1791478323233",
+      "value": "{\"command\":\"sed -n 28,75p tests/test_dashboard_service.py; rtk grep -n \\\"class DashboardSummary\\\" -A22 app/schemas/dashboard.py | head -34; rtk grep -n \\\"^async def get_spending_by_category\\\\|^async def get_monthly_trend\\\\|^async def get_summary\\\" app/services/dashboard_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:52:03.233Z",
+      "lastAccessed": "2026-10-08T16:52:03.233Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:52:03.233Z"
+    },
+    "cmd-1791478337753": {
+      "key": "cmd-1791478337753",
+      "value": "{\"command\":\"rtk grep -n \\\"get_spending_by_category(\\\\|get_monthly_trend(\\\" tests/test_dashboard_service.py | head -4; rtk grep -n \\\"async def get_spending_by_category\\\" -A8 app/services/dashboard_service.py | head -12; rtk grep -n \\\"async def get_monthly_trend\\\" -A8 app/services/dashboard_service.py | head -12; rtk grep -n \\\"async def test_get_monthly_trend\\\\|async def test_spending_by_category\\\" -A22 tests/test_dashboard_service.py | head -50\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:52:17.753Z",
+      "lastAccessed": "2026-10-08T16:52:17.753Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:52:17.753Z"
+    },
+    "cmd-1791478353112": {
+      "key": "cmd-1791478353112",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:52:33.112Z",
+      "lastAccessed": "2026-10-08T16:52:33.112Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:52:33.112Z"
+    },
+    "cmd-1791478365408": {
+      "key": "cmd-1791478365408",
+      "value": "{\"command\":\"sed -i 's/^    get_summary,$/    get_monthly_trend,\\\\n    get_summary,/' tests/test_dashboard_service.py && python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:52:45.408Z",
+      "lastAccessed": "2026-10-08T16:52:45.408Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:52:45.408Z"
+    },
+    "cmd-1791478377363": {
+      "key": "cmd-1791478377363",
+      "value": "{\"command\":\"rtk ls tests | grep -i calendar; sed -n 1,70p tests/test_transaction_calendar_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:52:57.363Z",
+      "lastAccessed": "2026-10-08T16:52:57.363Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:52:57.363Z"
+    },
+    "cmd-1791478383867": {
+      "key": "cmd-1791478383867",
+      "value": "{\"command\":\"sed -n 70,130p tests/test_transaction_calendar_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:53:03.867Z",
+      "lastAccessed": "2026-10-08T16:53:03.867Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:53:03.867Z"
+    },
+    "cmd-1791478420320": {
+      "key": "cmd-1791478420320",
+      "value": "{\"command\":\"cat >> tests/test_transaction_calendar_service.py <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:53:40.320Z",
+      "lastAccessed": "2026-10-08T16:53:40.320Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:53:40.320Z"
+    },
+    "cmd-1791478449302": {
+      "key": "cmd-1791478449302",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:54:09.302Z",
+      "lastAccessed": "2026-10-08T16:54:09.302Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:54:09.302Z"
+    },
+    "cmd-1791478460616": {
+      "key": "cmd-1791478460616",
+      "value": "{\"command\":\"rtk grep -n \\\"accounts_count\\\" app/services/dashboard_service.py | head; rtk grep -n \\\"accounts_count\\\" -B12 app/services/dashboard_service.py | grep -n \\\"select\\\\|where\\\\|count\\\\|Account\\\" | head -12\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:54:20.616Z",
+      "lastAccessed": "2026-10-08T16:54:20.616Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:54:20.616Z"
+    },
+    "cmd-1791478494759": {
+      "key": "cmd-1791478494759",
+      "value": "{\"command\":\"python - <<'EOF'\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:54:54.759Z",
+      "lastAccessed": "2026-10-08T16:54:54.759Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:54:54.759Z"
+    },
+    "cmd-1791478504485": {
+      "key": "cmd-1791478504485",
+      "value": "{\"command\":\"sed -n 1218,1232p app/services/dashboard_service.py; rtk grep -n \\\"_get_open_accounts(\\\" tests/test_dashboard_service.py | head -3\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:55:04.485Z",
+      "lastAccessed": "2026-10-08T16:55:04.485Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:55:04.485Z"
+    },
+    "cmd-1791478515673": {
+      "key": "cmd-1791478515673",
+      "value": "{\"command\":\"sed -i 's/await _get_open_accounts(session, test_workspace.id, test_user.id)$/await _get_open_accounts(session, test_workspace.id)/' tests/test_dashboard_service.py && rtk grep -n \\\"_get_open_accounts(session\\\" tests/test_dashboard_service.py && uv run --no-sync pytest tests -q -W error -p no:cacheprovider -n auto --dist loadfile 2>&1 | tail -4; uv run --no-sync ruff check app/services tests/test_dashboard_service.py\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:55:15.673Z",
+      "lastAccessed": "2026-10-08T16:55:15.673Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:55:15.673Z"
+    },
+    "cmd-1791478587228": {
+      "key": "cmd-1791478587228",
+      "value": "{\"command\":\"uv run --no-sync pytest tests -q -W error -p no:cacheprovider -n auto --dist loadfile > \\\"$TEMP/be.log\\\" 2>&1; tail -4 \\\"$TEMP/be.log\\\"\",\"exitCode\":0,\"success\":true}",
+      "namespace": "commands",
+      "storedAt": "2026-10-08T16:56:27.228Z",
+      "lastAccessed": "2026-10-08T16:56:27.228Z",
+      "accessCount": 0,
+      "expiresAt": "2026-11-07T16:56:27.228Z"
+    }
+  },
+  "version": "3.0.0"
+}

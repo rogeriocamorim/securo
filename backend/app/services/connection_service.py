@@ -19,6 +19,7 @@ from app.models.asset_value import AssetValue
 from app.models.bank_connection import BankConnection
 from app.models.account import Account
 from app.models.category import Category
+from app.models.recurring_transaction import RecurringTransaction
 from app.models.institution import Institution
 from app.models.goal import Goal
 from app.models.collection import collection_asset_groups
@@ -1616,6 +1617,32 @@ async def _cleanup_phantom_duplicates(
 
     touched: set[uuid.UUID] = set()
     for tx in unmatched:
+        # Never delete a tx that could be a transfer leg: if the amount is
+        # positive (debit) in the current account, the counterpart is a
+        # credit (receivable) in *another* account.  Deleting it because
+        # another sibling happens to be paired would break that transfer.
+        # Guard: count how many unpaired txs with the same amount and
+        # opposite type exist across ALL accounts owned by the same user.
+        # When there's more than one (the current orphan + at least one
+        # other unpaired tx with opposite sign), we can't know which is the
+        # real leg — keep all of them.
+        user_txs = (
+            await session.execute(
+                select(Transaction).where(
+                    Transaction.user_id == tx.user_id,
+                    Transaction.account_id != tx.account_id,
+                    Transaction.source == "sync",
+                    Transaction.transfer_pair_id.is_(None),
+                    Transaction.amount == tx.amount,
+                    Transaction.type != tx.type,  # opposite sign
+                )
+            )
+        ).scalars().all()
+        if len(user_txs) >= 1:
+            # There's a potential counterpart in another account — keep this
+            # orphan; transfer detection may pair them on the next sync.
+            continue
+
         date_lo = tx.date - timedelta(days=1)
         date_hi = tx.date + timedelta(days=1)
         sibling_result = await session.execute(
@@ -2518,6 +2545,19 @@ async def delete_connection(
             .distinct()
         )
     ).scalars().all()
+
+    # Protect recurring transactions whose account_id FK has ON DELETE CASCADE:
+    # detach them so deleting the connection's accounts doesn't orphan them.
+    await session.execute(
+        update(RecurringTransaction)
+        .where(
+            RecurringTransaction.workspace_id == workspace_id,
+            RecurringTransaction.account_id.in_(
+                select(Account.id).where(Account.connection_id == connection.id)
+            ),
+        )
+        .values(account_id=None)
+    )
 
     await session.delete(connection)
     await session.flush()

@@ -812,6 +812,7 @@ function TransactionForm({
               ...pnlExclusionPayload,
               ...overridePayload,
               ...splitsPayload,
+              status,
             } as TransactionEditPayload
           : {
               description,
@@ -1069,7 +1070,6 @@ function TransactionForm({
             className="w-full border border-border rounded-md px-3 py-2 text-sm bg-card h-9 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-ring/30 focus-visible:ring-[2px]"
             value={status}
             onChange={(e) => setStatus(e.target.value as 'posted' | 'pending')}
-            disabled={isSynced}
           >
             <option value="posted">{t('transactions.statusPosted')}</option>
             <option value="pending">{t('transactions.statusPending')}</option>
