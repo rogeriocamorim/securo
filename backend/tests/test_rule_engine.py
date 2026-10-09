@@ -318,14 +318,16 @@ def test_not_equals_same_value():
 
 
 def test_gte_equal():
+    """Signed semantics: credit 25.50 >= 25.50 is True."""
     conditions = [{"field": "amount", "op": "gte", "value": 25.50}]
-    tx = make_tx(amount=Decimal("25.50"))
+    tx = make_tx(amount=Decimal("25.50"), type="credit")
     assert evaluate_conditions("and", conditions, tx) is True
 
 
 def test_gte_greater():
+    """Signed semantics: credit 25.50 >= 20 is True."""
     conditions = [{"field": "amount", "op": "gte", "value": 20}]
-    tx = make_tx(amount=Decimal("25.50"))
+    tx = make_tx(amount=Decimal("25.50"), type="credit")
     assert evaluate_conditions("and", conditions, tx) is True
 
 
@@ -348,9 +350,10 @@ def test_lte_less():
 
 
 def test_lte_greater():
+    """Signed semantics: debit -25.50 <= 20 is True, not False."""
     conditions = [{"field": "amount", "op": "lte", "value": 20}]
-    tx = make_tx(amount=Decimal("25.50"))
-    assert evaluate_conditions("and", conditions, tx) is False
+    tx = make_tx(amount=Decimal("25.50"), type="debit")
+    assert evaluate_conditions("and", conditions, tx) is True
 
 
 def test_date_gt():
@@ -570,7 +573,7 @@ def test_blank_numeric_value_never_matches():
 
 def test_zero_value_still_matches():
     """0 is a real value, not a blank one — it must keep working."""
-    tx = make_tx(amount=Decimal("25.50"))
+    tx = make_tx(amount=Decimal("25.50"), type="credit")
     conditions = [{"field": "amount", "op": "gt", "value": 0}]
     assert evaluate_conditions("and", conditions, tx) is True
 
@@ -631,11 +634,17 @@ def test_or_of_and_group():
         ),
     ]
     assert evaluate_conditions("or", conditions, make_tx(description="IFOOD PEDIDO")) is True
+    # credit 250 > 100 → True
     assert evaluate_conditions(
-        "or", conditions, make_tx(description="MERCADO X", amount=Decimal("250.00"))
+        "or", conditions, make_tx(description="MERCADO X", amount=Decimal("250.00"), type="credit")
     ) is True
+    # debit -250 > 100 → False
     assert evaluate_conditions(
-        "or", conditions, make_tx(description="MERCADO X", amount=Decimal("30.00"))
+        "or", conditions, make_tx(description="MERCADO X", amount=Decimal("250.00"), type="debit")
+    ) is False
+    # credit 30 > 100 → False
+    assert evaluate_conditions(
+        "or", conditions, make_tx(description="MERCADO X", amount=Decimal("30.00"), type="credit")
     ) is False
 
 
