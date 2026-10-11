@@ -427,6 +427,7 @@ async def category_allocation_deltas(
     primary_currency: Optional[str] = None,
     workspace_id: Optional[uuid.UUID] = None,
     debit_only: bool = False,
+    account_ids: Optional[list] = None,
 ) -> dict:
     """Return per-category adjustments caused by category splits.
 
@@ -453,6 +454,7 @@ async def category_allocation_deltas(
     )
 
     type_filter = [Transaction.type == "debit"] if debit_only else []
+    acct_filter = [Transaction.account_id.in_(account_ids)] if account_ids else []
 
     result = await session.execute(
         select(
@@ -463,13 +465,16 @@ async def category_allocation_deltas(
             func.sum(TransactionCategoryAllocation.amount),
         )
         .join(Transaction, TransactionCategoryAllocation.transaction_id == Transaction.id)
+        .join(Account, Transaction.account_id == Account.id)
         .where(
             *(
                 [Transaction.workspace_id == workspace_id]
                 if workspace_id is not None
                 else [Transaction.user_id == user_id]
             ),
+            Account.is_closed == False,
             *type_filter,
+            *acct_filter,
             Transaction.source != "opening_balance",
             date_col >= month_start,
             date_col < month_end,

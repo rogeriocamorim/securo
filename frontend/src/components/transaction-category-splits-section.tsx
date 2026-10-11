@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useDisplayLocale } from '@/hooks/use-display-locale'
 import { Trash2, Plus } from 'lucide-react'
 
-import { formatCurrency, parseAmountInput } from '@/lib/format'
+import { formatCurrency, parseAmountInput, formatAmountInput } from '@/lib/format'
 import type { CategoryAllocationsInput } from '@/types'
 import type { Category, CategoryGroup } from '@/types'
 import { Input } from '@/components/ui/input'
@@ -18,9 +18,13 @@ interface AllocationRow {
 
 const BLANK_ROW: AllocationRow = { category_id: '', amount: '' }
 
-function buildRows(value: CategoryAllocationsInput | null): AllocationRow[] {
+function buildRows(value: CategoryAllocationsInput | null, displayLocale: string): AllocationRow[] {
   if (!value || value.allocations.length === 0) return [{ ...BLANK_ROW }, { ...BLANK_ROW }]
-  return value.allocations.map((a) => ({ category_id: a.category_id, amount: a.amount, notes: a.notes }))
+  return value.allocations.map((a) => ({
+    category_id: a.category_id,
+    amount: formatAmountInput(Number(a.amount), displayLocale),
+    notes: a.notes
+  }))
 }
 
 export function TransactionCategorySplitsSection({
@@ -31,6 +35,8 @@ export function TransactionCategorySplitsSection({
   onValidityChange,
   categories,
   categoryGroups,
+  privacyMode = false,
+  onReveal,
 }: {
   amount: number
   currency: string
@@ -39,10 +45,12 @@ export function TransactionCategorySplitsSection({
   onValidityChange: (valid: boolean) => void
   categories: Category[]
   categoryGroups: CategoryGroup[]
+  privacyMode?: boolean
+  onReveal?: () => void
 }) {
   const { t } = useTranslation()
   const displayLocale = useDisplayLocale()
-  const rows = buildRows(value)
+  const rows = buildRows(value, displayLocale)
 
   const total = amount
 
@@ -105,14 +113,23 @@ export function TransactionCategorySplitsSection({
               />
             </div>
             <div className="w-28">
-              <Input
-                type="text"
-                inputMode="decimal"
-                placeholder="0.00"
-                value={row.amount}
-                onChange={(e) => update(i, { amount: e.target.value })}
-                className="text-right"
-              />
+              {privacyMode ? (
+                <div
+                  className="text-xs text-muted-foreground cursor-pointer hover:text-foreground"
+                  onClick={onReveal}
+                >
+                  [hidden]
+                </div>
+              ) : (
+                <Input
+                  type="text"
+                  inputMode="decimal"
+                  placeholder={formatAmountInput(0, displayLocale)}
+                  value={row.amount}
+                  onChange={(e) => update(i, { amount: e.target.value })}
+                  className="text-right"
+                />
+              )}
             </div>
             <Button
               type="button"
@@ -140,13 +157,15 @@ export function TransactionCategorySplitsSection({
         {t('splitGroups.categorySplits.addRow')}
       </Button>
 
-      <div className={`text-xs text-right ${isValid ? 'text-muted-foreground' : 'text-destructive'}`}>
-        {t('splitGroups.categorySplits.sum', {
-          sum: formatCurrency(rowSum, currency, displayLocale),
-          total: formatCurrency(total, currency, displayLocale),
-          currency,
-        })}
-      </div>
+      {!privacyMode && (
+        <div className={`text-xs text-right ${isValid ? 'text-muted-foreground' : 'text-destructive'}`}>
+          {t('splitGroups.categorySplits.sum', {
+            sum: formatCurrency(rowSum, currency, displayLocale),
+            total: formatCurrency(total, currency, displayLocale),
+            currency,
+          })}
+        </div>
+      )}
     </div>
   )
 }
