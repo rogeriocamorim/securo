@@ -1299,7 +1299,7 @@ function TransactionForm({
                   setSplitMode('category')
                   setSplits(null)
                   setSplitsValid(true)
-                  setCategoryId(null)
+                  setCategoryId('')
                 } else {
                   setSplitMode(null)
                   setSplits(null)
@@ -1335,7 +1335,7 @@ function TransactionForm({
                     setSplitMode('category')
                     setSplits(null)
                     setSplitsValid(true)
-                    setCategoryId(null)
+                    setCategoryId('')
                   }}
                   className={`text-xs px-3 py-1 rounded-full border transition-colors ${splitMode === 'category' ? 'bg-primary text-primary-foreground border-primary' : 'border-muted-foreground/30 text-muted-foreground'}`}
                 >
