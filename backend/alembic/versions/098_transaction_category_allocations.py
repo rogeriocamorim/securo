@@ -19,8 +19,8 @@ reports attribute each portion to its own category. Each allocation carries:
 Unique constraint: (transaction_id, category_id) — a category appears at
 most once per transaction.
 
-Revision ID: 097
-Revises: a9338a1741a6
+Revision ID: 098
+Revises: 097
 """
 from typing import Union, Sequence
 
@@ -28,8 +28,8 @@ import sqlalchemy as sa
 from alembic import op
 from sqlalchemy.dialects.postgresql import UUID
 
-revision: str = "097"
-down_revision: Union[str, Sequence[str], None] = "a9338a1741a6"
+revision: str = "098"
+down_revision: Union[str, Sequence[str], None] = "097"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

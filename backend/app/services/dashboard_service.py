@@ -832,14 +832,14 @@ async def get_spending_by_category(
                 }
 
     # Re-attribute spending from category-split transactions.
-    if not filtered:
-        alloc_deltas = await category_allocation_deltas(
-            session, user_id, month_start, month_end,
-            use_effective_date=accounting_mode == "accrual",
-            primary_currency=primary_currency,
-            workspace_id=workspace_id,
-            debit_only=True,
-        )
+    alloc_deltas = await category_allocation_deltas(
+        session, user_id, month_start, month_end,
+        use_effective_date=accounting_mode == "accrual",
+        primary_currency=primary_currency,
+        workspace_id=workspace_id,
+        debit_only=True,
+        account_ids=account_ids,
+    )
         if alloc_deltas:
             alloc_cat_meta_cache: dict[str, dict] = {}
             for cat_uuid, delta in alloc_deltas.items():
