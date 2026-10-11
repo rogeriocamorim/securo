@@ -814,6 +814,23 @@
   },
   "dashboard": {
     "title": "ダッシュボード",
+    "customize": {
+      "button": "カスタマイズ",
+      "title": "ダッシュボードをカスタマイズ",
+      "description": "表示するセクションと順序を選択します。",
+      "reset": "デフォルトに戻す",
+      "moveUp": "{{widget}}を上へ移動",
+      "moveDown": "{{widget}}を下へ移動",
+      "saveError": "ダッシュボードのレイアウトを保存できませんでした",
+      "widgets": {
+        "hero": "残高と月次サマリー",
+        "uncategorized": "未分類の取引",
+        "categorySpending": "カテゴリ別支出",
+        "balanceFlow": "残高推移",
+        "goals": "目標",
+        "transactions": "取引"
+      }
+    },
     "greetingMorning": "おはようございます",
     "greetingAfternoon": "こんにちは",
     "greetingEvening": "こんばんは",
