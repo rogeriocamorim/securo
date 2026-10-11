@@ -840,49 +840,49 @@ async def get_spending_by_category(
         debit_only=True,
         account_ids=account_ids,
     )
-        if alloc_deltas:
-            alloc_cat_meta_cache: dict[str, dict] = {}
-            for cat_uuid, delta in alloc_deltas.items():
-                if delta == 0 or cat_uuid is None:
-                    continue
-                cat_id = str(cat_uuid)
-                if delta < 0:
-                    # Parent category loses spending (re-attributed to alloc categories).
-                    if cat_id in spending_map:
-                        spending_map[cat_id]["total"] += delta
-                        if spending_map[cat_id]["total"] <= 0:
-                            spending_map.pop(cat_id)
-                    continue
-                if cat_id not in spending_map:
-                    if cat_id not in alloc_cat_meta_cache:
-                        meta_row = (
-                            await session.execute(
-                                select(Category.name, Category.icon, Category.color).where(
-                                    Category.id == cat_uuid
-                                )
-                            )
-                        ).one_or_none()
-                        if meta_row:
-                            alloc_cat_meta_cache[cat_id] = {
-                                "name": meta_row[0],
-                                "icon": meta_row[1],
-                                "color": meta_row[2],
-                            }
-                    meta = alloc_cat_meta_cache.get(
-                        cat_id,
-                        {"name": "Sem categoria", "icon": "circle-help", "color": "#6B7280"},
-                    )
-                    spending_map[cat_id] = {
-                        "name": meta["name"],
-                        "icon": meta["icon"],
-                        "color": meta["color"],
-                        "total": delta,
-                        "projected": 0.0,
-                    }
-                elif cat_id in spending_map:
+    if alloc_deltas:
+        alloc_cat_meta_cache: dict[str, dict] = {}
+        for cat_uuid, delta in alloc_deltas.items():
+            if delta == 0 or cat_uuid is None:
+                continue
+            cat_id = str(cat_uuid)
+            if delta < 0:
+                # Parent category loses spending (re-attributed to alloc categories).
+                if cat_id in spending_map:
                     spending_map[cat_id]["total"] += delta
                     if spending_map[cat_id]["total"] <= 0:
                         spending_map.pop(cat_id)
+                continue
+            if cat_id not in spending_map:
+                if cat_id not in alloc_cat_meta_cache:
+                    meta_row = (
+                        await session.execute(
+                            select(Category.name, Category.icon, Category.color).where(
+                                Category.id == cat_uuid
+                            )
+                        )
+                    ).one_or_none()
+                    if meta_row:
+                        alloc_cat_meta_cache[cat_id] = {
+                            "name": meta_row[0],
+                            "icon": meta_row[1],
+                            "color": meta_row[2],
+                        }
+                meta = alloc_cat_meta_cache.get(
+                    cat_id,
+                    {"name": "Sem categoria", "icon": "circle-help", "color": "#6B7280"},
+                )
+                spending_map[cat_id] = {
+                    "name": meta["name"],
+                    "icon": meta["icon"],
+                    "color": meta["color"],
+                    "total": delta,
+                    "projected": 0.0,
+                }
+            elif cat_id in spending_map:
+                spending_map[cat_id]["total"] += delta
+                if spending_map[cat_id]["total"] <= 0:
+                    spending_map.pop(cat_id)
 
     # Add virtual recurring projections (debit only), converted to primary currency
     projections = await _get_recurring_projections(
