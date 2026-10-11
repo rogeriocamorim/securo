@@ -814,6 +814,23 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "customize": {
+      "button": "Customize",
+      "title": "Customize dashboard",
+      "description": "Choose which sections appear and in what order.",
+      "reset": "Reset to default",
+      "moveUp": "Move {{widget}} up",
+      "moveDown": "Move {{widget}} down",
+      "saveError": "Could not save the dashboard layout",
+      "widgets": {
+        "hero": "Balance and monthly summary",
+        "uncategorized": "Uncategorized transactions",
+        "categorySpending": "Spending by category",
+        "balanceFlow": "Balance flow",
+        "goals": "Goals",
+        "transactions": "Transactions"
+      }
+    },
     "greetingMorning": "Good morning",
     "greetingAfternoon": "Good afternoon",
     "greetingEvening": "Good evening",
@@ -894,6 +911,7 @@
     "category": "Category",
     "account": "Account",
     "noCategory": "No category",
+    "splitByCategory": "Split",
     "searchCategory": "Search category...",
     "noCategoryFound": "No category found.",
     "searchRule": "Search rule...",
@@ -1350,7 +1368,10 @@
     "confirmDeleteDescription": "The budget for \"{{name}}\" will be permanently deleted. Existing transactions are not affected. This action cannot be undone.",
     "confirmDeleteRecurringDescription": "The recurring budget for \"{{name}}\" will be permanently deleted. This definition will no longer apply to later months. Existing transactions are not affected. This action cannot be undone.",
     "repeatEveryMonth": "Repeat every month",
-    "recurringLabel": "Recurring"
+    "recurringLabel": "Recurring",
+    "monthTotal": "Month total",
+    "remaining": "{{amount}} left",
+    "overBy": "{{amount}} over budget"
   },
   "goals": {
     "title": "Goals",
@@ -2257,6 +2278,17 @@
       "project": "Project",
       "client": "Client",
       "other": "Other"
+    },
+    "categorySplits": {
+      "title": "Split by category",
+      "addRow": "Add category",
+      "category": "Category",
+      "amount": "Amount",
+      "remove": "Remove",
+      "sum": "Sum: {{sum}} / {{total}} {{currency}}",
+      "badge": "Split",
+      "modeAmongPeople": "Among people",
+      "modeByCategory": "By category"
     }
   },
   "privacy": {
