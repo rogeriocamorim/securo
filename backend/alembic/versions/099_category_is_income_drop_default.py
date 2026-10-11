@@ -14,16 +14,16 @@ Existing rows are left alone: a stored False may be a deliberate choice made
 through the UI, and this migration cannot tell those apart from backfilled
 ones.
 
-Revision ID: 098
-Revises: 097
+Revision ID: 099
+Revises: 098
 """
 from typing import Sequence, Union
 
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision: str = "098"
-down_revision: Union[str, Sequence[str], None] = "097"
+revision: str = "099"
+down_revision: Union[str, Sequence[str], None] = "098"
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
