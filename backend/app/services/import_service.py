@@ -928,9 +928,7 @@ async def import_transactions(
             # Count-based dedup: only skip if DB already has >= file count for
             # this dedup key, minus any we've already inserted in this batch.
             file_count = dedup_counts[dedup_key]
-            db_match_count_stmt = select(
-                Transaction.id
-            ).where(existing_statement.whereclause)
+            db_match_count_stmt = existing_statement.with_only_columns(Transaction.id)
             db_match_count = await session.execute(db_match_count_stmt)
             db_match_count = len(db_match_count.scalars().all())
             already_imported_in_batch = sum(

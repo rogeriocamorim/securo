@@ -718,7 +718,7 @@ async def test_net_worth_investment_asset_skipped_when_connection_synced(
     await session.flush()
 
     # Investment account with balance that already includes holdings
-    acct = await _make_account(
+    await _make_account(
         session, test_user.id, "Fidelity Demo",
         acc_type="investment", balance="1000.00",
         connection_id=conn.id,
