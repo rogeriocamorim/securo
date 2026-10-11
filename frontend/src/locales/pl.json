@@ -822,6 +822,23 @@
   },
   "dashboard": {
     "title": "Pulpit",
+    "customize": {
+      "button": "Dostosuj",
+      "title": "Dostosuj pulpit",
+      "description": "Wybierz, które sekcje się pojawiają i w jakiej kolejności.",
+      "reset": "Przywróć domyślne",
+      "moveUp": "Przesuń {{widget}} w górę",
+      "moveDown": "Przesuń {{widget}} w dół",
+      "saveError": "Nie udało się zapisać układu pulpitu",
+      "widgets": {
+        "hero": "Saldo i podsumowanie miesiąca",
+        "uncategorized": "Transakcje bez kategorii",
+        "categorySpending": "Wydatki według kategorii",
+        "balanceFlow": "Przepływ salda",
+        "goals": "Cele",
+        "transactions": "Transakcje"
+      }
+    },
     "greetingMorning": "Dzień dobry",
     "greetingAfternoon": "Dzień dobry",
     "greetingEvening": "Dobry wieczór",

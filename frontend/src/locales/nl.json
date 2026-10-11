@@ -814,6 +814,23 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "customize": {
+      "button": "Aanpassen",
+      "title": "Dashboard aanpassen",
+      "description": "Kies welke secties verschijnen en in welke volgorde.",
+      "reset": "Standaard herstellen",
+      "moveUp": "{{widget}} omhoog",
+      "moveDown": "{{widget}} omlaag",
+      "saveError": "Kon de dashboardindeling niet opslaan",
+      "widgets": {
+        "hero": "Saldo en maandoverzicht",
+        "uncategorized": "Niet-gecategoriseerde transacties",
+        "categorySpending": "Uitgaven per categorie",
+        "balanceFlow": "Saldoverloop",
+        "goals": "Doelen",
+        "transactions": "Transacties"
+      }
+    },
     "greetingMorning": "Goedemorgen",
     "greetingAfternoon": "Goedemiddag",
     "greetingEvening": "Goedenavond",
