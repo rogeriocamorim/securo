@@ -87,6 +87,8 @@ export interface UserPreferences {
   currency_display?: string
   display_name?: string
   onboarding_completed?: boolean
+  // Shape enforced by resolveLayout() in components/dashboard/widgets.ts.
+  dashboard_layout?: { order: string[]; hidden: string[] }
 }
 
 export interface Category {

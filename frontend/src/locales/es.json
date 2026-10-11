@@ -816,6 +816,23 @@
   },
   "dashboard": {
     "title": "Inicio",
+    "customize": {
+      "button": "Personalizar",
+      "title": "Personalizar panel",
+      "description": "Elige qué secciones aparecen y en qué orden.",
+      "reset": "Restablecer predeterminado",
+      "moveUp": "Mover {{widget}} arriba",
+      "moveDown": "Mover {{widget}} abajo",
+      "saveError": "No se pudo guardar el diseño del panel",
+      "widgets": {
+        "hero": "Saldo y resumen del mes",
+        "uncategorized": "Transacciones sin categoría",
+        "categorySpending": "Gastos por categoría",
+        "balanceFlow": "Flujo del saldo",
+        "goals": "Metas",
+        "transactions": "Transacciones"
+      }
+    },
     "greetingMorning": "Buenos días",
     "greetingAfternoon": "Buenas tardes",
     "greetingEvening": "Buenas noches",
