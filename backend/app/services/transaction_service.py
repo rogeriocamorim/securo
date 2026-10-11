@@ -931,7 +931,7 @@ async def create_installment_series(
 
     await session.commit()
     for tx in created:
-        await session.refresh(tx, ["category", "splits"])
+        await session.refresh(tx, ["category", "splits", "category_allocations"])
     return created
 
 

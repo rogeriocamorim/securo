@@ -822,6 +822,23 @@
   },
   "dashboard": {
     "title": "Панель",
+    "customize": {
+      "button": "Налаштувати",
+      "title": "Налаштувати панель",
+      "description": "Виберіть, які розділи показувати і в якому порядку.",
+      "reset": "Скинути до типових",
+      "moveUp": "Перемістити «{{widget}}» вгору",
+      "moveDown": "Перемістити «{{widget}}» вниз",
+      "saveError": "Не вдалося зберегти макет панелі",
+      "widgets": {
+        "hero": "Баланс і підсумок місяця",
+        "uncategorized": "Транзакції без категорії",
+        "categorySpending": "Витрати за категоріями",
+        "balanceFlow": "Динаміка балансу",
+        "goals": "Цілі",
+        "transactions": "Транзакції"
+      }
+    },
     "greetingMorning": "Доброго ранку",
     "greetingAfternoon": "Добрий день",
     "greetingEvening": "Добрий вечір",

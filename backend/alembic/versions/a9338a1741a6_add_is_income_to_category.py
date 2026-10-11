@@ -21,9 +21,7 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     """Upgrade schema."""
     # Add is_income column to categories table
-    # NULL = fall back to txn_type heuristic (safe for existing rows).
-    # Explicitly set True/False only for newly created categories.
-    op.add_column('categories', sa.Column('is_income', sa.Boolean(), nullable=True))
+    op.add_column('categories', sa.Column('is_income', sa.Boolean(), nullable=True, server_default='false'))
 
 def downgrade() -> None:
     """Downgrade schema."""

@@ -1,5 +1,4 @@
 """Tests for TransactionCategoryAllocation model import and column structure."""
-import pytest
 
 
 def test_model_importable():
