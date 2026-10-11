@@ -511,7 +511,7 @@ function TransactionForm({
   const [categorySplitsValid, setCategorySplitsValid] = useState(true)
   const [categoryAllocations, setCategoryAllocations] = useState<CategoryAllocationsInput | null>(() => {
     const existing = (seed as Transaction | null | undefined)?.category_allocations
-    if (!existing || existing.length === 0) return null
+    if (!existing || existing.length < 2) return null
     return {
       allocations: existing.map((a) => ({
         category_id: a.category_id,
@@ -522,7 +522,7 @@ function TransactionForm({
   })
   const [hadInitialCategoryAllocations] = useState<boolean>(() => {
     const existing = (seed as Transaction | null | undefined)?.category_allocations
-    return !!(existing && existing.length > 0)
+    return !!(existing && existing.length >= 2)
   })
 
   // Split mode: null = no split shown, 'people' = among people, 'category' = by category
@@ -882,6 +882,7 @@ function TransactionForm({
               notes,
               fxFields,
               splits,
+              categoryAllocations,
               installmentCount,
               installmentFrequency,
               status,
