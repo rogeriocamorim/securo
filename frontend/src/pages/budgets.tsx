@@ -54,6 +54,30 @@ function SectionHeader({ title, action }: { title: string; action?: React.ReactN
   )
 }
 
+function budgetBarColor(pct: number) {
+  if (pct > 100) return 'bg-rose-500'
+  if (pct >= 80) return 'bg-amber-400'
+  return 'bg-emerald-500'
+}
+
+function BudgetBar({ pct, size }: { pct: number; size: 'sm' | 'md' }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div className={`flex-1 ${size === 'md' ? 'h-2' : 'h-1.5'} bg-muted/60 rounded-full overflow-hidden`}>
+        <div
+          className={`h-full rounded-full transition-all ${budgetBarColor(pct)}`}
+          style={{ width: `${Math.min(pct, 100)}%` }}
+        />
+      </div>
+      <span className="text-xs font-bold tabular-nums text-foreground shrink-0">{pct.toFixed(0)}%</span>
+    </div>
+  )
+}
+
+function percentOf(spent: number, budgeted: number) {
+  return budgeted > 0 ? (spent / budgeted) * 100 : 0
+}
+
 export default function BudgetsPage() {
   const { t, i18n } = useTranslation()
   const { mask } = usePrivacyMode()
@@ -74,6 +98,23 @@ export default function BudgetsPage() {
     queryKey: ['budgets', selectedMonth],
     queryFn: () => budgetsApi.list(monthParam),
   })
+
+  // Shares the 'budgets' prefix so the mutations below refresh spending too.
+  const { data: comparison } = useQuery({
+    queryKey: ['budgets', 'comparison', selectedMonth],
+    queryFn: () => budgetsApi.comparison(monthParam),
+  })
+
+  const spentByCategory = new Map(
+    (comparison ?? []).map((row) => [row.category_id, Number(row.actual_amount)]),
+  )
+  const totalBudgeted = (budgetsList ?? []).reduce((sum, b) => sum + Number(b.amount), 0)
+  const totalSpent = (budgetsList ?? []).reduce(
+    (sum, b) => sum + (spentByCategory.get(b.category_id) ?? 0),
+    0,
+  )
+  const totalPct = percentOf(totalSpent, totalBudgeted)
+  const totalDiff = totalBudgeted - totalSpent
 
   const { data: categoriesList } = useQuery({
     queryKey: ['categories'],
@@ -203,12 +244,36 @@ export default function BudgetsPage() {
             ) : undefined
           }
         />
+        {budgetsList && budgetsList.length > 0 && (
+          <div className="px-4 sm:px-5 py-4 border-b border-border">
+            <p className="text-xs font-medium text-muted-foreground mb-2">{t('budgets.monthTotal')}</p>
+            <div className="mb-1.5">
+              <BudgetBar pct={totalPct} size="md" />
+            </div>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-xs text-muted-foreground">
+              <span className="tabular-nums font-medium">
+                {mask(formatCurrency(totalSpent, userCurrency, locale))}
+                {' / '}
+                {mask(formatCurrency(totalBudgeted, userCurrency, locale))}
+              </span>
+              {totalDiff >= 0 ? (
+                <span className="tabular-nums">
+                  {t('budgets.remaining', { amount: mask(formatCurrency(totalDiff, userCurrency, locale)) })}
+                </span>
+              ) : (
+                <span className="tabular-nums font-medium text-rose-500">
+                  {t('budgets.overBy', { amount: mask(formatCurrency(-totalDiff, userCurrency, locale)) })}
+                </span>
+              )}
+            </div>
+          </div>
+        )}
         {budgetsList && budgetsList.length > 0 ? (
           <table className="w-full">
             <thead>
               <tr className="border-b border-border">
                 <th className={`${TH} pl-4 sm:pl-5 text-left`}>{t('budgets.category')}</th>
-                <th className={`${TH} text-left w-36`}>{t('budgets.amount')}</th>
+                <th className={`${TH} text-left w-1/2`}>{t('budgets.amount')}</th>
                 {canWrite && <th className={`${TH} pr-4 sm:pr-5 text-right w-24`}>{t('budgets.actions')}</th>}
               </tr>
             </thead>
@@ -225,7 +290,14 @@ export default function BudgetsPage() {
                       )}
                     </span>
                   </td>
-                  <td className="py-3 text-sm font-semibold tabular-nums text-foreground">{mask(formatCurrency(budget.amount, userCurrency, locale))}</td>
+                  <td className="py-3 pr-4">
+                    <BudgetBar pct={percentOf(spentByCategory.get(budget.category_id) ?? 0, Number(budget.amount))} size="sm" />
+                    <p className="mt-1 text-xs tabular-nums text-muted-foreground">
+                      {mask(formatCurrency(spentByCategory.get(budget.category_id) ?? 0, userCurrency, locale))}
+                      {' / '}
+                      <span className="font-semibold text-foreground">{mask(formatCurrency(budget.amount, userCurrency, locale))}</span>
+                    </p>
+                  </td>
                   {canWrite && (
                     <td className="py-3 pr-4 sm:pr-5">
                       <div className="flex items-center justify-end gap-1">
