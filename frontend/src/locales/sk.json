@@ -822,6 +822,23 @@
   },
   "dashboard": {
     "title": "Prehľad",
+    "customize": {
+      "button": "Prispôsobiť",
+      "title": "Prispôsobiť nástenku",
+      "description": "Vyberte, ktoré sekcie sa zobrazia a v akom poradí.",
+      "reset": "Obnoviť predvolené",
+      "moveUp": "Posunúť {{widget}} hore",
+      "moveDown": "Posunúť {{widget}} dole",
+      "saveError": "Rozloženie nástenky sa nepodarilo uložiť",
+      "widgets": {
+        "hero": "Zostatok a mesačný prehľad",
+        "uncategorized": "Nekategorizované transakcie",
+        "categorySpending": "Výdavky podľa kategórie",
+        "balanceFlow": "Vývoj zostatku",
+        "goals": "Ciele",
+        "transactions": "Transakcie"
+      }
+    },
     "greetingMorning": "Dobré ráno",
     "greetingAfternoon": "Dobrý deň",
     "greetingEvening": "Dobrý večer",

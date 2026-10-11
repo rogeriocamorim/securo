@@ -814,6 +814,23 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "customize": {
+      "button": "Anpassen",
+      "title": "Dashboard anpassen",
+      "description": "Wähle aus, welche Bereiche erscheinen und in welcher Reihenfolge.",
+      "reset": "Auf Standard zurücksetzen",
+      "moveUp": "{{widget}} nach oben verschieben",
+      "moveDown": "{{widget}} nach unten verschieben",
+      "saveError": "Das Dashboard-Layout konnte nicht gespeichert werden",
+      "widgets": {
+        "hero": "Saldo und Monatsübersicht",
+        "uncategorized": "Nicht kategorisierte Transaktionen",
+        "categorySpending": "Ausgaben nach Kategorie",
+        "balanceFlow": "Saldoverlauf",
+        "goals": "Ziele",
+        "transactions": "Transaktionen"
+      }
+    },
     "greetingMorning": "Guten Morgen",
     "greetingAfternoon": "Guten Tag",
     "greetingEvening": "Guten Abend",

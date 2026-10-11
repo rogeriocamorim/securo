@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useDisplayLocale } from '@/hooks/use-display-locale'
 import { Trash2, Plus } from 'lucide-react'
 
-import { formatCurrency, formatAmountInput, parseAmountInput } from '@/lib/format'
+import { formatCurrency, parseAmountInput } from '@/lib/format'
 import type { CategoryAllocationsInput } from '@/types'
 import type { Category, CategoryGroup } from '@/types'
 import { Input } from '@/components/ui/input'
