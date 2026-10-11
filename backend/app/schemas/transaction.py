@@ -281,6 +281,11 @@ class TransferRead(BaseModel):
     transfer_pair_id: uuid.UUID
 
 
+class TransactionImportAllocation(BaseModel):
+    category_name: Optional[str] = None
+    amount: Decimal
+
+
 class TransactionImport(TransactionBase):
     """TransactionBase extended with import-only fields not exposed in read responses."""
     category_name: Optional[str] = None
@@ -290,6 +295,10 @@ class TransactionImport(TransactionBase):
     category_id: Optional[uuid.UUID] = None
     force_uncategorized: bool = False
     notes: Optional[str] = None
+    allocations: list[TransactionImportAllocation] = []
+    _split_group: Optional[str] = None
+    _split_index: Optional[int] = None
+    _parent_category: Optional[str] = None
 
 
 class FailedRow(BaseModel):

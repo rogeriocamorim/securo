@@ -610,6 +610,7 @@ export interface ImportPreviewTransaction {
   category_id?: string | null
   force_uncategorized?: boolean
   notes?: string | null
+  allocations?: { category_name?: string | null; amount: number }[]
 }
 
 export interface ImportReviewTransaction extends ImportPreviewTransaction {
