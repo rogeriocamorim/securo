@@ -943,7 +943,7 @@ async def import_transactions(
                         f"{prev.description}"
                     )
                 ) == file_count
-                and prev.id in matched_existing_ids if hasattr(prev, 'id') else False
+                and getattr(prev, "id", None) in matched_existing_ids
             )
             if db_match_count + already_imported_in_batch >= file_count:
                 # Find which DB row to mark and skip
