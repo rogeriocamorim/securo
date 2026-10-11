@@ -690,6 +690,7 @@ export default function AccountDetailPage() {
       effective_bill_date: null,
       recurring_transaction_id: p.recurring_id,
       splits: [],
+      category_allocations: [],
       is_ignored: false,
       virtual: true,
       runningBalance: 0,
