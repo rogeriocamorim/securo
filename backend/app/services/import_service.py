@@ -19,7 +19,7 @@ from app.models.bank_connection import BankConnection
 from app.models.category import Category
 from app.models.rule import Rule
 from app.models.transaction import Transaction
-from app.schemas.transaction import TransactionImport, FailedRow
+from app.schemas.transaction import TransactionImport, FailedRow, TransactionImportAllocation
 from app.services import reconciliation_service, recurring_match_service
 from app.services.credit_card_service import apply_effective_date
 from app.services.category_service import get_assignable_category_ids
@@ -480,7 +480,7 @@ DATE_FORMAT_MAP = {
 CSV_MAPPABLE_FIELDS = (
     'date', 'description', 'amount', 'type',
     'category', 'currency', 'fx_rate', 'inflow', 'outflow',
-    'payee', 'external_id', 'notes',
+    'payee', 'external_id', 'notes', 'split_group', 'split_index', 'parent_category',
 )
 
 
@@ -543,6 +543,9 @@ def parse_csv(
     payee_cols = ['payee', 'merchant', 'beneficiary', 'beneficiario', 'pagador']
     external_id_cols = [] # External ID must be mapped explicitly
     notes_cols = ['notes', 'nota', 'observacao']
+    split_group_cols = ['split_group']
+    split_index_cols = ['split_index']
+    parent_category_cols = ['parent_category']
 
     # Normalize the user-supplied column mapping (Securo field -> CSV header).
     mapping = {
@@ -596,6 +599,9 @@ def parse_csv(
     payee_col = resolve_col('payee', payee_cols)
     external_id_col = resolve_col('external_id', external_id_cols)
     notes_col = resolve_col('notes', notes_cols)
+    split_group_col = resolve_col('split_group', split_group_cols)
+    split_index_col = resolve_col('split_index', split_index_cols)
+    parent_category_col = resolve_col('parent_category', parent_category_cols)
 
     if not date_col or not desc_col:
         raise ValueError(
@@ -714,7 +720,16 @@ def parse_csv(
         txn_external_id = row[external_id_col].strip() if external_id_col and row.get(external_id_col) else None
         txn_notes = row[notes_col].strip() if notes_col and row.get(notes_col) else None
 
-        transactions.append(TransactionImport(
+        txn_split_group = row[split_group_col].strip() if split_group_col and row.get(split_group_col) else None
+        txn_split_index = None
+        if split_index_col and row.get(split_index_col):
+            try:
+                txn_split_index = int(row[split_index_col].strip())
+            except (ValueError, TypeError):
+                pass
+        txn_parent_category = row[parent_category_col].strip() if parent_category_col and row.get(parent_category_col) else None
+
+        txn = TransactionImport(
             description=row[desc_col].strip(),
             amount=abs(amount),
             date=txn_date,
@@ -725,9 +740,87 @@ def parse_csv(
             payee_raw=txn_payee,
             external_id=txn_external_id,
             notes=txn_notes,
-        ))
+        )
+        txn._split_group = txn_split_group
+        txn._split_index = txn_split_index
+        txn._parent_category = txn_parent_category
+        transactions.append(txn)
 
-    return transactions, failed_rows
+    from decimal import Decimal as _Decimal
+    # Collapse split groups: ≥2 rows with same split_group, same date/type/currency/description,
+    # distinct categories → one transaction with allocations
+    groups: dict[str, list[tuple[int, TransactionImport]]] = {}
+    for i, txn in enumerate(transactions):
+        sg = getattr(txn, '_split_group', None)
+        if sg:
+            groups.setdefault(sg, []).append((i, txn))
+
+    grouped_txns: list[TransactionImport | None] = [None] * len(transactions)
+
+    for sg, members in groups.items():
+        if len(members) < 2:
+            continue
+        first_member = members[0][1]
+        all_same = all(
+            m[1].date == first_member.date and
+            m[1].type == first_member.type and
+            m[1].currency == first_member.currency and
+            m[1].description == first_member.description
+            for m in members
+        )
+        if not all_same:
+            continue
+
+        alloc_categories = set()
+        for _, member in members:
+            if not member.category_name:
+                all_same = False
+                break
+            if member.category_name in alloc_categories:
+                all_same = False
+                break
+            alloc_categories.add(member.category_name)
+        if not all_same:
+            continue
+
+        sorted_members = sorted(members, key=lambda x: (getattr(x[1], '_split_index', 0) or 0, x[0]))
+        parent_cat = getattr(sorted_members[0][1], '_parent_category', None)
+
+        alloc_list: list[TransactionImportAllocation] = []
+        total_amount = _Decimal("0")
+        for _, member in sorted_members:
+            if member.category_name:
+                alloc_list.append(TransactionImportAllocation(
+                    category_name=member.category_name,
+                    amount=_Decimal(str(member.amount))
+                ))
+            total_amount += _Decimal(str(member.amount))
+
+        grouped = TransactionImport(
+            description=first_member.description,
+            amount=total_amount,
+            date=first_member.date,
+            type=first_member.type,
+            currency=first_member.currency,
+            fx_rate=first_member.fx_rate,
+            category_name=parent_cat,
+            payee_raw=first_member.payee_raw,
+            external_id=first_member.external_id,
+            notes=first_member.notes,
+            force_uncategorized=(parent_cat is None or parent_cat == ""),
+            allocations=alloc_list,
+        )
+        first_idx = sorted_members[0][0]
+        grouped_txns[first_idx] = grouped
+        for idx, _ in sorted_members[1:]:
+            grouped_txns[idx] = None
+
+    result_transactions: list[TransactionImport] = []
+    for i in range(len(transactions)):
+        tx = grouped_txns[i] if grouped_txns[i] is not None else transactions[i]
+        if tx is not None:
+            result_transactions.append(tx)
+    return result_transactions, failed_rows
 
 
 async def enrich_with_category_suggestions(
@@ -1061,6 +1154,36 @@ async def import_transactions(
             placeholder.notes = merge_notes(placeholder.notes, preview.notes)
             if preview.is_ignored:
                 placeholder.is_ignored = True
+
+            # Import allocations for placeholder too, if present
+            if hasattr(txn_data, 'allocations') and len(txn_data.allocations) >= 2:
+                from app.schemas.transaction_category_allocation import CategoryAllocationsInput, CategoryAllocationInput
+                from app.services import category_allocation_service
+
+                alloc_ids: dict[str, uuid.UUID] = {}
+                valid_allocations = True
+                for alloc in txn_data.allocations:
+                    if not alloc.category_name:
+                        valid_allocations = False
+                        break
+                    resolved_id = category_map.get(alloc.category_name.strip().lower())
+                    if not resolved_id:
+                        valid_allocations = False
+                        break
+                    alloc_ids[alloc.category_name] = resolved_id
+
+                if valid_allocations and alloc_ids and len(set(alloc_ids.values())) == len(alloc_ids):
+                    alloc_input = CategoryAllocationsInput(
+                        allocations=[
+                            CategoryAllocationInput(category_id=alloc_ids[a.category_name], amount=a.amount, notes=None)
+                            for a in txn_data.allocations
+                            if a.category_name in alloc_ids
+                        ]
+                    )
+                    await category_allocation_service.replace_category_allocations(
+                        session, placeholder, alloc_input, user_id
+                    )
+
             imported += 1
             continue
 
@@ -1096,6 +1219,35 @@ async def import_transactions(
         )
         if incoming.category_id is None and not txn_data.force_uncategorized:
             incoming.category_id = csv_category_id
+
+        # Import category allocations if present
+        if hasattr(txn_data, 'allocations') and len(txn_data.allocations) >= 2:
+            from app.schemas.transaction_category_allocation import CategoryAllocationsInput, CategoryAllocationInput
+            from app.services import category_allocation_service
+
+            alloc_ids: dict[str, uuid.UUID] = {}
+            valid_allocations = True
+            for alloc in txn_data.allocations:
+                if not alloc.category_name:
+                    valid_allocations = False
+                    break
+                resolved_id = category_map.get(alloc.category_name.strip().lower())
+                if not resolved_id:
+                    valid_allocations = False
+                    break
+                alloc_ids[alloc.category_name] = resolved_id
+
+            if valid_allocations and alloc_ids and len(set(alloc_ids.values())) == len(alloc_ids):
+                alloc_input = CategoryAllocationsInput(
+                    allocations=[
+                        CategoryAllocationInput(category_id=alloc_ids[a.category_name], amount=a.amount, notes=None)
+                        for a in txn_data.allocations
+                        if a.category_name in alloc_ids
+                    ]
+                )
+                await category_allocation_service.replace_category_allocations(
+                    session, incoming, alloc_input, user_id
+                )
 
         if not txn_data.fx_rate:
             await stamp_primary_amount(session, user_id, incoming)
