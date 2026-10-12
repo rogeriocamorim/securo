@@ -230,6 +230,12 @@ async def _net_worth_at(
                     color=_ACCOUNT_TYPE_COLORS.get(account.type, "#6B7280"),
                     group="accounts",
                 ))
+            if account.connection_id is not None:
+                # Only track investment/brokerage accounts — their balance
+                # includes holdings. Checking/savings/credit_card balances
+                # are cash-only, so their assets must NOT be excluded.
+                if account.type not in {"checking", "savings", "credit_card"}:
+                    _synced_connection_ids.add(account.connection_id)
 
     # Per-asset composition at the cutoff date
     filtered = account_ids is not None
@@ -1434,6 +1440,7 @@ async def _get_baseline_projection(
         .join(Account, Transaction.account_id == Account.id)
         .where(
             Transaction.workspace_id == workspace_id,
+            Account.is_closed == False,
             Transaction.date <= today,
             Transaction.source != "opening_balance",
             Transaction.status == "posted",
@@ -1456,6 +1463,7 @@ async def _get_baseline_projection(
         .join(Account, Transaction.account_id == Account.id)
         .where(
             Transaction.workspace_id == workspace_id,
+            Account.is_closed == False,
             Transaction.date >= window_start,
             Transaction.date <= today,
             Transaction.source != "opening_balance",
@@ -1592,6 +1600,7 @@ async def get_cash_flow_report(
         .join(Account, Transaction.account_id == Account.id)
         .where(
             Transaction.workspace_id == workspace_id,
+            Account.is_closed == False,
             flow_date_col > chart_start,
             flow_date_col <= today,
             Transaction.source != "opening_balance",
@@ -1621,6 +1630,7 @@ async def get_cash_flow_report(
         .join(Account, Transaction.account_id == Account.id)
         .where(
             Transaction.workspace_id == workspace_id,
+            Account.is_closed == False,
             flow_date_col > today,
             flow_date_col <= end,
             Transaction.source != "opening_balance",
