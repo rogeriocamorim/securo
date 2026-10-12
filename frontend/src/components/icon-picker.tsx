@@ -14,12 +14,14 @@ export function IconPicker({ value, color, onChange }: IconPickerProps) {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    // Accent-insensitive, so "música" finds the "musica" keyword.
+    // Accent-insensitive, so "música" finds the "musica" keyword. The
+    // displayed label counts too: "Shopping Cart" has to find shopping-cart.
     const q = normalizeText(search.trim())
     if (!q) return CATEGORY_ICONS
     return CATEGORY_ICONS.filter(
       (entry) =>
         entry.name.includes(q) ||
+        normalizeText(iconLabel(entry.name)).includes(q) ||
         entry.keywords.some((keyword) => normalizeText(keyword).includes(q))
     )
   }, [search])
