@@ -34,6 +34,13 @@ vi.mock('@/contexts/collection-filter-context', () => ({
   useCollectionFilter: () => ({ activeAccountIds: null, activeWalletIds: null }),
 }))
 
+const chatContext = vi.hoisted(() => vi.fn())
+
+vi.mock('@/lib/page-chat-context', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@/lib/page-chat-context')>()),
+  useRegisterPageChatContext: chatContext,
+}))
+
 vi.mock('@/hooks/use-privacy-mode', () => ({
   usePrivacyMode: () => ({ mask: (value: string) => value, privacyMode: false, MASK: '•••' }),
 }))
@@ -98,5 +105,15 @@ describe('AssetsPage archived holdings (#1046)', () => {
     fireEvent.click(screen.getByRole('button', { name: t('assets.tabTransactions') }))
 
     expect(screen.queryByRole('checkbox', { name: t('assets.showArchived') })).not.toBeInTheDocument()
+  })
+
+  it('leaves archived holdings out of the chat summary count', async () => {
+    localStorage.setItem('securo.assets.showArchived', 'true')
+    renderWithProviders(<AssetsPage />)
+
+    expect(await screen.findByText('Synced 401k Holding')).toBeInTheDocument()
+    const [ctx] = chatContext.mock.calls.at(-1)!
+    expect(ctx.asset_count).toBe(1)
+    expect(ctx.summary).toContain('1 assets totaling')
   })
 })
