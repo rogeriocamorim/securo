@@ -116,6 +116,11 @@ export default function BudgetsPage() {
   const totalPct = percentOf(totalSpent, totalBudgeted)
   const totalDiff = totalBudgeted - totalSpent
 
+  const remainingLabel = (diff: number) =>
+    t(diff >= 0 ? 'budgets.remaining' : 'budgets.overBy', {
+      amount: mask(formatCurrency(Math.abs(diff), userCurrency, locale)),
+    })
+
   const { data: categoriesList } = useQuery({
     queryKey: ['categories'],
     queryFn: categoriesApi.list,
@@ -256,15 +261,9 @@ export default function BudgetsPage() {
                 {' / '}
                 {mask(formatCurrency(totalBudgeted, userCurrency, locale))}
               </span>
-              {totalDiff >= 0 ? (
-                <span className="tabular-nums">
-                  {t('budgets.remaining', { amount: mask(formatCurrency(totalDiff, userCurrency, locale)) })}
-                </span>
-              ) : (
-                <span className="tabular-nums font-medium text-rose-500">
-                  {t('budgets.overBy', { amount: mask(formatCurrency(-totalDiff, userCurrency, locale)) })}
-                </span>
-              )}
+              <span className={totalDiff >= 0 ? 'tabular-nums' : 'tabular-nums font-medium text-rose-500'}>
+                {remainingLabel(totalDiff)}
+              </span>
             </div>
           </div>
         )}
@@ -278,51 +277,58 @@ export default function BudgetsPage() {
               </tr>
             </thead>
             <tbody>
-              {budgetsList.map((budget) => (
-                <tr key={budget.id} className="border-b border-border last:border-0 hover:bg-muted transition-colors">
-                  <td className="py-3 pl-4 sm:pl-5 text-sm font-medium text-foreground">
-                    <span className="flex items-center gap-1.5">
-                      {getCategoryDisplay(budget.category_id)}
-                      {budget.is_recurring && (
-                        <span title={t('budgets.recurringLabel')} className="text-muted-foreground">
-                          <Repeat size={12} />
-                        </span>
-                      )}
-                    </span>
-                  </td>
-                  <td className="py-3 pr-4">
-                    <BudgetBar pct={percentOf(spentByCategory.get(budget.category_id) ?? 0, Number(budget.amount))} size="sm" />
-                    <p className="mt-1 text-xs tabular-nums text-muted-foreground">
-                      {mask(formatCurrency(spentByCategory.get(budget.category_id) ?? 0, userCurrency, locale))}
-                      {' / '}
-                      <span className="font-semibold text-foreground">{mask(formatCurrency(budget.amount, userCurrency, locale))}</span>
-                    </p>
-                  </td>
-                  {canWrite && (
-                    <td className="py-3 pr-4 sm:pr-5">
-                      <div className="flex items-center justify-end gap-1">
-                        <button
-                          className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors"
-                          onClick={() => { setEditing(budget); setDialogOpen(true) }}
-                          aria-label={t('common.edit')}
-                          title={t('common.edit')}
-                        >
-                          <Pencil size={13} />
-                        </button>
-                        <button
-                          className="p-1.5 rounded-md text-muted-foreground hover:text-rose-500 hover:bg-rose-50 transition-colors"
-                          onClick={() => setDeletingBudget(budget)}
-                          disabled={deleteMutation.isPending}
-                          aria-label={t('common.delete')}
-                          title={t('common.delete')}
-                        >
-                          <Trash2 size={13} />
-                        </button>
-                      </div>
+              {budgetsList.map((budget) => {
+                const spent = spentByCategory.get(budget.category_id) ?? 0
+                const limit = Number(budget.amount)
+                return (
+                  <tr key={budget.id} className="border-b border-border last:border-0 hover:bg-muted transition-colors">
+                    <td className="py-3 pl-4 sm:pl-5 text-sm font-medium text-foreground">
+                      <span className="flex items-center gap-1.5">
+                        {getCategoryDisplay(budget.category_id)}
+                        {budget.is_recurring && (
+                          <span title={t('budgets.recurringLabel')} className="text-muted-foreground">
+                            <Repeat size={12} />
+                          </span>
+                        )}
+                      </span>
                     </td>
-                  )}
-                </tr>
-              ))}
+                    <td className="py-3 pr-4">
+                      <BudgetBar pct={percentOf(spent, limit)} size="sm" />
+                      <p className="mt-1 flex flex-wrap gap-x-4 text-xs tabular-nums text-muted-foreground">
+                        <span>
+                          {mask(formatCurrency(spent, userCurrency, locale))}
+                          {' / '}
+                          <span className="font-semibold text-foreground">{mask(formatCurrency(limit, userCurrency, locale))}</span>
+                        </span>
+                        <span>{remainingLabel(limit - spent)}</span>
+                      </p>
+                    </td>
+                    {canWrite && (
+                      <td className="py-3 pr-4 sm:pr-5">
+                        <div className="flex items-center justify-end gap-1">
+                          <button
+                            className="p-1.5 rounded-md text-muted-foreground hover:text-primary hover:bg-primary/5 transition-colors"
+                            onClick={() => { setEditing(budget); setDialogOpen(true) }}
+                            aria-label={t('common.edit')}
+                            title={t('common.edit')}
+                          >
+                            <Pencil size={13} />
+                          </button>
+                          <button
+                            className="p-1.5 rounded-md text-muted-foreground hover:text-rose-500 hover:bg-rose-50 transition-colors"
+                            onClick={() => setDeletingBudget(budget)}
+                            disabled={deleteMutation.isPending}
+                            aria-label={t('common.delete')}
+                            title={t('common.delete')}
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
+                      </td>
+                    )}
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         ) : (

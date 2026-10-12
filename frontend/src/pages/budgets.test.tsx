@@ -76,6 +76,20 @@ describe('BudgetsPage month progress', () => {
     expect(screen.getByText(t('budgets.remaining', { amount: '$600.00' }))).toBeInTheDocument()
   })
 
+  it('shows what is left or overspent on each category row', async () => {
+    api.budgets.comparison.mockResolvedValue([
+      comparisonRow('food', 500, 650),
+      comparisonRow('rent', 1000, 600),
+    ])
+
+    renderWithProviders(<BudgetsPage />)
+
+    expect(await screen.findByText(t('budgets.overBy', { amount: '$150.00' }))).toBeInTheDocument()
+    expect(screen.getByText(t('budgets.remaining', { amount: '$400.00' }))).toBeInTheDocument()
+    // Month total: 1,250 of 1,500 spent.
+    expect(screen.getByText(t('budgets.remaining', { amount: '$250.00' }))).toBeInTheDocument()
+  })
+
   it('flags the month as over budget when spending exceeds the total', async () => {
     api.budgets.comparison.mockResolvedValue([
       comparisonRow('food', 500, 900),
