@@ -1388,7 +1388,8 @@
     "recurringLabel": "Регулярный",
     "monthTotal": "Итого за месяц",
     "remaining": "Осталось {{amount}}",
-    "overBy": "Превышение на {{amount}}"
+    "overBy": "Превышение на {{amount}}",
+    "spendingUnavailable": "Не удалось загрузить расходы за этот месяц."
   },
   "goals": {
     "title": "Цели",

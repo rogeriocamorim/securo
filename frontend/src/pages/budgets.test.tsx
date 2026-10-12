@@ -103,4 +103,25 @@ describe('BudgetsPage month progress', () => {
     expect(screen.getByText('180%')).toBeInTheDocument()
     expect(screen.getByText(t('budgets.overBy', { amount: '$300.00' }))).toBeInTheDocument()
   })
+
+  it('counts a category once when two budgets share it', async () => {
+    api.budgets.list.mockResolvedValue([budget('b1', 'food', 500), budget('b2', 'food', 300)])
+    api.budgets.comparison.mockResolvedValue([comparisonRow('food', 800, 400)])
+
+    renderWithProviders(<BudgetsPage />)
+
+    expect(await screen.findByText('$400.00 / $800.00')).toBeInTheDocument()
+    expect(screen.getByText(t('budgets.remaining', { amount: '$400.00' }))).toBeInTheDocument()
+  })
+
+  it('shows an error instead of zero spending when spending fails to load', async () => {
+    api.budgets.comparison.mockRejectedValue(new Error('boom'))
+
+    renderWithProviders(<BudgetsPage />)
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(t('budgets.spendingUnavailable'))
+    expect(screen.getByText('$500.00')).toBeInTheDocument()
+    expect(screen.queryByText('0%')).not.toBeInTheDocument()
+    expect(screen.queryByText(t('budgets.monthTotal'))).not.toBeInTheDocument()
+  })
 })

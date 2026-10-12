@@ -1372,7 +1372,8 @@
     "recurringLabel": "Wiederkehrend",
     "monthTotal": "Monatssumme",
     "remaining": "{{amount}} übrig",
-    "overBy": "{{amount}} über Budget"
+    "overBy": "{{amount}} über Budget",
+    "spendingUnavailable": "Ausgaben für diesen Monat konnten nicht geladen werden."
   },
   "goals": {
     "title": "Ziele",

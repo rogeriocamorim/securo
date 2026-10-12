@@ -100,17 +100,22 @@ export default function BudgetsPage() {
   })
 
   // Shares the 'budgets' prefix so the mutations below refresh spending too.
-  const { data: comparison } = useQuery({
+  const { data: comparison, isError: comparisonFailed } = useQuery({
     queryKey: ['budgets', 'comparison', selectedMonth],
     queryFn: () => budgetsApi.comparison(monthParam),
   })
+  // Progress is only drawn once spending is known; a missing comparison must
+  // not read as "nothing spent".
+  const hasSpending = comparison !== undefined
 
   const spentByCategory = new Map(
     (comparison ?? []).map((row) => [row.category_id, Number(row.actual_amount)]),
   )
   const totalBudgeted = (budgetsList ?? []).reduce((sum, b) => sum + Number(b.amount), 0)
-  const totalSpent = (budgetsList ?? []).reduce(
-    (sum, b) => sum + (spentByCategory.get(b.category_id) ?? 0),
+  // Two members can budget the same category; its spending still counts once.
+  const budgetedCategoryIds = new Set((budgetsList ?? []).map((b) => b.category_id))
+  const totalSpent = [...budgetedCategoryIds].reduce(
+    (sum, categoryId) => sum + (spentByCategory.get(categoryId) ?? 0),
     0,
   )
   const totalPct = percentOf(totalSpent, totalBudgeted)
@@ -249,7 +254,12 @@ export default function BudgetsPage() {
             ) : undefined
           }
         />
-        {budgetsList && budgetsList.length > 0 && (
+        {budgetsList && budgetsList.length > 0 && comparisonFailed && (
+          <p role="alert" className="px-4 sm:px-5 py-3 border-b border-border text-xs text-rose-500">
+            {t('budgets.spendingUnavailable')}
+          </p>
+        )}
+        {budgetsList && budgetsList.length > 0 && hasSpending && (
           <div className="px-4 sm:px-5 py-4 border-b border-border">
             <p className="text-xs font-medium text-muted-foreground mb-2">{t('budgets.monthTotal')}</p>
             <div className="mb-1.5">
@@ -292,17 +302,23 @@ export default function BudgetsPage() {
                         )}
                       </span>
                     </td>
-                    <td className="py-3 pr-4">
-                      <BudgetBar pct={percentOf(spent, limit)} size="sm" />
-                      <p className="mt-1 flex flex-wrap gap-x-4 text-xs tabular-nums text-muted-foreground">
-                        <span>
-                          {mask(formatCurrency(spent, userCurrency, locale))}
-                          {' / '}
-                          <span className="font-semibold text-foreground">{mask(formatCurrency(limit, userCurrency, locale))}</span>
-                        </span>
-                        <span>{remainingLabel(limit - spent)}</span>
-                      </p>
-                    </td>
+                    {hasSpending ? (
+                      <td className="py-3 pr-4">
+                        <BudgetBar pct={percentOf(spent, limit)} size="sm" />
+                        <p className="mt-1 flex flex-wrap gap-x-4 text-xs tabular-nums text-muted-foreground">
+                          <span>
+                            {mask(formatCurrency(spent, userCurrency, locale))}
+                            {' / '}
+                            <span className="font-semibold text-foreground">{mask(formatCurrency(limit, userCurrency, locale))}</span>
+                          </span>
+                          <span>{remainingLabel(limit - spent)}</span>
+                        </p>
+                      </td>
+                    ) : (
+                      <td className="py-3 pr-4 text-sm font-semibold tabular-nums text-foreground">
+                        {mask(formatCurrency(limit, userCurrency, locale))}
+                      </td>
+                    )}
                     {canWrite && (
                       <td className="py-3 pr-4 sm:pr-5">
                         <div className="flex items-center justify-end gap-1">
