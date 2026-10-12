@@ -14,49 +14,77 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
   const queryClient = useQueryClient()
 
+  // Fetches and reconciles; state only changes once the request settles.
+  // `isCurrent` lets an effect drop a response for a session that ended.
+  const fetchWorkspaces = useCallback(
+    (isCurrent: () => boolean = () => true) =>
+      workspacesApi
+        .list()
+        .then(
+          (fetched) => {
+            if (!isCurrent()) return
+            setList(fetched)
+            // Reconcile the stored selection against what's actually accessible.
+            // If the stored ID is stale (workspace archived, user removed, etc.)
+            // fall back to the first one.
+            const storedId = localStorage.getItem(WORKSPACE_STORAGE_KEY)
+            const found = fetched.find((w) => w.id === storedId)
+            if (found) {
+              setCurrentId(found.id)
+            } else if (fetched.length > 0) {
+              const fallbackId = fetched[0].id
+              localStorage.setItem(WORKSPACE_STORAGE_KEY, fallbackId)
+              setCurrentId(fallbackId)
+            } else {
+              localStorage.removeItem(WORKSPACE_STORAGE_KEY)
+              setCurrentId(null)
+            }
+          },
+          () => {
+            // 401s are handled by the global interceptor; other failures we
+            // just surface as no-data — the user can retry from the UI.
+            if (isCurrent()) setList([])
+          },
+        )
+        .finally(() => {
+          if (isCurrent()) setIsLoading(false)
+        }),
+    [],
+  )
+
   const loadWorkspaces = useCallback(async () => {
     setIsLoading(true)
-    try {
-      const fetched = await workspacesApi.list()
-      setList(fetched)
-      // Reconcile the stored selection against what's actually accessible.
-      // If the stored ID is stale (workspace archived, user removed, etc.)
-      // fall back to the first one.
-      const storedId = localStorage.getItem(WORKSPACE_STORAGE_KEY)
-      const found = fetched.find((w) => w.id === storedId)
-      if (found) {
-        setCurrentId(found.id)
-      } else if (fetched.length > 0) {
-        const fallbackId = fetched[0].id
-        localStorage.setItem(WORKSPACE_STORAGE_KEY, fallbackId)
-        setCurrentId(fallbackId)
-      } else {
-        localStorage.removeItem(WORKSPACE_STORAGE_KEY)
-        setCurrentId(null)
-      }
-    } catch {
-      // 401s are handled by the global interceptor; other failures we
-      // just surface as no-data — the user can retry from the UI.
-      setList([])
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
+    await fetchWorkspaces()
+  }, [fetchWorkspaces])
 
-  useEffect(() => {
-    // Stay in the loading state until auth has settled. Reporting "done,
-    // no workspaces" while the token is still being restored is a lie
-    // that lasts one render — long enough for anything gated on
-    // `hasModule` to decide the module is off and redirect away.
-    if (authLoading) return
-    if (!user || !token) {
+  // Stay in the loading state until auth has settled. Reporting "done,
+  // no workspaces" while the token is still being restored is a lie
+  // that lasts one render — long enough for anything gated on
+  // `hasModule` to decide the module is off and redirect away.
+  const session = authLoading ? 'pending' : user && token ? 'signed-in' : 'signed-out'
+
+  // Session changes adjust the state while rendering: signing out clears the
+  // workspaces, signing in shows the spinner until the effect's fetch lands.
+  // Starts at 'pending' so the first settled state also counts as a change
+  // (an app that loads signed out must still leave the loading state).
+  const [prevSession, setPrevSession] = useState<typeof session>('pending')
+  if (prevSession !== session) {
+    setPrevSession(session)
+    if (session === 'signed-out') {
       setList([])
       setCurrentId(null)
       setIsLoading(false)
-      return
+    } else if (session === 'signed-in') {
+      setIsLoading(true)
     }
-    void loadWorkspaces()
-  }, [authLoading, user, token, loadWorkspaces])
+  }
+
+  useEffect(() => {
+    if (session !== 'signed-in') return
+    let current = true
+    void fetchWorkspaces(() => current)
+    return () => { current = false }
+  }, [session, user, token, fetchWorkspaces])
 
   const switchWorkspace = useCallback(
     async (id: string) => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
@@ -30,18 +30,18 @@ export function AgentFormDialog({ open, onOpenChange, agent }: Props) {
   const { t } = useTranslation()
   const qc = useQueryClient()
   const isEdit = !!agent
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [systemPrompt, setSystemPrompt] = useState('')
+  const [name, setName] = useState(agent?.name ?? '')
+  const [description, setDescription] = useState(agent?.description ?? '')
+  const [systemPrompt, setSystemPrompt] = useState(agent?.system_prompt ?? '')
   // Empty string = nothing picked yet. Required to submit; we no
   // longer support an "instance default" sentinel because there is no
   // such thing — a connection is what tells the agent how to reach an
   // LLM.
-  const [connectionId, setConnectionId] = useState<string>('')
-  const [model, setModel] = useState('')
-  const [temperature, setTemperature] = useState('0.4')
-  const [autoContext, setAutoContext] = useState(true)
-  const [isDefault, setIsDefault] = useState(false)
+  const [pickedConnectionId, setPickedConnectionId] = useState<string>(agent?.connection_id ?? '')
+  const [model, setModel] = useState(agent?.model ?? '')
+  const [temperature, setTemperature] = useState(String(agent?.temperature ?? 0.4))
+  const [autoContext, setAutoContext] = useState(agent?.auto_context ?? true)
+  const [isDefault, setIsDefault] = useState(agent?.is_default ?? false)
 
   const { data: connections } = useQuery({
     queryKey: ['agent-connections'],
@@ -49,40 +49,28 @@ export function AgentFormDialog({ open, onOpenChange, agent }: Props) {
     enabled: open,
   })
 
-  useEffect(() => {
-    if (agent) {
-      setName(agent.name)
-      setDescription(agent.description ?? '')
-      setSystemPrompt(agent.system_prompt ?? '')
-      setConnectionId(agent.connection_id ?? '')
-      setModel(agent.model ?? '')
-      setTemperature(String(agent.temperature ?? 0.4))
-      setAutoContext(agent.auto_context ?? true)
-      setIsDefault(agent.is_default ?? false)
-    } else {
-      setName('')
-      setDescription('')
-      setSystemPrompt('')
-      // Pre-select the user's default connection (or the only one,
-      // if there's just one) so the form is one click closer to done.
-      setConnectionId('')
-      setModel('')
-      setTemperature('0.4')
-      setAutoContext(true)
-      setIsDefault(false)
-    }
-  }, [agent, open])
+  // Reload the form whenever the dialog opens or switches agent. Done while
+  // rendering (not in an effect) so the stale values never paint.
+  const [formSource, setFormSource] = useState({ agent, open })
+  if (formSource.agent !== agent || formSource.open !== open) {
+    setFormSource({ agent, open })
+    setName(agent?.name ?? '')
+    setDescription(agent?.description ?? '')
+    setSystemPrompt(agent?.system_prompt ?? '')
+    setPickedConnectionId(agent?.connection_id ?? '')
+    setModel(agent?.model ?? '')
+    setTemperature(String(agent?.temperature ?? 0.4))
+    setAutoContext(agent?.auto_context ?? true)
+    setIsDefault(agent?.is_default ?? false)
+  }
 
-  // When connections load (or the dialog opens), pre-select the most
-  // sensible default: the user-flagged default connection, or the only
-  // one if there's a single connection.
-  useEffect(() => {
-    if (!open || isEdit || connectionId) return
-    if (!connections || connections.length === 0) return
-    const def = connections.find((c) => c.is_default)
-    setConnectionId(def?.id ?? connections[0].id)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, connections])
+  // A new agent starts on the most sensible connection until the user picks
+  // one: the user-flagged default, or the first (often the only) one.
+  const suggestedConnectionId =
+    open && !isEdit && connections && connections.length > 0
+      ? (connections.find((c) => c.is_default)?.id ?? connections[0].id)
+      : ''
+  const connectionId = pickedConnectionId || suggestedConnectionId
 
   const selectedConnection = connections?.find((c) => c.id === connectionId)
 
@@ -194,7 +182,7 @@ export function AgentFormDialog({ open, onOpenChange, agent }: Props) {
                     {t('agents.form.manageConnections')}
                   </Link>
                 </div>
-                <Select value={connectionId} onValueChange={setConnectionId}>
+                <Select value={connectionId} onValueChange={setPickedConnectionId}>
                   <SelectTrigger>
                     <SelectValue placeholder={t('agents.form.connectionPlaceholder', 'Pick a connection')} />
                   </SelectTrigger>

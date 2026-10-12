@@ -85,10 +85,13 @@ export function TransactionSplitsSection({
   const [newGroupCurrency, setNewGroupCurrency] = useState(currency)
   const [newGroupNotes, setNewGroupNotes] = useState('')
 
-  // Sync newGroupCurrency default value if currency prop changes.
-  useEffect(() => {
+  // Follow the transaction's currency as the new group's default. Adjusted
+  // while rendering so the form never shows the previous currency.
+  const [currencySource, setCurrencySource] = useState(currency)
+  if (currencySource !== currency) {
+    setCurrencySource(currency)
     setNewGroupCurrency(currency)
-  }, [currency])
+  }
 
   const createGroupMutation = useMutation({
     mutationFn: (payload: GroupCreatePayload) => groupsApi.create(payload),
@@ -141,13 +144,15 @@ export function TransactionSplitsSection({
     })
   }
 
-  // Reset creation state if splits are disabled
-  useEffect(() => {
+  // Reset creation state when splits get disabled.
+  const [wasEnabled, setWasEnabled] = useState(enabled)
+  if (wasEnabled !== enabled) {
+    setWasEnabled(enabled)
     if (!enabled) {
       setIsCreatingGroup(false)
       setIsAddingMember(false)
     }
-  }, [enabled])
+  }
 
   const { data: groups } = useQuery({
     queryKey: ['groups'],

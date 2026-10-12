@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useMemo, useRef, type ReactNode } from 'react'
+import { Fragment, useState, useEffect, useMemo, type ReactNode } from 'react'
 import { getAccountLabel, getAccountName, sortAccountsByAbsoluteBalance, sumAccountBalances } from '@/lib/account-utils'
 import { currentMonth, shiftMonth, monthLastDay, monthLabel, monthRange } from '@/lib/month-utils'
 import { useTranslation } from 'react-i18next'
@@ -122,24 +122,16 @@ export default function DashboardPage() {
   ))
   const [calendarSelectedDate, setCalendarSelectedDate] = useState<string>(() => searchParams.get('day') ?? '')
 
-  const prevSearchRef = useRef<string | null>(null)
-
-  // Sync state from URL when navigating (e.g. back/forward button)
-  useEffect(() => {
-    const search = searchParams.toString()
-    if (prevSearchRef.current === search) return
-    const isInitial = prevSearchRef.current === null
-    prevSearchRef.current = search
-
-    const parsedMonth = parseMonthFromParams(searchParams)
-    if (parsedMonth) {
-      setSelectedMonth(parsedMonth)
-    } else if (!isInitial) {
-      setSelectedMonth(currentMonth())
-    }
+  // Sync state from URL when navigating (e.g. back/forward button). Adjusted
+  // while rendering; the first render already read the URL in useState.
+  const search = searchParams.toString()
+  const [syncedSearch, setSyncedSearch] = useState(search)
+  if (syncedSearch !== search) {
+    setSyncedSearch(search)
+    setSelectedMonth(parseMonthFromParams(searchParams) ?? currentMonth())
     setTxViewMode(searchParams.get('view') === 'calendar' ? 'calendar' : 'list')
     setCalendarSelectedDate(searchParams.get('day') ?? '')
-  }, [searchParams])
+  }
 
   // Sync selectedMonth and the transactions view back to URL
   useEffect(() => {
@@ -500,7 +492,12 @@ export default function DashboardPage() {
 
   const [txPage, setTxPage] = useState(1)
   const [txSortDesc, setTxSortDesc] = useState(true)
-  useEffect(() => setTxPage(1), [selectedMonth])
+  // A new month starts on the first page of its transactions.
+  const [txPageMonth, setTxPageMonth] = useState(selectedMonth)
+  if (txPageMonth !== selectedMonth) {
+    setTxPageMonth(selectedMonth)
+    setTxPage(1)
+  }
 
   type DisplayRow = {
     key: string

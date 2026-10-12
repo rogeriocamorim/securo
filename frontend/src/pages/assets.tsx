@@ -244,8 +244,9 @@ export default function AssetsPage() {
   const [formGrowthStartDate, setFormGrowthStartDate] = useState<string>('')
   // Market-price form state
   const [formTickerQuery, setFormTickerQuery] = useState('')
-  const [tickerMatches, setTickerMatches] = useState<MarketSymbolMatch[]>([])
-  const [tickerSearchLoading, setTickerSearchLoading] = useState(false)
+  // Search results remember the query they answer, so "loading" and "no
+  // results yet" can be derived instead of toggled from an effect.
+  const [tickerResults, setTickerResults] = useState<{ query: string; matches: MarketSymbolMatch[] }>({ query: '', matches: [] })
   const [selectedQuote, setSelectedQuote] = useState<MarketSymbolQuote | null>(null)
   const [formUnits, setFormUnits] = useState('')
   // Per-unit purchase price for the opening buy of a market-priced holding.
@@ -499,32 +500,33 @@ export default function AssetsPage() {
   // Debounced ticker search. Runs only when the market-price method is
   // selected and the query is non-trivial — keeps the autocomplete snappy
   // without flooding the yfinance-backed endpoint.
+  const tickerQuery = formTickerQuery.trim()
+  // Don't search if the field matches the already-selected quote — the
+  // user just picked it and we'd spam the endpoint for no reason.
+  const tickerSearchDue =
+    formMethod === 'market_price' &&
+    tickerQuery.length > 0 &&
+    !(selectedQuote && tickerQuery === selectedQuote.symbol)
+  const tickerSearchLoading = tickerSearchDue && tickerResults.query !== tickerQuery
+  const tickerMatches = tickerQuery.length > 0 ? tickerResults.matches : []
+
   useEffect(() => {
-    if (formMethod !== 'market_price') return
-    const q = formTickerQuery.trim()
-    // Don't search if the field matches the already-selected quote — the
-    // user just picked it and we'd spam the endpoint for no reason.
-    if (selectedQuote && q === selectedQuote.symbol) return
-    if (q.length < 1) {
-      setTickerMatches([])
-      return
-    }
-    setTickerSearchLoading(true)
-    const handle = window.setTimeout(async () => {
-      try {
-        const results = await assets.marketSearch(q, 10)
-        setTickerMatches(results)
-      } catch {
-        setTickerMatches([])
-      } finally {
-        setTickerSearchLoading(false)
-      }
+    if (!tickerSearchDue) return
+    let current = true
+    const handle = window.setTimeout(() => {
+      assets.marketSearch(tickerQuery, 10).then(
+        (matches) => { if (current) setTickerResults({ query: tickerQuery, matches }) },
+        () => { if (current) setTickerResults({ query: tickerQuery, matches: [] }) },
+      )
     }, 300)
-    return () => window.clearTimeout(handle)
-  }, [formMethod, formTickerQuery, selectedQuote])
+    return () => {
+      current = false
+      window.clearTimeout(handle)
+    }
+  }, [tickerSearchDue, tickerQuery])
 
   async function pickTickerMatch(match: MarketSymbolMatch) {
-    setTickerMatches([])
+    setTickerResults({ query: match.symbol, matches: [] })
     setFormTickerQuery(match.symbol)
     setQuoteLoading(true)
     try {
@@ -558,12 +560,11 @@ export default function AssetsPage() {
 
   function resetMarketPriceForm() {
     setFormTickerQuery('')
-    setTickerMatches([])
+    setTickerResults({ query: '', matches: [] })
     setSelectedQuote(null)
     setFormUnits('')
     setFormUnitPrice('')
     setQuoteLoading(false)
-    setTickerSearchLoading(false)
   }
 
 
