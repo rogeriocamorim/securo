@@ -27,6 +27,7 @@ const state = vi.hoisted(() => ({
     enable2fa: vi.fn(),
     registerPasskeyOptions: vi.fn(),
     verifyPasskeyRegistration: vi.fn(),
+    updateMe: vi.fn(),
   },
 }))
 
@@ -90,7 +91,8 @@ function openMenu(surface: string) {
 beforeEach(() => {
   vi.clearAllMocks()
   localStorage.removeItem('securo.sidebar.collapsed')
-  state.user = { ...state.user, is_2fa_enabled: true }
+  state.user = { ...state.user, is_2fa_enabled: true, preferences: { onboarding_completed: true } }
+  localStorage.removeItem('onboarding_completed')
   state.auth.oidcConfig.mockResolvedValue({
     enabled: true,
     local_auth_enabled: false,
@@ -191,4 +193,16 @@ it('never offers TOTP enrollment once the enrolled factor is gone', () => {
   renderWithProviders(<TwoFactorSetup open localAuthEnabled={false} onClose={vi.fn()} />)
   expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   expect(state.auth.setup2fa).not.toHaveBeenCalled()
+})
+
+it('closes the onboarding tour on Skip without waiting for the preferences save', async () => {
+  state.user = { ...state.user, preferences: { onboarding_completed: false } }
+  // The save never settles, so only local state can close the tour.
+  state.auth.updateMe.mockReturnValue(new Promise(() => {}))
+  const { user } = renderWithProviders(<AppLayout />)
+
+  await user.click(await screen.findByRole('button', { name: t('onboarding.skip') }))
+
+  expect(screen.queryByRole('button', { name: t('onboarding.skip') })).not.toBeInTheDocument()
+  expect(localStorage.getItem('onboarding_completed')).toBe('true')
 })
