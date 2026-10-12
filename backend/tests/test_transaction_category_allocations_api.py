@@ -220,3 +220,38 @@ async def test_clear_allocations_with_empty_list(client, auth_headers, test_user
     assert resp.status_code == 200, resp.text
     updated = resp.json()
     assert updated.get("category_allocations", []) == []
+
+
+async def test_installment_series_keeps_category_allocations(client, auth_headers, test_user):
+    """Every parcel of an installment series gets the requested allocations."""
+    account = await _create_account(client, auth_headers)
+    food = await _create_category(client, auth_headers, "FoodInst")
+    clothing = await _create_category(client, auth_headers, "ClothingInst")
+
+    resp = await client.post(
+        "/api/transactions/installments",
+        headers=auth_headers,
+        json={
+            "base": {
+                "description": "Store card",
+                "amount": 150.00,
+                "date": "2025-01-15",
+                "type": "debit",
+                "account_id": account["id"],
+                "category_allocations": {
+                    "allocations": [
+                        {"category_id": food["id"], "amount": "100.00"},
+                        {"category_id": clothing["id"], "amount": "50.00"},
+                    ]
+                },
+            },
+            "installments": 3,
+        },
+    )
+    assert resp.status_code == 201, resp.text
+
+    parcels = resp.json()
+    assert len(parcels) == 3
+    for parcel in parcels:
+        amounts = {a["category_id"]: float(a["amount"]) for a in parcel["category_allocations"]}
+        assert amounts == {food["id"]: pytest.approx(100.00), clothing["id"]: pytest.approx(50.00)}

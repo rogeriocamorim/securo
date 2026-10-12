@@ -872,6 +872,7 @@ async def create_installment_series(
 
     await _ensure_category_in_workspace(session, workspace_id, base.category_id)
     await _ensure_payee_in_workspace(session, workspace_id, base.payee_id)
+    _assert_single_split_mode(base.splits, base.category_allocations)
 
     total = base.amount * n
     currency = base.currency or account.currency
@@ -928,6 +929,11 @@ async def create_installment_series(
             await stamp_primary_amount(session, user_id, tx)
         if base.splits is not None:
             await split_service.replace_splits(session, tx, base.splits, user_id)
+        # Every parcel stores the base amount, so the same allocations fit each one.
+        if base.category_allocations is not None:
+            await category_allocation_service.replace_category_allocations(
+                session, tx, base.category_allocations, user_id
+            )
 
     await session.commit()
     for tx in created:
