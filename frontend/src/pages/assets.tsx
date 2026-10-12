@@ -333,17 +333,17 @@ export default function AssetsPage() {
     byType[a.type] = (byType[a.type] || 0) + Number(a.current_value || 0)
   }
   const portfolioTotal = (portfolioData as { total?: number } | undefined)?.total
-  const assetsCtxKey = `${assetsList?.length ?? 0}:${totalValue.toFixed(2)}:${portfolioTotal ?? ''}`
+  const assetsCtxKey = `${summaryAssets.length}:${totalValue.toFixed(2)}:${portfolioTotal ?? ''}`
   useRegisterPageChatContext(
     {
       path: '/assets',
       label: 'Assets',
       summary:
-        `Portfolio overview page. ${assetsList?.length ?? 0} assets totaling ` +
+        `Portfolio overview page. ${summaryAssets.length} assets totaling ` +
         `~${totalValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} ` +
         `(by current_value). The portfolio chart shows value over time grouped by wallet or asset.`,
       totals_by_type: byType,
-      asset_count: assetsList?.length ?? 0,
+      asset_count: summaryAssets.length,
       total_value: Number(totalValue.toFixed(2)),
       hint: 'For exact per-asset numbers, use the get_net_worth or list_assets tools.',
     },
