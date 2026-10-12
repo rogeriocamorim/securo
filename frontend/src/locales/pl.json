@@ -1406,7 +1406,8 @@
     "recurringLabel": "Cykliczny",
     "monthTotal": "Suma miesiąca",
     "remaining": "Pozostało {{amount}}",
-    "overBy": "{{amount}} ponad budżet"
+    "overBy": "{{amount}} ponad budżet",
+    "spendingUnavailable": "Nie udało się wczytać wydatków za ten miesiąc."
   },
   "goals": {
     "title": "Cele",

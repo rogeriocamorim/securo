@@ -1370,7 +1370,8 @@
     "recurringLabel": "Регулярний",
     "monthTotal": "Разом за місяць",
     "remaining": "Залишилось {{amount}}",
-    "overBy": "Перевищення на {{amount}}"
+    "overBy": "Перевищення на {{amount}}",
+    "spendingUnavailable": "Не вдалося завантажити витрати за цей місяць."
   },
   "goals": {
     "title": "Цілі",

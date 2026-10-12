@@ -1353,7 +1353,8 @@
     "recurringLabel": "Recurring",
     "monthTotal": "Month total",
     "remaining": "{{amount}} left",
-    "overBy": "{{amount}} over budget"
+    "overBy": "{{amount}} over budget",
+    "spendingUnavailable": "Couldn't load spending for this month."
   },
   "goals": {
     "title": "Goals",

@@ -1421,7 +1421,8 @@
     "recurringLabel": "Opakovaný",
     "monthTotal": "Súčet za mesiac",
     "remaining": "Zostáva {{amount}}",
-    "overBy": "{{amount}} nad rozpočet"
+    "overBy": "{{amount}} nad rozpočet",
+    "spendingUnavailable": "Výdavky za tento mesiac sa nepodarilo načítať."
   },
   "goals": {
     "title": "Ciele",
