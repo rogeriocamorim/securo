@@ -12,7 +12,7 @@ import {
   CircleHelp, CircleParking, CircleUserRound, Clapperboard, ClipboardList,
   Clock, Cloud, CloudDownload, CloudRain, Code, Coffee, Coins, Compass,
   Cookie, CookingPot, Cpu, CreditCard, Croissant, Cross, Crown, CupSoda,
-  Database, Dices, Dog, DollarSign, Donut, DoorOpen, Dribbble, Drill,
+  Database, Dices, Dog, DollarSign, Donut, DoorOpen, Drill,
   Droplets, Drum, Drumstick, Dumbbell, Ear, Earth, Egg, Ellipsis, Euro, Eye,
   Fan, FileText, Film, Fish, FishSymbol, Flag, Flame, Flower, Flower2,
   Footprints, Forklift, Fuel, Gamepad2, Gavel, Gem, Gift, Glasses, Globe,
@@ -190,7 +190,6 @@ export const CATEGORY_ICONS: CategoryIconEntry[] = [
   { name: 'heart', icon: Heart, keywords: ['health', 'wellbeing', 'saude', 'bem estar'] },
   { name: 'waves', icon: Waves, keywords: ['swimming', 'pool', 'natacao', 'piscina'] },
   { name: 'volleyball', icon: Volleyball, keywords: ['volleyball', 'sport', 'volei', 'esporte'] },
-  { name: 'dribbble', icon: Dribbble, keywords: ['basketball', 'sport', 'basquete', 'esporte'] },
   { name: 'trophy', icon: Trophy, keywords: ['competition', 'award', 'competicao', 'premio'] },
   { name: 'medal', icon: Medal, keywords: ['achievement', 'sport', 'medalha', 'conquista'] },
   { name: 'tent', icon: Tent, keywords: ['camping', 'outdoors', 'camping', 'acampamento'] },
@@ -353,15 +352,18 @@ export const CATEGORY_ICONS: CategoryIconEntry[] = [
 ]
 
 // O(1) lookup map: icon-name → LucideIcon component
-export const ICON_MAP: Record<string, LucideIcon> = Object.fromEntries(
-  CATEGORY_ICONS.map((entry) => [entry.name, entry.icon])
-)
+export const ICON_MAP: Record<string, LucideIcon> = {
+  ...Object.fromEntries(CATEGORY_ICONS.map((entry) => [entry.name, entry.icon])),
+  // lucide-react 1.0 dropped its brand logos. Categories saved with one of
+  // them keep resolving to the nearest icon, but the picker no longer offers it.
+  dribbble: Volleyball,
+}
 
 /**
  * Tooltip text for an icon: 'shopping-cart' → 'Shopping Cart'.
  *
  * Derived from the icon name rather than translated. Naming all
- * 282 icons would mean 282 keys in each of the 16 locale
+ * 281 icons would mean 281 keys in each of the 16 locale
  * files, and `i18n.test.ts` holds those files to exact key parity.
  */
 export function iconLabel(name: string): string {

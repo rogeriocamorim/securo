@@ -32,7 +32,7 @@ export function IconPicker({ value, color, onChange }: IconPickerProps) {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      {/* Taller than the 56-icon catalogue needed: 282 icons scroll a long way
+      {/* Taller than the 56-icon catalogue needed: 281 icons scroll a long way
           otherwise, and the search box above is the fast path anyway. */}
       <div className="grid grid-cols-8 gap-1.5 max-h-64 overflow-y-auto p-1">
         {filtered.map((entry) => {
