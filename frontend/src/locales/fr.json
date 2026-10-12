@@ -1375,7 +1375,8 @@
     "recurringLabel": "Récurrent",
     "monthTotal": "Total du mois",
     "remaining": "Reste {{amount}}",
-    "overBy": "{{amount}} au-dessus du budget"
+    "overBy": "{{amount}} au-dessus du budget",
+    "spendingUnavailable": "Impossible de charger les dépenses de ce mois."
   },
   "goals": {
     "title": "Objectifs",

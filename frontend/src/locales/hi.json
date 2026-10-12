@@ -1371,7 +1371,8 @@
     "recurringLabel": "आवर्ती",
     "monthTotal": "माह का कुल",
     "remaining": "{{amount}} शेष",
-    "overBy": "बजट से {{amount}} अधिक"
+    "overBy": "बजट से {{amount}} अधिक",
+    "spendingUnavailable": "इस महीने का खर्च लोड नहीं हो सका।"
   },
   "goals": {
     "title": "लक्ष्य",

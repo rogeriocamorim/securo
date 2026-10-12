@@ -1371,7 +1371,8 @@
     "recurringLabel": "Επαναλαμβανόμενος",
     "monthTotal": "Σύνολο μήνα",
     "remaining": "Απομένουν {{amount}}",
-    "overBy": "{{amount}} πάνω από τον προϋπολογισμό"
+    "overBy": "{{amount}} πάνω από τον προϋπολογισμό",
+    "spendingUnavailable": "Δεν ήταν δυνατή η φόρτωση των εξόδων αυτού του μήνα."
   },
   "goals": {
     "title": "Στόχοι",
