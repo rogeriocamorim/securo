@@ -157,12 +157,18 @@ export function AppLayout() {
     typeof navigator !== 'undefined' &&
     /Mac|iPhone|iPad|iPod/.test(navigator.platform)
 
+  // Writing localStorage doesn't re-render, so without this the tour stayed
+  // up after "Skip" until the preferences request came back (or forever, if
+  // it failed).
+  const [tourDismissed, setTourDismissed] = useState(false)
   const showTour =
     user &&
+    !tourDismissed &&
     !user.preferences?.onboarding_completed &&
     !localStorage.getItem('onboarding_completed')
 
   const handleTourComplete = useCallback(async () => {
+    setTourDismissed(true)
     localStorage.setItem('onboarding_completed', 'true')
     try {
       const prefs = {
