@@ -229,31 +229,14 @@ export function parseAmountInput(value: string, locale = 'en-US'): number | null
     sign = -1
     text = text.slice(1)
   }
-  // When both group and decimal are digits (e.g. group='.' and decimal=','
-  // on dot_comma where Intl may return '.' as group for some locales), or
-  // when group equals decimal (shouldn't happen but guard), pick the LAST
-  // occurrence as the decimal separator because the fraction portion is
-  // always shorter and unambiguous. Without this, a value like "1.234,56"
-  // parsed with group=',' and decimal='.' would split on the first dot and
-  // return 1 instead of 1234.56 (issue #1072).
-  let decimalIndex = text.lastIndexOf(decimal)
-  if (group !== decimal && text.includes(group)) {
-    // If the group separator appears after the decimal point, it's actually
-    // part of the integer portion and we should use it as group, not as
-    // decimal. Re-parse: find the rightmost non-digit character that could
-    // be the decimal separator.
-    const lastNonDigit = Math.max(
-      text.lastIndexOf(group),
-      text.lastIndexOf(decimal),
-    )
-    if (lastNonDigit === text.lastIndexOf(group) && lastNonDigit > 0) {
-      // Group separator is after something — it's a thousands sep
-      decimalIndex = text.lastIndexOf(decimal)
-    } else if (lastNonDigit === text.lastIndexOf(decimal)) {
-      // Decimal is the rightmost separator — use it
-      decimalIndex = lastNonDigit
-    }
+  // On space_comma a dot can't be grouping (spaces are), so a lone dot is a
+  // decimal typed from habit or a numeric keypad — read it as one instead of
+  // rejecting the amount (issue #1072). dot_comma stays strict: there
+  // "1.500" is fifteen hundred.
+  if (decimal === ',' && group !== '.' && !text.includes(',') && text.split('.').length === 2) {
+    text = text.replace('.', ',')
   }
+  const decimalIndex = text.lastIndexOf(decimal)
   const integerPart = (decimalIndex >= 0 ? text.slice(0, decimalIndex) : text)
     .split(group)
     .join('')
@@ -282,4 +265,18 @@ export function formatAmountInput(
   } catch {
     return value.toFixed(2)
   }
+}
+
+/**
+ * Re-render text typed under one locale's separators for another, keeping
+ * the number it meant. Used when the display locale resolves while a form is
+ * open (the number-format setting loads after the form seeded its fields):
+ * "1234.56" seeded under en-US must become "1234,56" under de-DE, or saving
+ * the untouched field would read it as 123456. Text that doesn't parse under
+ * the old locale is left as typed.
+ */
+export function convertAmountInput(text: string, fromLocale: string, toLocale: string): string {
+  if (fromLocale === toLocale) return text
+  const value = parseAmountInput(text, fromLocale)
+  return value == null ? text : formatAmountInput(value, toLocale, 8)
 }
