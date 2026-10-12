@@ -23,6 +23,14 @@ describe('IconPicker', () => {
     expect(screen.queryByTitle('House')).not.toBeInTheDocument()
   })
 
+  it('finds an icon by the label shown on hover', () => {
+    const { search } = renderPicker()
+
+    fireEvent.change(search, { target: { value: 'Shopping Cart' } })
+
+    expect(screen.getByTitle('Shopping Cart')).toBeInTheDocument()
+  })
+
   it('finds an icon by a Portuguese keyword', () => {
     // The catalogue used to carry Portuguese labels, so a pt-BR user who
     // searched "cachorro" found the dog. That has to keep working.
