@@ -1741,7 +1741,8 @@
       "invalid_date": "Ungültiges Datumsformat",
       "no_amount": "Kein Zu- oder Abflussbetrag",
       "invalid_amount": "Ungültiges Betragsformat"
-    }
+    },
+    "selectAll": "Alle auswählen"
   },
   "assetImport": {
     "title": "Wertpapierorders importieren",
