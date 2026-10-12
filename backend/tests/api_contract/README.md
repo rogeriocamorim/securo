@@ -3,6 +3,33 @@
 Every route in the OpenAPI spec, every method, checked against an exact
 expected status code.
 
+## Safety: test data only, never a real account
+
+The sweep runs **in-process**, against the throwaway SQLite database the
+test suite creates. Its users are fakes from `tests/conftest.py`
+(`test@example.com`, an admin, a viewer). Nothing reaches Postgres, a
+running stack, or the internet.
+
+Do not point it, or a copy of it, at a real account or a deployed instance.
+About 185 of the cases write data: they delete transactions, accounts,
+categories and groups, archive workspaces, merge payees, void invoices and
+change admin settings. On real data that destroys the data.
+
+To look at a running stack, only read from it, as a disposable user on a
+local dev install. Never use prod or your own account.
+
+## Usage
+
+```bash
+cd backend
+uv run pytest tests/api_contract -n auto     # run the sweep (part of the normal suite)
+uv run pytest tests/api_contract -n auto -k "ok:POST /api/budgets"   # one route
+```
+
+A failure reads `METHOD path [variant] expected X, got Y: <response>`.
+Decide whether the change is intended (see "The baseline" below) before
+touching the baseline.
+
 ## What runs
 
 Each operation fans out into variants (`cases.py`):
