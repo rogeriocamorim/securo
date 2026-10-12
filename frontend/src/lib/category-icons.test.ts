@@ -78,10 +78,16 @@ describe('iconLabel', () => {
 
 describe('ICON_MAP', () => {
   it('exposes every catalogue entry for lookup', () => {
-    expect(Object.keys(ICON_MAP)).toHaveLength(CATEGORY_ICONS.length)
+    // Plus the legacy aliases for icons lucide-react no longer ships.
+    expect(Object.keys(ICON_MAP)).toHaveLength(CATEGORY_ICONS.length + 1)
     for (const entry of CATEGORY_ICONS) {
       expect(ICON_MAP[entry.name]).toBe(entry.icon)
     }
+  })
+
+  it('still resolves an icon name lucide-react removed, without offering it', () => {
+    expect(ICON_MAP.dribbble).toBe(ICON_MAP.volleyball)
+    expect(CATEGORY_ICONS.some((entry) => entry.name === 'dribbble')).toBe(false)
   })
 
   it('returns nothing for a name it does not know', () => {
