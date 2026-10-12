@@ -33,6 +33,14 @@ describe('IconPicker', () => {
     expect(screen.getByTitle('Dog')).toBeInTheDocument()
   })
 
+  it('matches a Portuguese keyword typed with accents', () => {
+    const { search } = renderPicker()
+
+    fireEvent.change(search, { target: { value: 'Música' } })
+
+    expect(screen.getByTitle('Music')).toBeInTheDocument()
+  })
+
   it('ignores case and surrounding whitespace in the query', () => {
     const { search } = renderPicker()
 
