@@ -3,10 +3,19 @@ name: Build and Push Docker Images
 on:
   release:
     types: [published]
+  # Release events don't start workflows on this fork, so the build can also
+  # be run by hand against an existing release tag.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to build (e.g. v0.17.0)"
+        required: true
+        type: string
 
 env:
   REGISTRY: ghcr.io
   IMAGE_PREFIX: ghcr.io/${{ github.repository_owner }}
+  RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
 
 permissions:
   contents: read
@@ -18,6 +27,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          ref: ${{ env.RELEASE_TAG }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -35,7 +46,7 @@ jobs:
         with:
           images: ${{ env.IMAGE_PREFIX }}/securo-backend
           tags: |
-            type=semver,pattern={{version}}
+            type=semver,pattern={{version}},value=${{ env.RELEASE_TAG }}
             type=raw,value=latest
 
       - name: Set up QEMU
@@ -58,6 +69,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          ref: ${{ env.RELEASE_TAG }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -75,7 +88,7 @@ jobs:
         with:
           images: ${{ env.IMAGE_PREFIX }}/securo-frontend
           tags: |
-            type=semver,pattern={{version}}
+            type=semver,pattern={{version}},value=${{ env.RELEASE_TAG }}
             type=raw,value=latest
 
       - name: Set up QEMU
@@ -91,7 +104,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VITE_APP_VERSION=${{ github.event.release.tag_name }}
+            VITE_APP_VERSION=${{ env.RELEASE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -101,6 +114,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+        with:
+          ref: ${{ env.RELEASE_TAG }}
 
       - name: Set up Helm
         uses: azure/setup-helm@v5
@@ -117,7 +132,7 @@ jobs:
       - name: Package and Push Helm Chart
         run: |
           # Strip the 'v' prefix from the release tag if it exists, as helm chart version needs to be semver without v.
-          VERSION="${{ github.event.release.tag_name }}"
+          VERSION="$RELEASE_TAG"
           VERSION="${VERSION#v}"
 
           echo "Injecting version $VERSION into artifacthub.io/images annotation"
