@@ -1368,7 +1368,11 @@
     "confirmDeleteDescription": "\"{{name}}\" का बजट स्थायी रूप से हट जाएगा। मौजूदा लेन-देन पर कोई असर नहीं पड़ता। यह कार्रवाई पूर्ववत नहीं की जा सकती।",
     "confirmDeleteRecurringDescription": "\"{{name}}\" का आवर्ती बजट स्थायी रूप से हट जाएगा। यह परिभाषा आगे के महीनों पर लागू नहीं होगी। मौजूदा लेन-देन पर कोई असर नहीं पड़ता। यह कार्रवाई पूर्ववत नहीं की जा सकती।",
     "repeatEveryMonth": "हर महीने दोहराएँ",
-    "recurringLabel": "आवर्ती"
+    "recurringLabel": "आवर्ती",
+    "monthTotal": "माह का कुल",
+    "remaining": "{{amount}} शेष",
+    "overBy": "बजट से {{amount}} अधिक",
+    "spendingUnavailable": "इस महीने का खर्च लोड नहीं हो सका।"
   },
   "goals": {
     "title": "लक्ष्य",
@@ -1737,7 +1741,8 @@
       "invalid_date": "अमान्य तिथि प्रारूप",
       "no_amount": "कोई आवक या जावक राशि नहीं",
       "invalid_amount": "अमान्य राशि प्रारूप"
-    }
+    },
+    "selectAll": "सभी चुनें"
   },
   "assetImport": {
     "title": "निवेश ऑर्डर इंपोर्ट करें",
@@ -1873,6 +1878,8 @@
     "yearly": "वार्षिक",
     "activeAssets": "सक्रिय संपत्तियाँ",
     "soldAssets": "बेची गई संपत्तियाँ",
+    "showArchived": "संग्रहीत दिखाएँ",
+    "archivedHint": "कुल में शामिल नहीं",
     "archivedAssets": "संग्रहीत संपत्तियाँ",
     "noAssets": "अभी कोई संपत्ति नहीं",
     "created": "संपत्ति बनी",
@@ -2125,6 +2132,7 @@
     }
   },
   "common": {
+    "invalidAmount": "मान्य राशि दर्ज करें",
     "selectTimezone": "समय क्षेत्र चुनें",
     "searchTimezone": "समय क्षेत्र खोजें...",
     "noTimezoneFound": "कोई समय क्षेत्र नहीं मिला।",

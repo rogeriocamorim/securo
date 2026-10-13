@@ -1372,7 +1372,11 @@
     "confirmDeleteDescription": "O orçamento para \"{{name}}\" será excluído permanentemente. As transações existentes não são afetadas. Esta ação não pode ser desfeita.",
     "confirmDeleteRecurringDescription": "O orçamento recorrente para \"{{name}}\" será excluído permanentemente. Esta definição não será mais aplicada nos meses seguintes. As transações existentes não são afetadas. Esta ação não pode ser desfeita.",
     "repeatEveryMonth": "Repetir todo mês",
-    "recurringLabel": "Recorrente"
+    "recurringLabel": "Recorrente",
+    "monthTotal": "Total do mês",
+    "remaining": "Restam {{amount}}",
+    "overBy": "{{amount}} acima do orçamento",
+    "spendingUnavailable": "Não foi possível carregar os gastos deste mês."
   },
   "goals": {
     "title": "Metas",
@@ -1741,7 +1745,8 @@
       "invalid_date": "Formato de data inválido",
       "no_amount": "Nenhum valor de entrada ou saída",
       "invalid_amount": "Formato de valor inválido"
-    }
+    },
+    "selectAll": "Selecionar todos"
   },
   "assetImport": {
     "title": "Importar ordens de investimento",
@@ -1877,6 +1882,8 @@
     "yearly": "Anual",
     "activeAssets": "Ativos",
     "soldAssets": "Vendidos",
+    "showArchived": "Mostrar arquivados",
+    "archivedHint": "Não entram nos totais",
     "archivedAssets": "Arquivados",
     "noAssets": "Nenhum ativo ainda",
     "created": "Ativo criado",
@@ -2129,6 +2136,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Informe um valor válido",
     "selectTimezone": "Selecionar fuso horário",
     "searchTimezone": "Buscar fuso horário...",
     "noTimezoneFound": "Nenhum fuso horário encontrado.",

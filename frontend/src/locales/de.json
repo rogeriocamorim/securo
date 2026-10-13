@@ -1369,7 +1369,11 @@
     "confirmDeleteDescription": "Das Budget für \"{{name}}\" wird dauerhaft gelöscht. Bestehende Transaktionen bleiben unverändert. Diese Aktion kann nicht rückgängig gemacht werden.",
     "confirmDeleteRecurringDescription": "Das wiederkehrende Budget für \"{{name}}\" wird dauerhaft gelöscht. Diese Definition gilt nicht mehr für zukünftige Monate. Bestehende Transaktionen bleiben unverändert. Diese Aktion kann nicht rückgängig gemacht werden.",
     "repeatEveryMonth": "Jeden Monat wiederholen",
-    "recurringLabel": "Wiederkehrend"
+    "recurringLabel": "Wiederkehrend",
+    "monthTotal": "Monatssumme",
+    "remaining": "{{amount}} übrig",
+    "overBy": "{{amount}} über Budget",
+    "spendingUnavailable": "Ausgaben für diesen Monat konnten nicht geladen werden."
   },
   "goals": {
     "title": "Ziele",
@@ -1738,7 +1742,8 @@
       "invalid_date": "Ungültiges Datumsformat",
       "no_amount": "Kein Zu- oder Abflussbetrag",
       "invalid_amount": "Ungültiges Betragsformat"
-    }
+    },
+    "selectAll": "Alle auswählen"
   },
   "assetImport": {
     "title": "Wertpapierorders importieren",
@@ -1874,6 +1879,8 @@
     "yearly": "Jährlich",
     "activeAssets": "Aktive Vermögenswerte",
     "soldAssets": "Verkaufte Vermögenswerte",
+    "showArchived": "Archivierte anzeigen",
+    "archivedHint": "Nicht in den Summen enthalten",
     "archivedAssets": "Archivierte Vermögenswerte",
     "noAssets": "Noch keine Vermögenswerte",
     "created": "Vermögenswert erstellt",
@@ -2126,6 +2133,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Gib einen gültigen Betrag ein",
     "selectTimezone": "Zeitzone wählen",
     "searchTimezone": "Zeitzone suchen...",
     "noTimezoneFound": "Keine Zeitzone gefunden.",

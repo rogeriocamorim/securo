@@ -1368,7 +1368,11 @@
     "confirmDeleteDescription": "「{{name}}」の予算を完全に削除します。既存の取引には影響しません。この操作は取り消せません。",
     "confirmDeleteRecurringDescription": "「{{name}}」の定期的な予算を完全に削除します。この定義は以降の月には適用されなくなります。既存の取引には影響しません。この操作は取り消せません。",
     "repeatEveryMonth": "毎月繰り返す",
-    "recurringLabel": "定期的"
+    "recurringLabel": "定期的",
+    "monthTotal": "今月の合計",
+    "remaining": "残り {{amount}}",
+    "overBy": "予算超過 {{amount}}",
+    "spendingUnavailable": "今月の支出を読み込めませんでした。"
   },
   "goals": {
     "title": "目標",
@@ -1737,7 +1741,8 @@
       "invalid_date": "無効な日付形式",
       "no_amount": "入金/出金金額なし",
       "invalid_amount": "無効な金額形式"
-    }
+    },
+    "selectAll": "すべて選択"
   },
   "assetImport": {
     "title": "投資注文をインポート",
@@ -1873,6 +1878,8 @@
     "yearly": "毎年",
     "activeAssets": "保有資産",
     "soldAssets": "売却済み資産",
+    "showArchived": "アーカイブ済みを表示",
+    "archivedHint": "合計には含まれません",
     "archivedAssets": "アーカイブ済み資産",
     "noAssets": "資産はまだありません",
     "created": "資産を作成しました",
@@ -2125,6 +2132,7 @@
     }
   },
   "common": {
+    "invalidAmount": "有効な金額を入力してください",
     "selectTimezone": "タイムゾーンを選択",
     "searchTimezone": "タイムゾーンを検索...",
     "noTimezoneFound": "タイムゾーンが見つかりません。",

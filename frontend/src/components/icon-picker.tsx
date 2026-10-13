@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CATEGORY_ICONS, iconLabel } from '@/lib/category-icons'
-import { cn } from '@/lib/utils'
+import { cn, normalizeText } from '@/lib/utils'
 
 interface IconPickerProps {
   value: string
@@ -14,12 +14,15 @@ export function IconPicker({ value, color, onChange }: IconPickerProps) {
   const [search, setSearch] = useState('')
 
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase()
+    // Accent-insensitive, so "música" finds the "musica" keyword. The
+    // displayed label counts too: "Shopping Cart" has to find shopping-cart.
+    const q = normalizeText(search.trim())
     if (!q) return CATEGORY_ICONS
     return CATEGORY_ICONS.filter(
       (entry) =>
         entry.name.includes(q) ||
-        entry.keywords.some((keyword) => keyword.includes(q))
+        normalizeText(iconLabel(entry.name)).includes(q) ||
+        entry.keywords.some((keyword) => normalizeText(keyword).includes(q))
     )
   }, [search])
 
