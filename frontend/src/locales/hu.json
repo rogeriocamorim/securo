@@ -878,7 +878,24 @@
     "fxRateUsed": "Árfolyam: {{rate}}",
     "refreshRates": "Árfolyamok frissítése",
     "ratesRefreshed": "Árfolyamok frissítve",
-    "ratesError": "Nem sikerült frissíteni az árfolyamokat"
+    "ratesError": "Nem sikerült frissíteni az árfolyamokat",
+    "customize": {
+      "button": "Testreszabás",
+      "title": "Irányítópult testreszabása",
+      "description": "Válaszd ki, mely szakaszok jelenjenek meg és milyen sorrendben.",
+      "reset": "Visszaállítás alapértelmezettre",
+      "moveUp": "{{widget}} mozgatása felfelé",
+      "moveDown": "{{widget}} mozgatása lefelé",
+      "saveError": "Az irányítópult elrendezését nem sikerült menteni",
+      "widgets": {
+        "hero": "Egyenleg és havi összefoglaló",
+        "uncategorized": "Kategorizálatlan tranzakciók",
+        "categorySpending": "Kiadások kategóriánként",
+        "balanceFlow": "Egyenlegalakulás",
+        "goals": "Célok",
+        "transactions": "Tranzakciók"
+      }
+    }
   },
   "transactions": {
     "title": "Tranzakciók",
@@ -1148,7 +1165,8 @@
     "invoiceBadgeTooltip": "Ez a tranzakció egy számlát egyenlít ki. Megnyitás.",
     "suggestionBadge": "Kérdés",
     "suggestionBadgeTooltip": "Lehet, hogy egy befizetés kiegyenlíti ezt. Nyisd meg a sort a válaszhoz.",
-    "clearGroupFilter": "Csoportszűrő törlése"
+    "clearGroupFilter": "Csoportszűrő törlése",
+    "splitByCategory": "Felosztás"
   },
   "accounts": {
     "title": "Számlák",
@@ -1350,7 +1368,11 @@
     "confirmDeleteDescription": "A(z) „{{name}}” költségkerete véglegesen törlődik. A meglévő tranzakciókat ez nem érinti. Ez a művelet nem vonható vissza.",
     "confirmDeleteRecurringDescription": "A(z) „{{name}}” ismétlődő költségkerete véglegesen törlődik. Ez a beállítás a későbbi hónapokra sem vonatkozik majd. A meglévő tranzakciókat ez nem érinti. Ez a művelet nem vonható vissza.",
     "repeatEveryMonth": "Ismétlés minden hónapban",
-    "recurringLabel": "Ismétlődő"
+    "recurringLabel": "Ismétlődő",
+    "monthTotal": "Havi összesen",
+    "remaining": "{{amount}} maradt",
+    "overBy": "{{amount}} összeggel túllépted a keretet",
+    "spendingUnavailable": "Ebben a hónapban nem sikerült betölteni a költéseket."
   },
   "goals": {
     "title": "Célok",
@@ -1910,7 +1932,9 @@
     "total": "Összesen",
     "confirmRegenerateTitle": "Újragenerálod az értékeket?",
     "confirmRegenerate": "A növekedési paraméterek megváltoztak. Az összes automatikusan generált érték törlődik és újraszámolódik. A kézi értékek megmaradnak.",
-    "regenerate": "Újragenerálás"
+    "regenerate": "Újragenerálás",
+    "showArchived": "Archiváltak megjelenítése",
+    "archivedHint": "Nem számít bele az összegekbe"
   },
   "reports": {
     "section": "Elemzések",
@@ -1989,7 +2013,21 @@
     "range30d": "30 nap",
     "customRange": "Egyéni időszak",
     "pickCustomRange": "Válassz kezdő és záró dátumot",
-    "loadError": "Nem sikerült betölteni a jelentést"
+    "loadError": "Nem sikerült betölteni a jelentést",
+    "statement": "Kimutatás",
+    "statementIncomeTotal": "Bevételek összesen",
+    "statementExpenseTotal": "Kiadások összesen",
+    "statementSettings": "Jelentés beállításai",
+    "statementSortBy": "Rendezés",
+    "statementSortDefault": "Alapértelmezett",
+    "statementSortAsc": "Érték (legkisebbtől)",
+    "statementSortDesc": "Érték (legnagyobbtól)",
+    "statementColumns": "Oszlopok száma",
+    "statementShowChange": "Százalékos változás megjelenítése",
+    "statementViewTransactions": "Tranzakciók megtekintése",
+    "statementUncategorizedIncome": "Kategorizálatlan bevétel",
+    "statementUncategorizedExpense": "Kategorizálatlan kiadás",
+    "statementToggleGroup": "Kategóriák megjelenítése: {{name}}"
   },
   "payees": {
     "noPayeeFound": "Nincs ilyen partner.",
@@ -2144,7 +2182,8 @@
     "preview": "Előnézet",
     "download": "Letöltés",
     "closePreview": "Előnézet bezárása",
-    "remove": "Eltávolítás"
+    "remove": "Eltávolítás",
+    "invalidAmount": "Adj meg egy érvényes összeget"
   },
   "splitGroups": {
     "searchPlaceholder": "Csoportok keresése...",
@@ -2263,6 +2302,17 @@
       "project": "Projekt",
       "client": "Ügyfél",
       "other": "Egyéb"
+    },
+    "categorySplits": {
+      "title": "Felosztás kategóriánként",
+      "addRow": "Kategória hozzáadása",
+      "category": "Kategória",
+      "amount": "Összeg",
+      "remove": "Eltávolítás",
+      "sum": "Összeg: {{sum}} / {{total}} {{currency}}",
+      "badge": "Felosztva",
+      "modeAmongPeople": "Személyek között",
+      "modeByCategory": "Kategóriánként"
     }
   },
   "privacy": {

@@ -877,7 +877,7 @@ function TransactionForm({
               categoryId,
               payeeId,
               description,
-              amount,
+              amount: parsedAmount ?? 0,
               date,
               type,
               currency,
