@@ -10,6 +10,20 @@ function getFrontendHost(frontendUrl?: string) {
   return [withoutProto.split(/[:/]/)[0]]
 }
 
+const DEFAULT_RELEASE_REPO = 'securo-finance/securo'
+const releaseRepoPattern = /^[A-Za-z0-9-]+\/[A-Za-z0-9._-]+$/
+
+// GitHub repo whose releases the update check compares against, so forks
+// that publish their own images point their users at their own releases.
+function resolveReleaseRepo(value?: string) {
+  const trimmed = value?.trim()
+  if (!trimmed) return DEFAULT_RELEASE_REPO
+  if (!releaseRepoPattern.test(trimmed)) {
+    throw new Error(`VITE_RELEASE_REPO must be "owner/name", got "${trimmed}"`)
+  }
+  return trimmed
+}
+
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, import.meta.dirname, '')
   const frontendUrl = env.FRONTEND_URL || process.env.FRONTEND_URL
@@ -19,10 +33,14 @@ export default defineConfig(async ({ mode }) => {
     appVersionRoot || import.meta.dirname,
     env.VITE_APP_VERSION || process.env.VITE_APP_VERSION,
   )
+  const releaseRepo = resolveReleaseRepo(
+    env.VITE_RELEASE_REPO || process.env.VITE_RELEASE_REPO,
+  )
 
   return {
     define: {
       __APP_VERSION__: JSON.stringify(appVersion),
+      __RELEASE_REPO__: JSON.stringify(releaseRepo),
     },
     build: {
       // Keep the existing per-chunk budget; optional locales load on demand.

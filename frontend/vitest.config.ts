@@ -12,6 +12,7 @@ export default defineConfig({
     // Without it here, anything importing lib/build-info throws on import,
     // which takes the whole app shell down with it.
     __APP_VERSION__: JSON.stringify('0.0.0-test'),
+    __RELEASE_REPO__: JSON.stringify('securo-finance/securo'),
   },
   resolve: {
     alias: [

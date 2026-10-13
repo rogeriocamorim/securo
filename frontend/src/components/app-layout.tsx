@@ -58,6 +58,7 @@ import { TwoFactorSetup } from '@/components/two-factor-setup'
 import { PasskeyManagementDialog } from '@/components/passkey-management-dialog'
 import { CommandPalette } from '@/components/command-palette'
 import { useCommandPaletteHotkey } from '@/hooks/use-command-palette-hotkey'
+import { useLoginUpdatePrompt } from '@/hooks/use-login-update-prompt'
 import { GlobalChatPanel } from '@/components/global-chat-panel'
 import { useFeatureFlags } from '@/hooks/use-feature-flags'
 import { Bot, Plus, Search, Sparkles } from 'lucide-react'
@@ -109,6 +110,8 @@ export function AppLayout() {
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [chatOpen, setChatOpen] = useState(false)
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false)
+  const openUpdateDialog = useCallback(() => setUpdateDialogOpen(true), [])
+  useLoginUpdatePrompt(openUpdateDialog)
   useCommandPaletteHotkey(setPaletteOpen)
   const { agentsEnabled } = useFeatureFlags()
   const { hasModule, isLoading: workspaceLoading, canWrite } = useWorkspace()
