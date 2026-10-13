@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, type ReactNode } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { auth } from '@/lib/api'
+import { markLoginForUpdatePrompt } from '@/hooks/use-login-update-prompt'
 import type { User } from '@/types'
 
 import { AuthContext, type LoginResult } from '@/contexts/auth-context'
@@ -51,24 +52,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const accessToken = data.access_token
     localStorage.setItem('token', accessToken)
     setToken(accessToken)
+    markLoginForUpdatePrompt(queryClient)
     const me = await auth.me()
     setUser(me)
     return { requires_2fa: false }
-  }, [])
+  }, [queryClient])
 
   const verify2fa = useCallback(async (tempToken: string, code: string) => {
     const data = await auth.verify2fa(tempToken, code)
     localStorage.setItem('token', data.access_token)
     setToken(data.access_token)
+    markLoginForUpdatePrompt(queryClient)
     const me = await auth.me()
     setUser(me)
-  }, [])
+  }, [queryClient])
 
   const loginWithToken = useCallback((accessToken: string) => {
     localStorage.setItem('token', accessToken)
     setToken(accessToken)
+    markLoginForUpdatePrompt(queryClient)
     auth.me().then(setUser).catch(() => {})
-  }, [])
+  }, [queryClient])
 
   const updateUser = useCallback((updatedUser: User) => {
     setUser(updatedUser)
