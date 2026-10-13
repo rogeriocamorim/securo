@@ -1875,6 +1875,8 @@
     "yearly": "Jaarlijks",
     "activeAssets": "Actieve activa",
     "soldAssets": "Verkochte activa",
+    "showArchived": "Gearchiveerde tonen",
+    "archivedHint": "Niet meegeteld in totalen",
     "archivedAssets": "Gearchiveerde activa",
     "noAssets": "Nog geen activa",
     "created": "Item gemaakt",
