@@ -105,6 +105,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             VITE_APP_VERSION=${{ env.RELEASE_TAG }}
+            VITE_RELEASE_REPO=${{ github.repository }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

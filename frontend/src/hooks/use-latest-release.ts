@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { useAutoUpdateCheck } from '@/hooks/use-auto-update-check'
+import { RELEASE_REPO } from '@/lib/build-info'
 
-const LATEST_RELEASE_URL =
-  'https://api.github.com/repos/securo-finance/securo/releases/latest'
+const LATEST_RELEASE_URL = `https://api.github.com/repos/${RELEASE_REPO}/releases/latest`
 
 const SIX_HOURS = 1000 * 60 * 60 * 6
 
@@ -27,11 +27,14 @@ async function fetchLatestRelease(): Promise<LatestRelease | null> {
 export function useLatestRelease() {
   const { enabled } = useAutoUpdateCheck()
   return useQuery<LatestRelease | null>({
-    queryKey: ['latest-release', 'securo-finance/securo'],
+    queryKey: ['latest-release', RELEASE_REPO],
     queryFn: fetchLatestRelease,
     enabled,
     staleTime: SIX_HOURS,
     gcTime: SIX_HOURS,
+    // Keep checking in tabs that stay open for days, not only on page load.
+    refetchInterval: SIX_HOURS,
+    refetchIntervalInBackground: true,
     retry: 1,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
