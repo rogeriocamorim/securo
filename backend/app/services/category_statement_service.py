@@ -17,7 +17,6 @@ from sqlalchemy import case, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.app_clock import app_today
-from app.models.account import Account
 from app.models.category import Category
 from app.models.category_group import CategoryGroup
 from app.models.transaction import Transaction
@@ -76,7 +75,6 @@ async def get_category_statement(
     month_starts = [_shift_month(selected, -i) for i in range(months)]
     base_filters = [
         Transaction.workspace_id == workspace_id,
-        Account.is_closed == False,
         Transaction.source != "opening_balance",
         Transaction.status == "posted",
         report_date <= today,
@@ -106,7 +104,6 @@ async def get_category_statement(
                 func.sum(case((Transaction.type == "debit", amount_expr), else_=0)),
             )
             .select_from(Transaction)
-            .join(Account, Transaction.account_id == Account.id)
             .where(*base_filters, report_date >= m_start, report_date < m_end)
             .group_by(Transaction.category_id)
         )
@@ -145,7 +142,6 @@ async def get_category_statement(
             func.sum(case((Transaction.type == "credit", amount_expr), else_=-amount_expr)),
         )
         .select_from(Transaction)
-        .join(Account, Transaction.account_id == Account.id)
         .where(
             *base_filters,
             Transaction.category_id.isnot(None),
