@@ -147,7 +147,7 @@ async def test_statement_skips_rows_without_activity_in_window(
 
 
 @pytest.mark.asyncio
-async def test_statement_respects_account_filter_and_closed_accounts(
+async def test_statement_respects_account_filter_and_keeps_closed_accounts(
     session: AsyncSession, test_user, test_workspace, statement_data
 ):
     food, _, _ = statement_data["categories"]
@@ -163,7 +163,7 @@ async def test_statement_respects_account_filter_and_closed_accounts(
         session, test_workspace.id, test_user.id, date(2025, 2, 1), months=1,
         primary_currency="BRL",
     )
-    assert everything.expenses.rows[0].values == [-320.0]
+    assert everything.expenses.rows[0].values == [-1319.0]
 
     scoped = await get_category_statement(
         session, test_workspace.id, test_user.id, date(2025, 2, 1), months=1,
