@@ -269,7 +269,7 @@ export default function BudgetsPage() {
               e.preventDefault()
               const formData = new FormData(e.currentTarget)
               const amount = parseAmountInput(formData.get('amount') as string, locale)
-              if (amount == null) {
+              if (amount == null || amount <= 0) {
                 toast.error(t('common.invalidAmount'))
                 return
               }
