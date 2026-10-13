@@ -6,7 +6,6 @@ secrets/
 .playwright-mcp/
 .claude
 .mcp.json
-CLAUDE.md
 docs/plans/
 tmp/
 docker-compose.override.yml
@@ -23,3 +22,8 @@ backend/data/
 # view). Rebuildable from source with `graphify update .`, and large enough
 # that keeping it in history is pure bloat.
 graphify-out/
+
+# Local agent-tool state and scratch dumps; never part of the product.
+.claude-flow/
+*_raw.json
+phase1_bugs.json

@@ -34,15 +34,11 @@ const FAILURE_KEYS: Record<PasskeyFailure, string> = {
   unknown: 'auth.passkeyRegisterError',
 }
 
-export function PasskeyManagementDialog(props: PasskeyManagementDialogProps) {
-  return props.open ? <PasskeyManagementSession {...props} /> : null
-}
-
-function PasskeyManagementSession({ open, onClose, localAuthEnabled = true }: PasskeyManagementDialogProps) {
+export function PasskeyManagementDialog({ open, onClose, localAuthEnabled = true }: PasskeyManagementDialogProps) {
   const { t } = useTranslation()
   const [passkeys, setPasskeys] = useState<Passkey[]>([])
   const [name, setName] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(open)
   const [saving, setSaving] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null)
@@ -52,21 +48,37 @@ function PasskeyManagementSession({ open, onClose, localAuthEnabled = true }: Pa
   // on top of the cleanup copy.
   const blocker = localAuthEnabled ? passkeyBlocker() : null
 
-  const loadPasskeys = useCallback(async () => {
-    setLoading(true)
-    setLoadFailed(false)
-    try {
-      setPasskeys(await auth.listPasskeys())
-    } catch {
-      setLoadFailed(true)
-    } finally {
-      setLoading(false)
-    }
+  // State only changes once the request settles; `isCurrent` lets the
+  // effect drop a response that arrives after the dialog closed.
+  const settlePasskeys = useCallback((isCurrent: () => boolean) => {
+    auth.listPasskeys().then(
+      (list) => { if (isCurrent()) setPasskeys(list) },
+      () => { if (isCurrent()) setLoadFailed(true) },
+    ).finally(() => { if (isCurrent()) setLoading(false) })
   }, [])
 
+  const loadPasskeys = () => {
+    setLoading(true)
+    setLoadFailed(false)
+    settlePasskeys(() => true)
+  }
+
+  // Opening the dialog shows the spinner straight away; the effect fetches.
+  const [wasOpen, setWasOpen] = useState(open)
+  if (wasOpen !== open) {
+    setWasOpen(open)
+    if (open) {
+      setLoading(true)
+      setLoadFailed(false)
+    }
+  }
+
   useEffect(() => {
-    if (open) void loadPasskeys()
-  }, [open, loadPasskeys])
+    if (!open) return
+    let current = true
+    settlePasskeys(() => current)
+    return () => { current = false }
+  }, [open, settlePasskeys])
 
   const formatDate = (value: string | null) => {
     if (!value) return t('auth.passkeyNeverUsed')

@@ -822,6 +822,23 @@
   },
   "dashboard": {
     "title": "Prehľad",
+    "customize": {
+      "button": "Prispôsobiť",
+      "title": "Prispôsobiť nástenku",
+      "description": "Vyberte, ktoré sekcie sa zobrazia a v akom poradí.",
+      "reset": "Obnoviť predvolené",
+      "moveUp": "Posunúť {{widget}} hore",
+      "moveDown": "Posunúť {{widget}} dole",
+      "saveError": "Rozloženie nástenky sa nepodarilo uložiť",
+      "widgets": {
+        "hero": "Zostatok a mesačný prehľad",
+        "uncategorized": "Nekategorizované transakcie",
+        "categorySpending": "Výdavky podľa kategórie",
+        "balanceFlow": "Vývoj zostatku",
+        "goals": "Ciele",
+        "transactions": "Transakcie"
+      }
+    },
     "greetingMorning": "Dobré ráno",
     "greetingAfternoon": "Dobrý deň",
     "greetingEvening": "Dobrý večer",
@@ -1200,7 +1217,8 @@
     "invoiceBadgeTooltip": "Táto transakcia vyrovnáva faktúru. Otvorte ju.",
     "suggestionBadge": "Otázka",
     "suggestionBadgeTooltip": "Platba môže uhradiť túto faktúru. Otvorte front a odpovedzte.",
-    "clearGroupFilter": "Zrušiť filter skupiny"
+    "clearGroupFilter": "Zrušiť filter skupiny",
+    "splitByCategory": "Rozdelené"
   },
   "accounts": {
     "title": "Účty",
@@ -1418,7 +1436,11 @@
     "confirmDeleteDescription": "Rozpočet pre „{{name}}“ bude natrvalo vymazaný. Existujúce transakcie to neovplyvní. Túto akciu nie je možné vrátiť späť.",
     "confirmDeleteRecurringDescription": "Opakovaný rozpočet pre „{{name}}“ bude natrvalo vymazaný. Táto definícia sa už nebude vzťahovať na ďalšie mesiace. Existujúce transakcie to neovplyvní. Túto akciu nie je možné vrátiť späť.",
     "repeatEveryMonth": "Opakovať každý mesiac",
-    "recurringLabel": "Opakovaný"
+    "recurringLabel": "Opakovaný",
+    "monthTotal": "Súčet za mesiac",
+    "remaining": "Zostáva {{amount}}",
+    "overBy": "{{amount}} nad rozpočet",
+    "spendingUnavailable": "Výdavky za tento mesiac sa nepodarilo načítať."
   },
   "goals": {
     "title": "Ciele",
@@ -1972,6 +1994,8 @@
     "yearly": "Ročne",
     "activeAssets": "Aktívne aktíva",
     "soldAssets": "Predané aktíva",
+    "showArchived": "Zobraziť archivované",
+    "archivedHint": "Nezapočítavajú sa do súčtov",
     "archivedAssets": "Archivované aktíva",
     "noAssets": "Zatiaľ žiadne aktíva",
     "created": "Aktívum vytvorené",
@@ -2105,7 +2129,21 @@
     "range30d": "30D",
     "customRange": "Vlastný rozsah",
     "pickCustomRange": "Vyberte dátum začiatku a konca",
-    "loadError": "Nepodarilo sa načítať prehľad"
+    "loadError": "Nepodarilo sa načítať prehľad",
+    "statement": "Výkaz",
+    "statementIncomeTotal": "Príjmy spolu",
+    "statementExpenseTotal": "Výdavky spolu",
+    "statementSettings": "Možnosti prehľadu",
+    "statementSortBy": "Zoradiť podľa",
+    "statementSortDefault": "Predvolené",
+    "statementSortAsc": "Suma (od najmenšej)",
+    "statementSortDesc": "Suma (od najväčšej)",
+    "statementColumns": "Počet stĺpcov",
+    "statementShowChange": "Zobraziť percentuálnu zmenu",
+    "statementViewTransactions": "Zobraziť transakcie",
+    "statementUncategorizedIncome": "Príjmy bez kategórie",
+    "statementUncategorizedExpense": "Výdavky bez kategórie",
+    "statementToggleGroup": "Zobraziť kategórie v {{name}}"
   },
   "payees": {
     "noPayeeFound": "Príjemca sa nenašiel.",
@@ -2235,6 +2273,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Zadajte platnú sumu",
     "selectTimezone": "Vyberte časové pásmo",
     "searchTimezone": "Hľadať časové pásmo...",
     "noTimezoneFound": "Nenašlo sa žiadne časové pásmo.",
@@ -2399,6 +2438,17 @@
       "project": "Projekt",
       "client": "Klient",
       "other": "Iné"
+    },
+    "categorySplits": {
+      "title": "Rozdeliť podľa kategórie",
+      "addRow": "Pridať kategóriu",
+      "category": "Kategória",
+      "amount": "Suma",
+      "remove": "Odstrániť",
+      "sum": "Súčet: {{sum}} / {{total}} {{currency}}",
+      "badge": "Rozdelené",
+      "modeAmongPeople": "Medzi ľuďmi",
+      "modeByCategory": "Podľa kategórie"
     }
   },
   "privacy": {

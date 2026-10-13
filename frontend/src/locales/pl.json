@@ -822,6 +822,23 @@
   },
   "dashboard": {
     "title": "Pulpit",
+    "customize": {
+      "button": "Dostosuj",
+      "title": "Dostosuj pulpit",
+      "description": "Wybierz, które sekcje się pojawiają i w jakiej kolejności.",
+      "reset": "Przywróć domyślne",
+      "moveUp": "Przesuń {{widget}} w górę",
+      "moveDown": "Przesuń {{widget}} w dół",
+      "saveError": "Nie udało się zapisać układu pulpitu",
+      "widgets": {
+        "hero": "Saldo i podsumowanie miesiąca",
+        "uncategorized": "Transakcje bez kategorii",
+        "categorySpending": "Wydatki według kategorii",
+        "balanceFlow": "Przepływ salda",
+        "goals": "Cele",
+        "transactions": "Transakcje"
+      }
+    },
     "greetingMorning": "Dzień dobry",
     "greetingAfternoon": "Dzień dobry",
     "greetingEvening": "Dobry wieczór",
@@ -1189,7 +1206,8 @@
     "invoiceBadgeTooltip": "Ta transakcja rozlicza fakturę. Otwórz ją.",
     "suggestionBadge": "Pytanie",
     "suggestionBadgeTooltip": "Płatność może opłacić tę fakturę. Otwórz kolejkę, aby odpowiedzieć.",
-    "clearGroupFilter": "Wyczyść filtr grupy"
+    "clearGroupFilter": "Wyczyść filtr grupy",
+    "splitByCategory": "Podzielone"
   },
   "accounts": {
     "title": "Konta",
@@ -1403,7 +1421,11 @@
     "confirmDeleteDescription": "Budżet dla „{{name}}” zostanie trwale usunięty. Istniejące transakcje nie zostaną zmienione. Tej operacji nie można cofnąć.",
     "confirmDeleteRecurringDescription": "Cykliczny budżet dla „{{name}}” zostanie trwale usunięty. Ta definicja nie będzie już stosowana w kolejnych miesiącach. Istniejące transakcje nie zostaną zmienione. Tej operacji nie można cofnąć.",
     "repeatEveryMonth": "Powtarzaj co miesiąc",
-    "recurringLabel": "Cykliczny"
+    "recurringLabel": "Cykliczny",
+    "monthTotal": "Suma miesiąca",
+    "remaining": "Pozostało {{amount}}",
+    "overBy": "{{amount}} ponad budżet",
+    "spendingUnavailable": "Nie udało się wczytać wydatków za ten miesiąc."
   },
   "goals": {
     "title": "Cele",
@@ -1945,6 +1967,8 @@
     "yearly": "Rocznie",
     "activeAssets": "Aktywne",
     "soldAssets": "Sprzedane",
+    "showArchived": "Pokaż zarchiwizowane",
+    "archivedHint": "Nie wliczane do sum",
     "archivedAssets": "Zarchiwizowane",
     "noAssets": "Brak aktywów",
     "created": "Utworzono aktywo",
@@ -2078,7 +2102,21 @@
     "range30d": "30D",
     "customRange": "Zakres niestandardowy",
     "pickCustomRange": "Wybierz datę początkową i końcową",
-    "loadError": "Nie udało się załadować raportu"
+    "loadError": "Nie udało się załadować raportu",
+    "statement": "Zestawienie",
+    "statementIncomeTotal": "Przychody łącznie",
+    "statementExpenseTotal": "Wydatki łącznie",
+    "statementSettings": "Opcje raportu",
+    "statementSortBy": "Sortuj według",
+    "statementSortDefault": "Domyślnie",
+    "statementSortAsc": "Kwota (od najmniejszej)",
+    "statementSortDesc": "Kwota (od największej)",
+    "statementColumns": "Liczba kolumn",
+    "statementShowChange": "Pokaż zmianę procentową",
+    "statementViewTransactions": "Pokaż transakcje",
+    "statementUncategorizedIncome": "Przychody bez kategorii",
+    "statementUncategorizedExpense": "Wydatki bez kategorii",
+    "statementToggleGroup": "Pokaż kategorie w {{name}}"
   },
   "payees": {
     "noPayeeFound": "Nie znaleziono odbiorcy.",
@@ -2206,6 +2244,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Wprowadź prawidłową kwotę",
     "selectTimezone": "Wybierz strefę czasową",
     "searchTimezone": "Szukaj strefy czasowej...",
     "noTimezoneFound": "Nie znaleziono strefy czasowej.",
@@ -2367,6 +2406,17 @@
       "project": "Projekt",
       "client": "Klient",
       "other": "Inne"
+    },
+    "categorySplits": {
+      "title": "Podziel według kategorii",
+      "addRow": "Dodaj kategorię",
+      "category": "Kategoria",
+      "amount": "Kwota",
+      "remove": "Usuń",
+      "sum": "Suma: {{sum}} / {{total}} {{currency}}",
+      "badge": "Podzielone",
+      "modeAmongPeople": "Między osobami",
+      "modeByCategory": "Według kategorii"
     }
   },
   "privacy": {

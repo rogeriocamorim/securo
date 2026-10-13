@@ -1,8 +1,9 @@
-import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo, useEffect, useRef, Fragment } from 'react'
 import { useRegisterPageChatContext } from '@/lib/page-chat-context'
 import { getAccountName } from '@/lib/account-utils'
 import { AccountIcon } from '@/components/account-icon'
 import { currentMonth, monthRange, monthFromRange } from '@/lib/month-utils'
+import { loadRange, saveRange } from '@/lib/remembered-range'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useDisplayLocale, useDateLocale } from '@/hooks/use-display-locale'
@@ -66,6 +67,34 @@ import { useCollectionFilter } from '@/contexts/collection-filter-context'
 import { formatCurrency } from '@/lib/format'
 import { shouldShowPendingBadge } from '@/lib/transaction-status'
 
+// Stable fallback while the list loads, so memoized consumers keep their cache.
+const NO_TRANSACTIONS: Transaction[] = []
+
+type DateGroup = { date: string; label: string; items: Transaction[] }
+
+/** Consecutive transactions sharing a date, labelled for the mobile card view. */
+function groupByDate(items: Transaction[], dateLocale: string): DateGroup[] {
+  const groups: DateGroup[] = []
+  let current: DateGroup | null = null
+  for (const tx of items) {
+    if (!current || current.date !== tx.date) {
+      current = {
+        date: tx.date,
+        label: new Date(tx.date + 'T00:00:00').toLocaleDateString(dateLocale, {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        }),
+        items: [],
+      }
+      groups.push(current)
+    }
+    current.items.push(tx)
+  }
+  return groups
+}
+
 type TransactionUpdatePayload = TransactionEditPayload & {
   apply_to_transfer_pair?: boolean
   apply_to?: TransactionApplyScope
@@ -116,19 +145,21 @@ export default function TransactionsPage() {
     return initial ? [initial] : []
   })
   const [filterUncategorized, setFilterUncategorized] = useState<boolean>(false)
-  // Seed the date range from the URL, or default to the current month on first
-  // open (no ?from/?to). Done in the initializer so it survives effect re-runs
-  // (e.g. React StrictMode's double-invoke in development).
-  const [filterFrom, setFilterFrom] = useState<string>(() => {
+  // Seed the date range from the URL, else the range last used on this page
+  // (issue #1053), else the current month. Done in the initializer so it
+  // survives effect re-runs (e.g. React StrictMode's double-invoke in
+  // development).
+  const [initialRange] = useState(() => {
     const f = searchParams.get('from')
     const t = searchParams.get('to')
-    return f || t ? (f ?? '') : monthRange(currentMonth()).from
+    if (f || t) return { from: f ?? '', to: t ?? '' }
+    return loadRange('transactions') ?? monthRange(currentMonth())
   })
-  const [filterTo, setFilterTo] = useState<string>(() => {
-    const f = searchParams.get('from')
-    const t = searchParams.get('to')
-    return f || t ? (t ?? '') : monthRange(currentMonth()).to
-  })
+  const [filterFrom, setFilterFrom] = useState<string>(initialRange.from)
+  const [filterTo, setFilterTo] = useState<string>(initialRange.to)
+  useEffect(() => {
+    saveRange('transactions', filterFrom, filterTo)
+  }, [filterFrom, filterTo])
   // Month reflected by the stepper: the active range when it spans exactly one
   // full month, otherwise the current month (custom ranges still navigable).
   const steppedMonth = monthFromRange(filterFrom, filterTo) ?? currentMonth()
@@ -218,21 +249,16 @@ export default function TransactionsPage() {
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(null)
   const highlightId = searchParams.get('highlight')
   const highlightedRowRef = useRef<HTMLTableRowElement | null>(null)
-  // Last URL query we synced from, to tell a genuine navigation apart from the
-  // initial mount (and from StrictMode's double-invoke, which repeats the same
-  // value). Starts null so the first run is recognized as the initial mount.
-  const prevSearchRef = useRef<string | null>(null)
-
   // Sync state from URL when navigating (e.g. from the command palette) while
   // the page is already mounted. Typing in the search box does not touch the
-  // URL, so this effect only fires on genuine navigation events.
-  useEffect(() => {
-    const search = searchParams.toString()
-    // Skip re-runs with an unchanged query (e.g. StrictMode's second mount),
-    // so they can't override the initial current-month default.
-    if (prevSearchRef.current === search) return
-    const isInitial = prevSearchRef.current === null
-    prevSearchRef.current = search
+  // URL, so this only fires on genuine navigation events. Adjusted while
+  // rendering; `syncedSearch` is the last query applied and starts null so the
+  // first render is recognised as the initial mount.
+  const search = searchParams.toString()
+  const [syncedSearch, setSyncedSearch] = useState<string | null>(null)
+  if (syncedSearch !== search) {
+    const isInitial = syncedSearch === null
+    setSyncedSearch(search)
 
     const nextQ = searchParams.get('q') ?? ''
     setViewMode(searchParams.get('view') === 'calendar' ? 'calendar' : 'list')
@@ -267,7 +293,7 @@ export default function TransactionsPage() {
     setFilterMinAmount(searchParams.get('min_amount') ?? '');
     setFilterMaxAmount(searchParams.get('max_amount') ?? '');
     setPage(1)
-  }, [searchParams])
+  }
 
   // Keep the URL in sync with the current filters, so that the current page can be
   // refreshed, bookmarked or shared.
@@ -326,26 +352,37 @@ export default function TransactionsPage() {
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
   }, [searchInput])
 
-  // Clear selection on page/filter change
-  useEffect(() => {
+  // Clear selection on page/filter change. The adjustments below run while
+  // rendering, so a frame never shows a selection from the previous view.
+  const selectionScope = JSON.stringify([page, filterAccountIds, filterCategoryIds, filterUncategorized, filterPayee, filterType, filterStatus, filterFrom, filterTo, filterMinAmount, filterMaxAmount, searchQuery])
+  const [prevSelectionScope, setPrevSelectionScope] = useState(selectionScope)
+  if (prevSelectionScope !== selectionScope) {
+    setPrevSelectionScope(selectionScope)
     setSelectedIds(new Set())
     setLastSelectedId(null)
     setBulkCategory('')
-  }, [page, filterAccountIds, filterCategoryIds, filterUncategorized, filterPayee, filterType, filterStatus, filterFrom, filterTo, filterMinAmount, filterMaxAmount, searchQuery])
+  }
 
-  useEffect(() => {
+  // The calendar shows one account at a time and has no row selection.
+  // Starts null so a page that opens in calendar view is adjusted too.
+  const calendarScope = viewMode === 'calendar' ? filterAccountIds.length : null
+  const [prevCalendarScope, setPrevCalendarScope] = useState<number | null | undefined>(undefined)
+  if (prevCalendarScope !== calendarScope) {
+    setPrevCalendarScope(calendarScope)
     if (viewMode === 'calendar') {
-      setFilterAccountIds((prev) => prev.length > 1 ? [] : prev)
+      if (filterAccountIds.length > 1) setFilterAccountIds([])
       setSelectedIds(new Set())
       setLastSelectedId(null)
       setBulkCategory('')
     }
-  }, [viewMode, filterAccountIds.length])
+  }
 
   // Reset bulk category when selection changes so the same category can be re-applied
-  useEffect(() => {
+  const [bulkCategorySelection, setBulkCategorySelection] = useState(selectedIds)
+  if (bulkCategorySelection !== selectedIds) {
+    setBulkCategorySelection(selectedIds)
     setBulkCategory('')
-  }, [selectedIds])
+  }
 
   // Scroll to and flash a highlighted row after navigation (e.g. opened via
   // the command palette). Re-runs whenever highlightId or the current data
@@ -752,31 +789,12 @@ export default function TransactionsPage() {
 
   // Tag filtering is now applied server-side, so the visible list and the
   // page count both reflect the same filtered total — issue #88.
-  const filteredItems = useMemo(() => data?.items ?? [], [data?.items])
+  const filteredItems = data?.items ?? NO_TRANSACTIONS
   const selectableItems = filteredItems.filter(tx => !tx.is_shared)
 
-  // Group transactions by date for the mobile card view
-  const groupedByDate = useMemo(() => {
-    const groups: { date: string; label: string; items: Transaction[] }[] = []
-    let current: { date: string; label: string; items: Transaction[] } | null = null
-    for (const tx of filteredItems) {
-      if (!current || current.date !== tx.date) {
-        current = {
-          date: tx.date,
-          label: new Date(tx.date + 'T00:00:00').toLocaleDateString(dateLocale, {
-            weekday: 'short',
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-          }),
-          items: [],
-        }
-        groups.push(current)
-      }
-      current.items.push(tx)
-    }
-    return groups
-  }, [filteredItems, dateLocale])
+  // Group transactions by date for the mobile card view. One page of rows,
+  // so it is computed directly rather than memoized.
+  const groupedByDate = groupByDate(filteredItems, dateLocale)
 
   // Pre-resolve accounts into a Map for O(1) lookup in the mobile card view
   const accountById = useMemo(() => {
@@ -1132,6 +1150,11 @@ export default function TransactionsPage() {
                     : t('transactions.invoiceBadgeNoNumber')}
               </Link>
             ))}
+            {tx.category_allocations && tx.category_allocations.length > 0 && (
+              <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-teal-700 bg-teal-50 border border-teal-200 dark:bg-teal-950/40 dark:text-teal-300 dark:border-teal-900 px-1.5 py-0.5 rounded-full">
+                {t('splitGroups.categorySplits.badge')}
+              </span>
+            )}
             {!!tx.transfer_pair_id && (
               <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-blue-600 bg-blue-50 border border-blue-200 px-1.5 py-0.5 rounded-full">
                 <ArrowLeftRight className="h-3 w-3" />
@@ -1236,7 +1259,9 @@ export default function TransactionsPage() {
       case 'category':
         return (
           <TableCell key={col.id} style={widthStyle} className={baseClass}>
-            {tx.category ? (
+            {tx.category_allocations && tx.category_allocations.length > 0 ? (
+              <span className="text-xs text-muted-foreground italic">~ {t('transactions.splitByCategory')}</span>
+            ) : tx.category ? (
               <span className="text-sm text-muted-foreground">{tx.category.name}</span>
             ) : (
               <span className="text-xs text-muted-foreground italic">{t('transactions.noCategory')}</span>
@@ -1571,42 +1596,73 @@ export default function TransactionsPage() {
             </TableHeader>
             <TableBody>
               {filteredItems.map((tx) => (
-                <TableRow
-                  key={tx.id}
-                  ref={tx.id === highlightId ? highlightedRowRef : undefined}
-                  className={`hover:bg-muted border-b border-border last:border-0 ${
-                    selectedIds.has(tx.id) ? 'bg-primary/5' : ''
-                  } ${tx.is_shared || !canWrite ? 'cursor-default' : 'cursor-pointer'}`}
-                  onClick={() => {
-                    if (tx.is_shared) {
-                      // Owned by another user — view in the group context instead.
-                      if (tx.group_id) navigate(`/groups/${tx.group_id}`)
-                      return
-                    }
-                    if (!canWrite) return
-                    setEditingTx(tx)
-                    setDialogOpen(true)
-                  }}
-                >
-                  <TableCell style={{ width: 40, minWidth: 40 }} className="py-2.5 pl-4 pr-0">
-                    {/* Bulk operations are scoped to user.id so they
-                        silently skip shared rows — hide the checkbox
-                        on those to avoid the dead-end UX. */}
-                    {canWrite && !tx.is_shared && (
-                      <input
-                        type="checkbox"
-                        checked={selectedIds.has(tx.id)}
-                        onChange={() => {}}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSelect(tx.id, e.shiftKey)
+                <Fragment key={tx.id}>
+                  <TableRow
+                    ref={tx.id === highlightId ? highlightedRowRef : undefined}
+                    className={`hover:bg-muted border-b border-border ${
+                      tx.category_allocations && tx.category_allocations.length > 0 ? '' : 'last:border-0'
+                    } ${
+                      selectedIds.has(tx.id) ? 'bg-primary/5' : ''
+                    } ${tx.is_shared || !canWrite ? 'cursor-default' : 'cursor-pointer'}`}
+                    onClick={() => {
+                      if (tx.is_shared) {
+                        // Owned by another user — view in the group context instead.
+                        if (tx.group_id) navigate(`/groups/${tx.group_id}`)
+                        return
+                      }
+                      if (!canWrite) return
+                      setEditingTx(tx)
+                      setDialogOpen(true)
+                    }}
+                  >
+                    <TableCell style={{ width: 40, minWidth: 40 }} className="py-2.5 pl-4 pr-0">
+                      {/* Bulk operations are scoped to user.id so they
+                          silently skip shared rows — hide the checkbox
+                          on those to avoid the dead-end UX. */}
+                      {canWrite && !tx.is_shared && (
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.has(tx.id)}
+                          onChange={() => {}}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            toggleSelect(tx.id, e.shiftKey)
+                          }}
+                          className="h-4 w-4 rounded border-border accent-primary cursor-pointer"
+                        />
+                      )}
+                    </TableCell>
+                    {grid.visibleColumns.map(col => renderBodyCell(col, tx))}
+                  </TableRow>
+                  {tx.category_allocations && tx.category_allocations.length > 0 && tx.category_allocations.map((alloc, i) => {
+                    const cat = categoriesList?.find(c => c.id === alloc.category_id)
+                    const isLast = i === tx.category_allocations!.length - 1
+                    return (
+                      <TableRow
+                        key={alloc.id}
+                        className={`border-b border-border/50 ${isLast ? 'last:border-0' : ''} bg-muted/20 hover:bg-muted/40 ${!canWrite ? 'cursor-default' : 'cursor-pointer'}`}
+                        onClick={() => {
+                          if (!canWrite) return
+                          setEditingTx(tx)
+                          setDialogOpen(true)
                         }}
-                        className="h-4 w-4 rounded border-border accent-primary cursor-pointer"
-                      />
-                    )}
-                  </TableCell>
-                  {grid.visibleColumns.map(col => renderBodyCell(col, tx))}
-                </TableRow>
+                      >
+                        <TableCell style={{ width: 40, minWidth: 40 }} className="py-1.5 pl-4 pr-0" />
+                        <TableCell colSpan={grid.visibleColumns.length} className="py-1.5">
+                          <div className="flex items-center justify-between pr-5">
+                            <span className="flex items-center gap-1.5 pl-4 text-xs text-muted-foreground">
+                              <span className="opacity-50">↳</span>
+                              {cat ? cat.name : <span className="italic">{t('transactions.noCategory')}</span>}
+                            </span>
+                            <span className="text-xs tabular-nums text-muted-foreground">
+                              {mask(formatCurrency(Number(alloc.amount), tx.currency, locale))}
+                            </span>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
+                </Fragment>
               ))}
               {filteredItems.length === 0 && (
                 <TableRow>

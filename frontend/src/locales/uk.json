@@ -822,6 +822,23 @@
   },
   "dashboard": {
     "title": "Панель",
+    "customize": {
+      "button": "Налаштувати",
+      "title": "Налаштувати панель",
+      "description": "Виберіть, які розділи показувати і в якому порядку.",
+      "reset": "Скинути до типових",
+      "moveUp": "Перемістити «{{widget}}» вгору",
+      "moveDown": "Перемістити «{{widget}}» вниз",
+      "saveError": "Не вдалося зберегти макет панелі",
+      "widgets": {
+        "hero": "Баланс і підсумок місяця",
+        "uncategorized": "Транзакції без категорії",
+        "categorySpending": "Витрати за категоріями",
+        "balanceFlow": "Динаміка балансу",
+        "goals": "Цілі",
+        "transactions": "Транзакції"
+      }
+    },
     "greetingMorning": "Доброго ранку",
     "greetingAfternoon": "Добрий день",
     "greetingEvening": "Добрий вечір",
@@ -1162,7 +1179,8 @@
     "invoiceBadgeTooltip": "Ця операція закриває рахунок. Відкрити.",
     "suggestionBadge": "Питання",
     "suggestionBadgeTooltip": "Платіж може закрити цей рахунок. Відкрийте чергу, щоб відповісти.",
-    "clearGroupFilter": "Скинути фільтр групи"
+    "clearGroupFilter": "Скинути фільтр групи",
+    "splitByCategory": "Розподілено"
   },
   "accounts": {
     "title": "Рахунки",
@@ -1367,7 +1385,11 @@
     "confirmDeleteDescription": "Бюджет для «{{name}}» буде видалено назавжди. Наявні транзакції не будуть порушені. Цю дію не можна скасувати.",
     "confirmDeleteRecurringDescription": "Регулярний бюджет для «{{name}}» буде видалено назавжди. Це визначення більше не застосовуватиметься в наступних місяцях. Наявні транзакції не будуть порушені. Цю дію не можна скасувати.",
     "repeatEveryMonth": "Повторювати щомісяця",
-    "recurringLabel": "Регулярний"
+    "recurringLabel": "Регулярний",
+    "monthTotal": "Разом за місяць",
+    "remaining": "Залишилось {{amount}}",
+    "overBy": "Перевищення на {{amount}}",
+    "spendingUnavailable": "Не вдалося завантажити витрати за цей місяць."
   },
   "goals": {
     "title": "Цілі",
@@ -1873,6 +1895,8 @@
     "yearly": "Щороку",
     "activeAssets": "Активні активи",
     "soldAssets": "Продані активи",
+    "showArchived": "Показати архівні",
+    "archivedHint": "Не враховуються в підсумках",
     "archivedAssets": "Архівовані активи",
     "noAssets": "Активів поки немає",
     "created": "Актив створено",
@@ -2006,7 +2030,21 @@
     "range30d": "30Д",
     "customRange": "Довільний діапазон",
     "pickCustomRange": "Виберіть дату початку та кінця",
-    "loadError": "Не вдалося завантажити звіт"
+    "loadError": "Не вдалося завантажити звіт",
+    "statement": "Звіт за категоріями",
+    "statementIncomeTotal": "Усього доходів",
+    "statementExpenseTotal": "Усього витрат",
+    "statementSettings": "Параметри звіту",
+    "statementSortBy": "Сортувати за",
+    "statementSortDefault": "За замовчуванням",
+    "statementSortAsc": "Сума (за зростанням)",
+    "statementSortDesc": "Сума (за спаданням)",
+    "statementColumns": "Кількість стовпців",
+    "statementShowChange": "Показувати зміну у відсотках",
+    "statementViewTransactions": "Переглянути транзакції",
+    "statementUncategorizedIncome": "Доходи без категорії",
+    "statementUncategorizedExpense": "Витрати без категорії",
+    "statementToggleGroup": "Показати категорії групи {{name}}"
   },
   "payees": {
     "noPayeeFound": "Отримувача не знайдено.",
@@ -2128,6 +2166,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Введіть коректну суму",
     "selectTimezone": "Виберіть часовий пояс",
     "searchTimezone": "Пошук часового поясу...",
     "noTimezoneFound": "Часовий пояс не знайдено.",
@@ -2280,6 +2319,17 @@
       "project": "Проєкт",
       "client": "Клієнт",
       "other": "Інше"
+    },
+    "categorySplits": {
+      "title": "Розподілити за категоріями",
+      "addRow": "Додати категорію",
+      "category": "Категорія",
+      "amount": "Сума",
+      "remove": "Видалити",
+      "sum": "Сума: {{sum}} / {{total}} {{currency}}",
+      "badge": "Розподілено",
+      "modeAmongPeople": "Між людьми",
+      "modeByCategory": "За категоріями"
     }
   },
   "privacy": {

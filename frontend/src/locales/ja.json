@@ -814,6 +814,23 @@
   },
   "dashboard": {
     "title": "ダッシュボード",
+    "customize": {
+      "button": "カスタマイズ",
+      "title": "ダッシュボードをカスタマイズ",
+      "description": "表示するセクションと順序を選択します。",
+      "reset": "デフォルトに戻す",
+      "moveUp": "{{widget}}を上へ移動",
+      "moveDown": "{{widget}}を下へ移動",
+      "saveError": "ダッシュボードのレイアウトを保存できませんでした",
+      "widgets": {
+        "hero": "残高と月次サマリー",
+        "uncategorized": "未分類の取引",
+        "categorySpending": "カテゴリ別支出",
+        "balanceFlow": "残高推移",
+        "goals": "目標",
+        "transactions": "取引"
+      }
+    },
     "greetingMorning": "おはようございます",
     "greetingAfternoon": "こんにちは",
     "greetingEvening": "こんばんは",
@@ -1148,7 +1165,8 @@
     "invoiceBadgeTooltip": "この取引は請求書を決済しています。開く。",
     "suggestionBadge": "要確認",
     "suggestionBadgeTooltip": "これが何かを消し込む可能性があります。キューを開いて回答してください。",
-    "clearGroupFilter": "グループフィルターを解除"
+    "clearGroupFilter": "グループフィルターを解除",
+    "splitByCategory": "分割"
   },
   "accounts": {
     "title": "口座",
@@ -1350,7 +1368,11 @@
     "confirmDeleteDescription": "「{{name}}」の予算を完全に削除します。既存の取引には影響しません。この操作は取り消せません。",
     "confirmDeleteRecurringDescription": "「{{name}}」の定期的な予算を完全に削除します。この定義は以降の月には適用されなくなります。既存の取引には影響しません。この操作は取り消せません。",
     "repeatEveryMonth": "毎月繰り返す",
-    "recurringLabel": "定期的"
+    "recurringLabel": "定期的",
+    "monthTotal": "今月の合計",
+    "remaining": "残り {{amount}}",
+    "overBy": "予算超過 {{amount}}",
+    "spendingUnavailable": "今月の支出を読み込めませんでした。"
   },
   "goals": {
     "title": "目標",
@@ -1856,6 +1878,8 @@
     "yearly": "毎年",
     "activeAssets": "保有資産",
     "soldAssets": "売却済み資産",
+    "showArchived": "アーカイブ済みを表示",
+    "archivedHint": "合計には含まれません",
     "archivedAssets": "アーカイブ済み資産",
     "noAssets": "資産はまだありません",
     "created": "資産を作成しました",
@@ -1989,7 +2013,21 @@
     "range30d": "30日",
     "customRange": "期間を指定",
     "pickCustomRange": "開始日と終了日を選択",
-    "loadError": "レポートの読み込みに失敗しました"
+    "loadError": "レポートの読み込みに失敗しました",
+    "statement": "収支明細",
+    "statementIncomeTotal": "収入合計",
+    "statementExpenseTotal": "支出合計",
+    "statementSettings": "レポートのオプション",
+    "statementSortBy": "並べ替え",
+    "statementSortDefault": "デフォルト",
+    "statementSortAsc": "金額（小さい順）",
+    "statementSortDesc": "金額（大きい順）",
+    "statementColumns": "列数",
+    "statementShowChange": "変化率を表示",
+    "statementViewTransactions": "取引を表示",
+    "statementUncategorizedIncome": "未分類の収入",
+    "statementUncategorizedExpense": "未分類の支出",
+    "statementToggleGroup": "{{name}} のカテゴリを表示"
   },
   "payees": {
     "noPayeeFound": "取引相手が見つかりません。",
@@ -2111,6 +2149,7 @@
     }
   },
   "common": {
+    "invalidAmount": "有効な金額を入力してください",
     "selectTimezone": "タイムゾーンを選択",
     "searchTimezone": "タイムゾーンを検索...",
     "noTimezoneFound": "タイムゾーンが見つかりません。",
@@ -2263,6 +2302,17 @@
       "project": "プロジェクト",
       "client": "クライアント",
       "other": "その他"
+    },
+    "categorySplits": {
+      "title": "カテゴリで分割",
+      "addRow": "カテゴリを追加",
+      "category": "カテゴリ",
+      "amount": "金額",
+      "remove": "削除",
+      "sum": "合計: {{sum}} / {{total}} {{currency}}",
+      "badge": "分割",
+      "modeAmongPeople": "人の間で分割",
+      "modeByCategory": "カテゴリ別"
     }
   },
   "privacy": {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
@@ -40,13 +40,17 @@ export function TokenConnectDialog({
   const [submitting, setSubmitting] = useState(false)
   const [syncAssets, setSyncAssets] = useState(true)
 
-  useEffect(() => {
+  // Closing the dialog clears it for next time, while rendering rather than
+  // in an effect so a reopen never flashes the previous token.
+  const [wasOpen, setWasOpen] = useState(open)
+  if (wasOpen !== open) {
+    setWasOpen(open)
     if (!open) {
       setToken('')
       setSubmitting(false)
       setSyncAssets(true)
     }
-  }, [open])
+  }
 
   const bridgeUrl = PROVIDER_BRIDGE_URLS[provider]
   const i18nKey = `accounts.tokenConnect.${provider}`

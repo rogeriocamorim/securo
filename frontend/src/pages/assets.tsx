@@ -59,7 +59,6 @@ import { useWorkspace } from '@/contexts/workspace-context'
 import { useCollectionFilter } from '@/contexts/collection-filter-context'
 import { getAssetProfit } from '@/lib/asset-profit'
 import { getPortfolioShare, getPortfolioTotalPrimary } from '@/lib/asset-portfolio-share'
-import { formatTransactionTotal, getTransactionTotalCurrency } from '@/lib/asset-transaction-total'
 import { formatCurrency } from '@/lib/format'
 
 // Renders a logo image when one is available, falling back to the asset's
@@ -186,6 +185,8 @@ function assetErrorMessage(e: unknown, fallback: string): string {
   return resp?.status ? `${fallback} (${resp.status})` : fallback
 }
 
+const SHOW_ARCHIVED_STORAGE_KEY = 'securo.assets.showArchived'
+
 export default function AssetsPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -245,8 +246,9 @@ export default function AssetsPage() {
   const [formGrowthStartDate, setFormGrowthStartDate] = useState<string>('')
   // Market-price form state
   const [formTickerQuery, setFormTickerQuery] = useState('')
-  const [tickerMatches, setTickerMatches] = useState<MarketSymbolMatch[]>([])
-  const [tickerSearchLoading, setTickerSearchLoading] = useState(false)
+  // Search results remember the query they answer, so "loading" and "no
+  // results yet" can be derived instead of toggled from an effect.
+  const [tickerResults, setTickerResults] = useState<{ query: string; matches: MarketSymbolMatch[] }>({ query: '', matches: [] })
   const [selectedQuote, setSelectedQuote] = useState<MarketSymbolQuote | null>(null)
   const [formUnits, setFormUnits] = useState('')
   // Per-unit purchase price for the opening buy of a market-priced holding.
@@ -256,9 +258,27 @@ export default function AssetsPage() {
   const [formUnitPrice, setFormUnitPrice] = useState('')
   const [quoteLoading, setQuoteLoading] = useState(false)
 
+  // Archived holdings stay out of the page unless asked for (issue #1046):
+  // archiving is how a double-counted synced holding is taken out of net
+  // worth, and that shouldn't cost the user the view of the position.
+  const [showArchived, setShowArchived] = useState(() => {
+    try {
+      return localStorage.getItem(SHOW_ARCHIVED_STORAGE_KEY) === 'true'
+    } catch {
+      return false
+    }
+  })
+  const toggleShowArchived = (next: boolean) => {
+    setShowArchived(next)
+    try {
+      localStorage.setItem(SHOW_ARCHIVED_STORAGE_KEY, String(next))
+    } catch {
+      // Remembering the choice is best-effort.
+    }
+  }
   const { data: rawAssetsList, isLoading } = useQuery({
-    queryKey: ['assets'],
-    queryFn: () => assets.list(false),
+    queryKey: ['assets', { includeArchived: showArchived }],
+    queryFn: () => assets.list(showArchived),
   })
 
   // Active Collection filter (issue #105): when a collection is active, scope
@@ -303,27 +323,28 @@ export default function AssetsPage() {
   // Publish a snapshot of what's on the Assets page so the global chat
   // (⌘J) can answer "what does this chart mean / what are these
   // wallets?" without needing the user to spell it out.
-  const totalValue = (assetsList ?? []).reduce(
+  const summaryAssets = useMemo(() => (assetsList ?? []).filter((a) => !a.is_archived), [assetsList])
+  const totalValue = summaryAssets.reduce(
     (acc: number, a: { current_value?: number | null }) => acc + Number(a.current_value || 0),
     0,
   )
   const byType: Record<string, number> = {}
-  for (const a of (assetsList ?? []) as Array<{ type?: string; current_value?: number | null }>) {
+  for (const a of summaryAssets as Array<{ type?: string; current_value?: number | null }>) {
     if (!a.type) continue
     byType[a.type] = (byType[a.type] || 0) + Number(a.current_value || 0)
   }
   const portfolioTotal = (portfolioData as { total?: number } | undefined)?.total
-  const assetsCtxKey = `${assetsList?.length ?? 0}:${totalValue.toFixed(2)}:${portfolioTotal ?? ''}`
+  const assetsCtxKey = `${summaryAssets.length}:${totalValue.toFixed(2)}:${portfolioTotal ?? ''}`
   useRegisterPageChatContext(
     {
       path: '/assets',
       label: 'Assets',
       summary:
-        `Portfolio overview page. ${assetsList?.length ?? 0} assets totaling ` +
+        `Portfolio overview page. ${summaryAssets.length} assets totaling ` +
         `~${totalValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })} ` +
         `(by current_value). The portfolio chart shows value over time grouped by wallet or asset.`,
       totals_by_type: byType,
-      asset_count: assetsList?.length ?? 0,
+      asset_count: summaryAssets.length,
       total_value: Number(totalValue.toFixed(2)),
       hint: 'For exact per-asset numbers, use the get_net_worth or list_assets tools.',
     },
@@ -493,6 +514,8 @@ export default function AssetsPage() {
 
   const activeAssets = useMemo(() => assetsList?.filter(a => !a.sell_date && !a.is_archived) ?? [], [assetsList])
   const soldAssets = assetsList?.filter(a => a.sell_date) ?? []
+  // Only present when "Show archived" is on; never part of the totals.
+  const archivedAssets = assetsList?.filter(a => a.is_archived && !a.sell_date) ?? []
   // Denominator for the "% of portfolio" column: current holdings only, in the
   // user's primary currency, so the active rows add up to 100%.
   const portfolioTotalPrimary = getPortfolioTotalPrimary(activeAssets)
@@ -500,32 +523,33 @@ export default function AssetsPage() {
   // Debounced ticker search. Runs only when the market-price method is
   // selected and the query is non-trivial — keeps the autocomplete snappy
   // without flooding the yfinance-backed endpoint.
+  const tickerQuery = formTickerQuery.trim()
+  // Don't search if the field matches the already-selected quote — the
+  // user just picked it and we'd spam the endpoint for no reason.
+  const tickerSearchDue =
+    formMethod === 'market_price' &&
+    tickerQuery.length > 0 &&
+    !(selectedQuote && tickerQuery === selectedQuote.symbol)
+  const tickerSearchLoading = tickerSearchDue && tickerResults.query !== tickerQuery
+  const tickerMatches = tickerQuery.length > 0 ? tickerResults.matches : []
+
   useEffect(() => {
-    if (formMethod !== 'market_price') return
-    const q = formTickerQuery.trim()
-    // Don't search if the field matches the already-selected quote — the
-    // user just picked it and we'd spam the endpoint for no reason.
-    if (selectedQuote && q === selectedQuote.symbol) return
-    if (q.length < 1) {
-      setTickerMatches([])
-      return
-    }
-    setTickerSearchLoading(true)
-    const handle = window.setTimeout(async () => {
-      try {
-        const results = await assets.marketSearch(q, 10)
-        setTickerMatches(results)
-      } catch {
-        setTickerMatches([])
-      } finally {
-        setTickerSearchLoading(false)
-      }
+    if (!tickerSearchDue) return
+    let current = true
+    const handle = window.setTimeout(() => {
+      assets.marketSearch(tickerQuery, 10).then(
+        (matches) => { if (current) setTickerResults({ query: tickerQuery, matches }) },
+        () => { if (current) setTickerResults({ query: tickerQuery, matches: [] }) },
+      )
     }, 300)
-    return () => window.clearTimeout(handle)
-  }, [formMethod, formTickerQuery, selectedQuote])
+    return () => {
+      current = false
+      window.clearTimeout(handle)
+    }
+  }, [tickerSearchDue, tickerQuery])
 
   async function pickTickerMatch(match: MarketSymbolMatch) {
-    setTickerMatches([])
+    setTickerResults({ query: match.symbol, matches: [] })
     setFormTickerQuery(match.symbol)
     setQuoteLoading(true)
     try {
@@ -559,12 +583,11 @@ export default function AssetsPage() {
 
   function resetMarketPriceForm() {
     setFormTickerQuery('')
-    setTickerMatches([])
+    setTickerResults({ query: '', matches: [] })
     setSelectedQuote(null)
     setFormUnits('')
     setFormUnitPrice('')
     setQuoteLoading(false)
-    setTickerSearchLoading(false)
   }
 
 
@@ -738,7 +761,8 @@ export default function AssetsPage() {
     const isProviderOwned = isSynced && !isMarketPriced
     const hasCost = asset.average_price != null && asset.total_invested != null
     const profit = getAssetProfit(asset)
-    const pctOfPortfolio = asset.sell_date ? null : getPortfolioShare(asset, portfolioTotalPrimary)
+    // Sold and archived holdings aren't part of the portfolio the share is of.
+    const pctOfPortfolio = asset.sell_date || asset.is_archived ? null : getPortfolioShare(asset, portfolioTotalPrimary)
     const needsBuys = isMarketPriced && !hasCost && !asset.sell_date
 
     return (
@@ -1076,10 +1100,22 @@ export default function AssetsPage() {
           {t('assets.tabTransactions')}
         </button>
       </div>
+      {activeTab === 'holdings' && (
+        <label className="ml-3 inline-flex items-center gap-2 text-xs text-muted-foreground cursor-pointer select-none">
+          <input
+            type="checkbox"
+            checked={showArchived}
+            onChange={(e) => toggleShowArchived(e.target.checked)}
+            className="h-3.5 w-3.5 rounded border-border accent-primary"
+          />
+          {t('assets.showArchived')}
+        </label>
+      )}
 
       {activeTab === 'transactions' ? (
         <AssetTransactionsTab
-          holdings={assetsList ?? []}
+          // Archived holdings are a Holdings-view option only.
+          holdings={summaryAssets}
           wallets={sortedWallets}
           locale={locale}
           dateLocale={dateLocale}
@@ -1133,10 +1169,23 @@ export default function AssetsPage() {
             </div>
           )}
 
-          {activeAssets.length === 0 && soldAssets.length === 0 && (
-            <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden text-center py-16 text-muted-foreground">
-              <Package size={32} className="mx-auto mb-2 opacity-50" />
-              <p>{t('assets.noAssets')}</p>
+          {/* Archived Assets */}
+          {archivedAssets.length > 0 && (
+            <div className="space-y-2">
+              <div className="flex items-baseline gap-2 px-1">
+                <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  {t('assets.archivedAssets')}
+                </h3>
+                <span className="text-xs text-muted-foreground">{t('assets.archivedHint')}</span>
+              </div>
+              <div className="opacity-60">{renderHoldingsTable(archivedAssets)}</div>
+            </div>
+          )}
+
+          {activeAssets.length === 0 && soldAssets.length === 0 && archivedAssets.length === 0 && (
+            <div className="text-center py-16">
+              <Package className="mx-auto h-12 w-12 text-muted-foreground/40 mb-3" />
+              <p className="text-muted-foreground">{t('assets.noAssets')}</p>
             </div>
           )}
         </div>
@@ -2474,9 +2523,9 @@ function AssetTransactionsTab({
         </div>
       ) : (txs ?? []).length === 0 ? (
         holdingsWithoutCost.length === 0 ? (
-          <div className="bg-card rounded-xl border border-border shadow-sm overflow-hidden text-center py-16 text-muted-foreground">
-            <TrendingUp size={32} className="mx-auto mb-2 opacity-50" />
-            <p>{t('assets.noTransactions')}</p>
+          <div className="text-center py-16">
+            <TrendingUp className="mx-auto h-12 w-12 text-muted-foreground/40 mb-3" />
+            <p className="text-muted-foreground">{t('assets.noTransactions')}</p>
           </div>
         ) : null
       ) : (
@@ -2641,9 +2690,9 @@ function AssetTransactionsTab({
               <div className="flex items-center justify-between p-3 rounded-lg border border-border bg-muted/30">
                 <span className="text-xs font-medium text-muted-foreground">{t('assets.txTotal')}</span>
                 <span className="text-sm font-bold tabular-nums text-foreground">
-                  {formatTransactionTotal(
+                  {formatCurrency(
                     parseFloat(formQuantity) * parseFloat(formPrice) + (formFee ? parseFloat(formFee) : 0) * (formKind === 'buy' ? 1 : -1),
-                    getTransactionTotalCurrency(holdings, formHolding, editingTx),
+                    'USD',
                     locale,
                   )}
                 </span>

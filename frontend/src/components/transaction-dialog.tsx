@@ -16,6 +16,7 @@ import { cn, normalizeText } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DescriptionInput } from '@/components/description-input'
+import { AmountInput } from '@/components/amount-input'
 import { Label } from '@/components/ui/label'
 import { DatePickerInput } from '@/components/ui/date-picker-input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -28,7 +29,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog'
-import { AlertTriangle, ChevronDown, ChevronLeft, Download, Eye, EyeClosed, Paperclip, Upload, X, FileText, Plus, Unlink, SlidersHorizontal, ListPlus, Check } from 'lucide-react'
+import { AlertTriangle, ChevronDown, ChevronLeft, Download, Eye, EyeClosed, Paperclip, Upload, X, FileText, Plus, Unlink, SlidersHorizontal, ListPlus, Check, SplitSquareHorizontal } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,9 +42,10 @@ import { RuleDialog, type RuleDialogInitialData } from '@/components/rule-dialog
 import { TransactionAttachments } from '@/components/transaction-attachments'
 import type { AttachmentPreview } from '@/components/transaction-attachments'
 import { TransactionSplitsSection } from '@/components/transaction-splits-section'
+import { TransactionCategorySplitsSection } from '@/components/transaction-category-splits-section'
 import { buildInstallmentSeriesInput, hasNonStatusChange, isManualInstallmentSeriesRow } from '@/lib/installment-series'
 import { usePrivacyMode } from '@/hooks/use-privacy-mode'
-import type { Transaction, RecurringTransaction, TransactionSplitsInput, TransactionEditPayload, InstallmentSeriesInput, TransactionApplyScope, CategoryGroup, Category, Rule, RuleCondition, RuleConditionNode } from '@/types'
+import type { Transaction, RecurringTransaction, TransactionSplitsInput, CategoryAllocationsInput, TransactionEditPayload, InstallmentSeriesInput, TransactionApplyScope, CategoryGroup, Category, Rule, RuleCondition, RuleConditionNode } from '@/types'
 import { toast } from 'sonner'
 
 export type SaveAction = 'save' | 'saveAndNew' | 'saveAndDuplicate'
@@ -506,6 +508,30 @@ function TransactionForm({
     const existing = (seed as Transaction | null | undefined)?.splits
     return !!(existing && existing.length > 0)
   })
+
+  // Category-split section state (orthogonal to people-splits)
+  const [categorySplitsValid, setCategorySplitsValid] = useState(true)
+  const [categoryAllocations, setCategoryAllocations] = useState<CategoryAllocationsInput | null>(() => {
+    const existing = (seed as Transaction | null | undefined)?.category_allocations
+    if (!existing || existing.length < 2) return null
+    return {
+      allocations: existing.map((a) => ({
+        category_id: a.category_id,
+        amount: formatAmountInput(Number(a.amount), displayLocale),
+        notes: a.notes,
+      })),
+    }
+  })
+  const [hadInitialCategoryAllocations] = useState<boolean>(() => {
+    const existing = (seed as Transaction | null | undefined)?.category_allocations
+    return !!(existing && existing.length >= 2)
+  })
+
+  // Split mode: null = no split shown, 'people' = among people, 'category' = by category
+  type SplitMode = null | 'people' | 'category'
+  const initialSplitMode: SplitMode = hadInitialSplits ? 'people' : hadInitialCategoryAllocations ? 'category' : null
+  const [splitMode, setSplitMode] = useState<SplitMode>(initialSplitMode)
+
   const isCreating = !transaction
   const showConversion = currency !== userCurrency && !isSynced
   // Privacy mode hides monetary values across the app, but the edit modal
@@ -755,7 +781,7 @@ function TransactionForm({
         // wrong value.
         const parsedAmount = parseAmountInput(amount, displayLocale)
         if (!isSynced && parsedAmount == null) {
-          toast.error(t('common.error'))
+          toast.error(t('common.invalidAmount'))
           return
         }
         const fxFields: Partial<Transaction> = {}
@@ -769,7 +795,7 @@ function TransactionForm({
           showConversion &&
           ((convertedAmount && parsedConverted == null) || (fxRate && parsedFxRate == null))
         ) {
-          toast.error(t('common.error'))
+          toast.error(t('common.invalidAmount'))
           return
         }
         if (showConversion && parsedConverted != null) {
@@ -800,6 +826,12 @@ function TransactionForm({
           : hadInitialSplits
             ? { splits: { share_type: 'equal', splits: [] } }
             : {}
+        const categoryAllocationsPayload: { category_allocations?: CategoryAllocationsInput | null } =
+          categoryAllocations
+            ? { category_allocations: categoryAllocations }
+            : hadInitialCategoryAllocations
+              ? { category_allocations: { allocations: [] } }
+              : {}
         const pnlExclusionPayload = transaction
           ? { exclude_from_pnl: excludeFromReports }
           : {}
@@ -813,6 +845,8 @@ function TransactionForm({
               ...pnlExclusionPayload,
               ...overridePayload,
               ...splitsPayload,
+              ...categoryAllocationsPayload,
+              status,
             } as TransactionEditPayload
           : {
               description,
@@ -832,23 +866,25 @@ function TransactionForm({
               ...fxFields,
               ...overridePayload,
               ...splitsPayload,
+              ...categoryAllocationsPayload,
             } as TransactionEditPayload
         const recurringData = isCreating && isRecurring
           ? { frequency, end_date: endDate || undefined }
           : undefined
-        const installmentData = isCreating && isInstallment && !isSynced && parsedAmount != null
+        const installmentData = isCreating && isInstallment && !isSynced
           ? buildInstallmentSeriesInput({
               accountId,
               categoryId,
               payeeId,
               description,
-              amount: parsedAmount,
+              amount,
               date,
               type,
               currency,
               notes,
               fxFields,
               splits,
+              categoryAllocations,
               installmentCount,
               installmentFrequency,
               status,
@@ -1035,9 +1071,7 @@ function TransactionForm({
               className="bg-muted/40 text-muted-foreground cursor-default select-none"
             />
           ) : (
-            <Input
-              type="text"
-              inputMode="decimal"
+            <AmountInput
               value={amount}
               onChange={(e) => handleAmountChange(e.target.value)}
               required
@@ -1107,9 +1141,7 @@ function TransactionForm({
                   className="bg-muted/40 text-muted-foreground cursor-default select-none"
                 />
               ) : (
-                <Input
-                  type="text"
-                  inputMode="decimal"
+                <AmountInput
                   value={convertedAmount}
                   onChange={(e) => handleConvertedAmountChange(e.target.value)}
                   placeholder={t('transactions.autoCalculated')}
@@ -1119,9 +1151,7 @@ function TransactionForm({
             </div>
             <div className="space-y-1">
               <Label className="text-xs">{t('transactions.exchangeRate')}</Label>
-              <Input
-                type="text"
-                inputMode="decimal"
+              <AmountInput
                 value={fxRate}
                 onChange={(e) => handleFxRateChange(e.target.value)}
                 placeholder={t('transactions.autoCalculated')}
@@ -1144,19 +1174,21 @@ function TransactionForm({
             <option value="credit">{t('transactions.income')}</option>
           </select>
         </div>
-        <div className="space-y-2">
-          <Label>{t('transactions.category')}</Label>
-          <CategorySelect
-            value={categoryId}
-            onChange={setCategoryId}
-            categories={displayCategories}
-            groups={displayCategoryGroups}
-            currentCategory={seed?.category}
-            allowNone={true}
-            creatable
-            className="bg-card"
-          />
-        </div>
+        {splitMode !== 'category' && (
+          <div className="space-y-2">
+            <Label>{t('transactions.category')}</Label>
+            <CategorySelect
+              value={categoryId}
+              onChange={setCategoryId}
+              categories={displayCategories}
+              groups={displayCategoryGroups}
+              currentCategory={seed?.category}
+              allowNone={true}
+              creatable
+              className="bg-card"
+            />
+          </div>
+        )}
       </div>
       <div className={cn("grid gap-4", isSynced ? "grid-cols-1" : "grid-cols-2")}>
         <div className="space-y-2">
@@ -1259,13 +1291,86 @@ function TransactionForm({
           (the share would settle a debt that this debit is already
           settling). Hide the section entirely in that case. */}
       {transaction?.source !== 'settlement' && (
-        <TransactionSplitsSection
-          amount={parseAmountInput(amount, displayLocale) ?? 0}
-          currency={currency}
-          value={splits}
-          onChange={setSplits}
-          onValidityChange={setSplitsValid}
-        />
+        <div className="space-y-2 pt-2 border-t border-border">
+          {/* Outer split toggle */}
+          <label className="text-sm font-medium inline-flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={splitMode !== null}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setSplitMode('category')
+                  setSplits(null)
+                  setSplitsValid(true)
+                  setCategoryId('')
+                } else {
+                  setSplitMode(null)
+                  setSplits(null)
+                  setSplitsValid(true)
+                  setCategoryAllocations(null)
+                  setCategorySplitsValid(true)
+                }
+              }}
+              className="h-4 w-4 rounded border-border accent-primary"
+            />
+            <SplitSquareHorizontal size={14} />
+            {t('splitGroups.splitTransaction')}
+          </label>
+
+          {splitMode !== null && (
+            <div className="pl-6 space-y-3">
+              {/* Mode pills */}
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSplitMode('people')
+                    setCategoryAllocations(null)
+                    setCategorySplitsValid(true)
+                  }}
+                  className={`text-xs px-3 py-1 rounded-full border transition-colors ${splitMode === 'people' ? 'bg-primary text-primary-foreground border-primary' : 'border-muted-foreground/30 text-muted-foreground'}`}
+                >
+                  {t('splitGroups.categorySplits.modeAmongPeople')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSplitMode('category')
+                    setSplits(null)
+                    setSplitsValid(true)
+                    setCategoryId('')
+                  }}
+                  className={`text-xs px-3 py-1 rounded-full border transition-colors ${splitMode === 'category' ? 'bg-primary text-primary-foreground border-primary' : 'border-muted-foreground/30 text-muted-foreground'}`}
+                >
+                  {t('splitGroups.categorySplits.modeByCategory')}
+                </button>
+              </div>
+
+              {splitMode === 'people' && (
+                <TransactionSplitsSection
+                  amount={parseAmountInput(amount, displayLocale) ?? 0}
+                  currency={currency}
+                  value={splits}
+                  onChange={setSplits}
+                  onValidityChange={setSplitsValid}
+                  showToggle={false}
+                />
+              )}
+
+              {splitMode === 'category' && (
+                <TransactionCategorySplitsSection
+                  amount={parseAmountInput(amount, displayLocale) ?? 0}
+                  currency={currency}
+                  value={categoryAllocations}
+                  onChange={setCategoryAllocations}
+                  onValidityChange={setCategorySplitsValid}
+                  categories={categories}
+                  categoryGroups={categoryGroups}
+                />
+              )}
+            </div>
+          )}
+        </div>
       )}
 
       {!isCreating && transaction ? (
@@ -1448,7 +1553,7 @@ function TransactionForm({
             <div className="inline-flex">
               <Button
                 type="submit"
-                disabled={loading || !splitsValid}
+                disabled={loading || !splitsValid || !categorySplitsValid}
                 className="rounded-r-none whitespace-nowrap text-xs sm:text-sm h-8 sm:h-9"
               >
                 {loading ? t('common.loading') : t('common.save')}
@@ -1457,7 +1562,7 @@ function TransactionForm({
                 <DropdownMenuTrigger asChild>
                   <Button
                     type="button"
-                    disabled={loading || !splitsValid}
+                    disabled={loading || !splitsValid || !categorySplitsValid}
                     aria-label={t('transactions.moreSaveOptions')}
                     className="rounded-l-none border-l border-l-primary-foreground/20 px-1.5 sm:px-2 has-[>svg]:px-1.5 sm:has-[>svg]:px-2 h-8 sm:h-9"
                   >
@@ -1475,7 +1580,7 @@ function TransactionForm({
               </DropdownMenu>
             </div>
           ) : (
-            <Button type="submit" disabled={loading || !splitsValid} className="whitespace-nowrap text-xs sm:text-sm h-8 sm:h-9">
+            <Button type="submit" disabled={loading || !splitsValid || !categorySplitsValid} className="whitespace-nowrap text-xs sm:text-sm h-8 sm:h-9">
               {loading ? t('common.loading') : t('common.save')}
             </Button>
           )}
