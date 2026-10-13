@@ -6,7 +6,6 @@ secrets/
 .playwright-mcp/
 .claude
 .mcp.json
-CLAUDE.md
 docs/plans/
 tmp/
 docker-compose.override.yml
