@@ -1,8 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 
 import BudgetsPage from '@/pages/budgets'
 import { renderWithProviders, t } from '@/test/utils'
+
+const toast = vi.hoisted(() => ({ success: vi.fn(), error: vi.fn() }))
 
 const api = vi.hoisted(() => ({
   budgets: {
@@ -15,6 +17,8 @@ const api = vi.hoisted(() => ({
   categories: { list: vi.fn(), listIncludingHidden: vi.fn() },
   categoryGroups: { list: vi.fn() },
 }))
+
+vi.mock('sonner', () => ({ toast }))
 
 vi.mock('@/lib/api', () => ({
   budgets: api.budgets,
@@ -32,7 +36,7 @@ vi.mock('@/contexts/auth-context', () => ({
 }))
 
 vi.mock('@/contexts/workspace-context', () => ({
-  useWorkspace: () => ({ canWrite: false }),
+  useWorkspace: () => ({ canWrite: true }),
 }))
 
 vi.mock('@/hooks/use-privacy-mode', () => ({
@@ -123,5 +127,30 @@ describe('BudgetsPage month progress', () => {
     expect(screen.getByText('$500.00')).toBeInTheDocument()
     expect(screen.queryByText('0%')).not.toBeInTheDocument()
     expect(screen.queryByText(t('budgets.monthTotal'))).not.toBeInTheDocument()
+  })
+})
+
+describe('BudgetsPage amount validation', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+    api.categories.list.mockResolvedValue([{ id: 'food', name: 'Food', group_id: null }])
+    api.categories.listIncludingHidden.mockResolvedValue([])
+    api.categoryGroups.list.mockResolvedValue([])
+    api.budgets.list.mockResolvedValue([])
+    api.budgets.comparison.mockResolvedValue([])
+  })
+
+  it.each(['0', '-5'])('rejects a budget amount of %s', async (value) => {
+    renderWithProviders(<BudgetsPage />)
+
+    fireEvent.click(await screen.findByRole('button', { name: new RegExp(t('budgets.add')) }))
+    const dialog = await screen.findByRole('dialog')
+    const select = dialog.querySelector('select[name="category_id"]') as HTMLSelectElement
+    fireEvent.change(select, { target: { value: 'food' } })
+    fireEvent.change(dialog.querySelector('input[name="amount"]') as HTMLInputElement, { target: { value } })
+    fireEvent.click(screen.getByRole('button', { name: t('common.save') }))
+
+    expect(toast.error).toHaveBeenCalledWith(t('common.invalidAmount'))
+    expect(api.budgets.create).not.toHaveBeenCalled()
   })
 })
