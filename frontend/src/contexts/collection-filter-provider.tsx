@@ -16,7 +16,7 @@ export function CollectionFilterProvider({ children }: { children: ReactNode }) 
   })
   const collections = useMemo(() => data ?? [], [data])
 
-  const [activeCollectionId, setActiveId] = useState<string | null>(null)
+  const [selectedId, setActiveId] = useState<string | null>(null)
 
   // The active selection is persisted per workspace — switching workspaces
   // restores that workspace's last-used collection (or "all").
@@ -33,18 +33,21 @@ export function CollectionFilterProvider({ children }: { children: ReactNode }) 
     else localStorage.removeItem(STORAGE_PREFIX + wsId)
   }
 
+  // If the selected collection was deleted elsewhere, fall back to "all".
+  // Derived rather than reset in an effect, so no render uses the dead id.
+  const selectionDeleted =
+    !!selectedId && collections.length > 0 && !collections.some((c) => c.id === selectedId)
+  const activeCollectionId = selectionDeleted ? null : selectedId
+
   const activeCollection = useMemo(
     () => collections.find((c) => c.id === activeCollectionId) ?? null,
     [collections, activeCollectionId],
   )
 
-  // If the active collection was deleted elsewhere, fall back to "all".
+  // Forget the deleted selection so the next visit starts on "all" too.
   useEffect(() => {
-    if (activeCollectionId && collections.length > 0 && !activeCollection) {
-      setActiveCollectionId(null)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeCollectionId, collections, activeCollection])
+    if (selectionDeleted && wsId) localStorage.removeItem(STORAGE_PREFIX + wsId)
+  }, [selectionDeleted, wsId])
 
   const value: CollectionFilterValue = {
     collections,

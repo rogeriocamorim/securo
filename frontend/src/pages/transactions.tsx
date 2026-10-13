@@ -67,6 +67,34 @@ import { useCollectionFilter } from '@/contexts/collection-filter-context'
 import { formatCurrency } from '@/lib/format'
 import { shouldShowPendingBadge } from '@/lib/transaction-status'
 
+// Stable fallback while the list loads, so memoized consumers keep their cache.
+const NO_TRANSACTIONS: Transaction[] = []
+
+type DateGroup = { date: string; label: string; items: Transaction[] }
+
+/** Consecutive transactions sharing a date, labelled for the mobile card view. */
+function groupByDate(items: Transaction[], dateLocale: string): DateGroup[] {
+  const groups: DateGroup[] = []
+  let current: DateGroup | null = null
+  for (const tx of items) {
+    if (!current || current.date !== tx.date) {
+      current = {
+        date: tx.date,
+        label: new Date(tx.date + 'T00:00:00').toLocaleDateString(dateLocale, {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short',
+          year: 'numeric',
+        }),
+        items: [],
+      }
+      groups.push(current)
+    }
+    current.items.push(tx)
+  }
+  return groups
+}
+
 type TransactionUpdatePayload = TransactionEditPayload & {
   apply_to_transfer_pair?: boolean
   apply_to?: TransactionApplyScope
@@ -221,21 +249,16 @@ export default function TransactionsPage() {
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(null)
   const highlightId = searchParams.get('highlight')
   const highlightedRowRef = useRef<HTMLTableRowElement | null>(null)
-  // Last URL query we synced from, to tell a genuine navigation apart from the
-  // initial mount (and from StrictMode's double-invoke, which repeats the same
-  // value). Starts null so the first run is recognized as the initial mount.
-  const prevSearchRef = useRef<string | null>(null)
-
   // Sync state from URL when navigating (e.g. from the command palette) while
   // the page is already mounted. Typing in the search box does not touch the
-  // URL, so this effect only fires on genuine navigation events.
-  useEffect(() => {
-    const search = searchParams.toString()
-    // Skip re-runs with an unchanged query (e.g. StrictMode's second mount),
-    // so they can't override the initial current-month default.
-    if (prevSearchRef.current === search) return
-    const isInitial = prevSearchRef.current === null
-    prevSearchRef.current = search
+  // URL, so this only fires on genuine navigation events. Adjusted while
+  // rendering; `syncedSearch` is the last query applied and starts null so the
+  // first render is recognised as the initial mount.
+  const search = searchParams.toString()
+  const [syncedSearch, setSyncedSearch] = useState<string | null>(null)
+  if (syncedSearch !== search) {
+    const isInitial = syncedSearch === null
+    setSyncedSearch(search)
 
     const nextQ = searchParams.get('q') ?? ''
     setViewMode(searchParams.get('view') === 'calendar' ? 'calendar' : 'list')
@@ -270,7 +293,7 @@ export default function TransactionsPage() {
     setFilterMinAmount(searchParams.get('min_amount') ?? '');
     setFilterMaxAmount(searchParams.get('max_amount') ?? '');
     setPage(1)
-  }, [searchParams])
+  }
 
   // Keep the URL in sync with the current filters, so that the current page can be
   // refreshed, bookmarked or shared.
@@ -329,26 +352,37 @@ export default function TransactionsPage() {
     return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
   }, [searchInput])
 
-  // Clear selection on page/filter change
-  useEffect(() => {
+  // Clear selection on page/filter change. The adjustments below run while
+  // rendering, so a frame never shows a selection from the previous view.
+  const selectionScope = JSON.stringify([page, filterAccountIds, filterCategoryIds, filterUncategorized, filterPayee, filterType, filterStatus, filterFrom, filterTo, filterMinAmount, filterMaxAmount, searchQuery])
+  const [prevSelectionScope, setPrevSelectionScope] = useState(selectionScope)
+  if (prevSelectionScope !== selectionScope) {
+    setPrevSelectionScope(selectionScope)
     setSelectedIds(new Set())
     setLastSelectedId(null)
     setBulkCategory('')
-  }, [page, filterAccountIds, filterCategoryIds, filterUncategorized, filterPayee, filterType, filterStatus, filterFrom, filterTo, filterMinAmount, filterMaxAmount, searchQuery])
+  }
 
-  useEffect(() => {
+  // The calendar shows one account at a time and has no row selection.
+  // Starts null so a page that opens in calendar view is adjusted too.
+  const calendarScope = viewMode === 'calendar' ? filterAccountIds.length : null
+  const [prevCalendarScope, setPrevCalendarScope] = useState<number | null | undefined>(undefined)
+  if (prevCalendarScope !== calendarScope) {
+    setPrevCalendarScope(calendarScope)
     if (viewMode === 'calendar') {
-      setFilterAccountIds((prev) => prev.length > 1 ? [] : prev)
+      if (filterAccountIds.length > 1) setFilterAccountIds([])
       setSelectedIds(new Set())
       setLastSelectedId(null)
       setBulkCategory('')
     }
-  }, [viewMode, filterAccountIds.length])
+  }
 
   // Reset bulk category when selection changes so the same category can be re-applied
-  useEffect(() => {
+  const [bulkCategorySelection, setBulkCategorySelection] = useState(selectedIds)
+  if (bulkCategorySelection !== selectedIds) {
+    setBulkCategorySelection(selectedIds)
     setBulkCategory('')
-  }, [selectedIds])
+  }
 
   // Scroll to and flash a highlighted row after navigation (e.g. opened via
   // the command palette). Re-runs whenever highlightId or the current data
@@ -755,31 +789,12 @@ export default function TransactionsPage() {
 
   // Tag filtering is now applied server-side, so the visible list and the
   // page count both reflect the same filtered total — issue #88.
-  const filteredItems = useMemo(() => data?.items ?? [], [data?.items])
+  const filteredItems = data?.items ?? NO_TRANSACTIONS
   const selectableItems = filteredItems.filter(tx => !tx.is_shared)
 
-  // Group transactions by date for the mobile card view
-  const groupedByDate = useMemo(() => {
-    const groups: { date: string; label: string; items: Transaction[] }[] = []
-    let current: { date: string; label: string; items: Transaction[] } | null = null
-    for (const tx of filteredItems) {
-      if (!current || current.date !== tx.date) {
-        current = {
-          date: tx.date,
-          label: new Date(tx.date + 'T00:00:00').toLocaleDateString(dateLocale, {
-            weekday: 'short',
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-          }),
-          items: [],
-        }
-        groups.push(current)
-      }
-      current.items.push(tx)
-    }
-    return groups
-  }, [filteredItems, dateLocale])
+  // Group transactions by date for the mobile card view. One page of rows,
+  // so it is computed directly rather than memoized.
+  const groupedByDate = groupByDate(filteredItems, dateLocale)
 
   // Pre-resolve accounts into a Map for O(1) lookup in the mobile card view
   const accountById = useMemo(() => {

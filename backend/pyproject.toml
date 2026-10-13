@@ -16,7 +16,7 @@ dependencies = [
     "pydantic>=2.5.0",
     "pydantic-settings>=2.5.0",
     "python-jose[cryptography]>=3.3.0",
-    "cryptography==46.0.7",
+    "cryptography==50.0.2",
     "passlib[bcrypt]>=1.7.4",
     "fastapi-users[sqlalchemy]>=13.0.0",
     "httpx>=0.26.0",
