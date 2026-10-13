@@ -1436,7 +1436,11 @@
     "confirmDeleteDescription": "Rozpočet pre „{{name}}“ bude natrvalo vymazaný. Existujúce transakcie to neovplyvní. Túto akciu nie je možné vrátiť späť.",
     "confirmDeleteRecurringDescription": "Opakovaný rozpočet pre „{{name}}“ bude natrvalo vymazaný. Táto definícia sa už nebude vzťahovať na ďalšie mesiace. Existujúce transakcie to neovplyvní. Túto akciu nie je možné vrátiť späť.",
     "repeatEveryMonth": "Opakovať každý mesiac",
-    "recurringLabel": "Opakovaný"
+    "recurringLabel": "Opakovaný",
+    "monthTotal": "Súčet za mesiac",
+    "remaining": "Zostáva {{amount}}",
+    "overBy": "{{amount}} nad rozpočet",
+    "spendingUnavailable": "Výdavky za tento mesiac sa nepodarilo načítať."
   },
   "goals": {
     "title": "Ciele",
@@ -1853,7 +1857,8 @@
       "invalid_date": "Neplatný formát dátumu",
       "no_amount": "Chýba suma príjmu alebo výdaja",
       "invalid_amount": "Neplatný formát sumy"
-    }
+    },
+    "selectAll": "Vybrať všetko"
   },
   "assetImport": {
     "title": "Import investičných pokynov",
@@ -1989,6 +1994,8 @@
     "yearly": "Ročne",
     "activeAssets": "Aktívne aktíva",
     "soldAssets": "Predané aktíva",
+    "showArchived": "Zobraziť archivované",
+    "archivedHint": "Nezapočítavajú sa do súčtov",
     "archivedAssets": "Archivované aktíva",
     "noAssets": "Zatiaľ žiadne aktíva",
     "created": "Aktívum vytvorené",

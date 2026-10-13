@@ -402,6 +402,7 @@ async def list_transactions(
             _sel(Transaction.account),
             _sel(Transaction.payee_entity),
             _sel(Transaction.splits),
+            _sel(Transaction.category_allocations),
         )
         .order_by(Transaction.date.desc(), Transaction.created_at.desc())
         .limit(limit)

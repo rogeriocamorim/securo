@@ -756,6 +756,8 @@ def parse_csv(
             groups.setdefault(sg, []).append((i, txn))
 
     grouped_txns: list[TransactionImport | None] = [None] * len(transactions)
+    # Rows folded into a grouped transaction; they must not reappear on their own.
+    absorbed: set[int] = set()
 
     for sg, members in groups.items():
         if len(members) < 2:
@@ -812,14 +814,13 @@ def parse_csv(
         )
         first_idx = sorted_members[0][0]
         grouped_txns[first_idx] = grouped
-        for idx, _ in sorted_members[1:]:
-            grouped_txns[idx] = None
+        absorbed.update(idx for idx, _ in sorted_members[1:])
 
     result_transactions: list[TransactionImport] = []
-    for i in range(len(transactions)):
-        tx = grouped_txns[i] if grouped_txns[i] is not None else transactions[i]
-        if tx is not None:
-            result_transactions.append(tx)
+    for i, txn in enumerate(transactions):
+        if i in absorbed:
+            continue
+        result_transactions.append(grouped_txns[i] or txn)
     return result_transactions, failed_rows
 
 

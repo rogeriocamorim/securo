@@ -79,4 +79,12 @@ describe('DescriptionInput', () => {
     fireEvent.change(input, { target: { value: 'market' } })
     expect(screen.queryByRole('option', { name: 'Supermarket Extra' })).not.toBeInTheDocument()
   })
+
+  it('caps the query at 100 characters before asking the server', async () => {
+    const { input } = setup()
+    fireEvent.change(input, { target: { value: 'a'.repeat(150) } })
+
+    await waitFor(() => expect(transactions.descriptionSuggestions).toHaveBeenCalledWith('a'.repeat(100)))
+    expect(input).toHaveValue('a'.repeat(150))
+  })
 })

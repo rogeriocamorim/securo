@@ -1372,7 +1372,11 @@
     "confirmDeleteDescription": "El presupuesto para \"{{name}}\" se eliminará permanentemente. Las transacciones existentes no se ven afectadas. Esta acción no se puede deshacer.",
     "confirmDeleteRecurringDescription": "El presupuesto recurrente para \"{{name}}\" se eliminará permanentemente. Esta definición dejará de aplicarse en los meses posteriores. Las transacciones existentes no se ven afectadas. Esta acción no se puede deshacer.",
     "repeatEveryMonth": "Repetir cada mes",
-    "recurringLabel": "Recurrente"
+    "recurringLabel": "Recurrente",
+    "monthTotal": "Total del mes",
+    "remaining": "Quedan {{amount}}",
+    "overBy": "{{amount}} por encima del presupuesto",
+    "spendingUnavailable": "No se pudieron cargar los gastos de este mes."
   },
   "goals": {
     "title": "Objetivos",
@@ -1741,7 +1745,8 @@
       "invalid_date": "Formato de fecha no válido",
       "no_amount": "Sin importe de entrada o salida",
       "invalid_amount": "Formato de importe no válido"
-    }
+    },
+    "selectAll": "Seleccionar todo"
   },
   "assetImport": {
     "title": "Importar órdenes de inversión",
@@ -1877,6 +1882,8 @@
     "yearly": "Anual",
     "activeAssets": "Activos activos",
     "soldAssets": "Activos vendidos",
+    "showArchived": "Mostrar archivados",
+    "archivedHint": "No se incluyen en los totales",
     "archivedAssets": "Activos archivados",
     "noAssets": "Aún no hay activos",
     "created": "Activo creado",

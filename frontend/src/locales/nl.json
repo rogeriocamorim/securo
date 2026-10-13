@@ -1368,6 +1368,10 @@
     "deleted": "Budget verwijderd",
     "repeatEveryMonth": "Herhaal elke maand",
     "recurringLabel": "Terugkerend",
+    "monthTotal": "Maandtotaal",
+    "remaining": "{{amount}} over",
+    "overBy": "{{amount}} boven budget",
+    "spendingUnavailable": "Uitgaven voor deze maand konden niet worden geladen.",
     "confirmDeleteTitle": "Budget verwijderen?",
     "confirmDeleteDescription": "Het budget voor \"{{name}}\" wordt permanent verwijderd. Bestaande transacties worden niet beïnvloed. Deze actie kan niet ongedaan worden gemaakt.",
     "confirmDeleteRecurringDescription": "Het terugkerende budget voor \"{{name}}\" wordt permanent verwijderd. Deze definitie geldt niet meer voor latere maanden. Bestaande transacties worden niet beïnvloed. Deze actie kan niet ongedaan worden gemaakt."
@@ -1739,7 +1743,8 @@
       "invalid_date": "Ongeldige datumformaat",
       "no_amount": "Geen in- of uitstroombedrag",
       "invalid_amount": "Ongeldig bedragformaat"
-    }
+    },
+    "selectAll": "Alles selecteren"
   },
   "assetImport": {
     "title": "Investeringsorders importeren",
@@ -1875,6 +1880,8 @@
     "yearly": "Jaarlijks",
     "activeAssets": "Actieve activa",
     "soldAssets": "Verkochte activa",
+    "showArchived": "Gearchiveerde tonen",
+    "archivedHint": "Niet meegeteld in totalen",
     "archivedAssets": "Gearchiveerde activa",
     "noAssets": "Nog geen activa",
     "created": "Item gemaakt",
