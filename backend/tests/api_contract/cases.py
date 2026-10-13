@@ -115,9 +115,6 @@ class KnownBug:
 # The baseline records the correct status; the case is a strict xfail until
 # the fix lands, at which point the unexpected pass forces this entry out.
 KNOWN_BUGS: dict[tuple[str, str, str], KnownBug] = {
-    (VARIANT_OK, "GET", "/api/groups/{group_id}/transactions"): KnownBug(
-        200, "500 MissingGreenlet on category_allocations; fixed in PR #12"
-    ),
     (VARIANT_OK, "POST", "/api/agents/{agent_id}/knowledge"): KnownBug(
         201,
         "500 MissingGreenlet when the Celery dispatch fails: mark_status() commits, "
