@@ -68,7 +68,7 @@ def _resolve_custom_range(
             status_code=422,
             detail="end_date must be on or after start_date",
         )
-    if end_date > date.today():
+    if end_date > app_today():
         raise HTTPException(
             status_code=422,
             detail="end_date must be on or before today",

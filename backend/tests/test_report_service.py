@@ -2673,7 +2673,7 @@ async def test_historical_api_custom_range_boundaries(
         def today(cls):
             return cls(2026, 9, 12)
 
-    monkeypatch.setattr(reports_api, 'date', FixedDate)
+    monkeypatch.setattr(reports_api, 'app_today', lambda: FixedDate.today())
     report = ReportResponse(
         summary=ReportSummary(primary_value=0, change_amount=0, change_percent=None,
                               breakdowns=[]),
