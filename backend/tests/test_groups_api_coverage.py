@@ -157,6 +157,43 @@ async def test_group_transactions_empty(client: AsyncClient, auth_headers, test_
 
 
 @pytest.mark.asyncio
+async def test_group_transactions_with_people_split_returns_200(
+    client: AsyncClient, auth_headers, test_user
+):
+    group = await _create_group(client, auth_headers, name="Split Txns")
+    friend = await _add_member(client, auth_headers, group["id"], name="Ana")
+    account_resp = await client.post(
+        "/api/accounts",
+        headers=auth_headers,
+        json={"name": "Wallet", "type": "checking", "balance": 0, "currency": "USD"},
+    )
+    assert account_resp.status_code in (200, 201), account_resp.text
+    tx_resp = await client.post(
+        "/api/transactions",
+        headers=auth_headers,
+        json={
+            "account_id": account_resp.json()["id"],
+            "description": "Dinner",
+            "amount": 40,
+            "date": "2026-04-28",
+            "type": "debit",
+            "currency": "USD",
+            "splits": {
+                "share_type": "equal",
+                "splits": [{"group_member_id": friend["id"]}],
+            },
+        },
+    )
+    assert tx_resp.status_code == 201, tx_resp.text
+
+    resp = await client.get(
+        f"/api/groups/{group['id']}/transactions", headers=auth_headers
+    )
+    assert resp.status_code == 200, resp.text
+    assert [tx["id"] for tx in resp.json()] == [tx_resp.json()["id"]]
+
+
+@pytest.mark.asyncio
 async def test_group_transactions_unknown_group_404(client: AsyncClient, auth_headers, test_user):
     resp = await client.get(
         f"/api/groups/{uuid.uuid4()}/transactions", headers=auth_headers
