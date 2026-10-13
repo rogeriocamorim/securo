@@ -1628,23 +1628,25 @@ async def _cleanup_phantom_duplicates(
         # credit (receivable) in *another* account.  Deleting it because
         # another sibling happens to be paired would break that transfer.
         # Guard: count how many unpaired txs with the same amount and
-        # opposite type exist across ALL accounts owned by the same user.
+        # opposite type exist across ALL accounts in the same workspace.
         # When there's more than one (the current orphan + at least one
         # other unpaired tx with opposite sign), we can't know which is the
         # real leg — keep all of them.
-        user_txs = (
+        has_counterpart = (
             await session.execute(
-                select(Transaction).where(
-                    Transaction.user_id == tx.user_id,
-                    Transaction.account_id != tx.account_id,
-                    Transaction.source == "sync",
-                    Transaction.transfer_pair_id.is_(None),
-                    Transaction.amount == tx.amount,
-                    Transaction.type != tx.type,  # opposite sign
+                select(
+                    exists().where(
+                        Transaction.workspace_id == tx.workspace_id,
+                        Transaction.account_id != tx.account_id,
+                        Transaction.source == "sync",
+                        Transaction.transfer_pair_id.is_(None),
+                        Transaction.amount == tx.amount,
+                        Transaction.type != tx.type,  # opposite sign
+                    )
                 )
             )
-        ).scalars().all()
-        if len(user_txs) >= 1:
+        ).scalar()
+        if has_counterpart:
             # There's a potential counterpart in another account — keep this
             # orphan; transfer detection may pair them on the next sync.
             continue
