@@ -8,6 +8,12 @@ import type { DescriptionSuggestion } from '@/types'
 
 const MIN_QUERY = 2
 const DEBOUNCE_MS = 200
+// The endpoint rejects longer queries with a 422.
+const MAX_QUERY = 100
+
+function toQuery(value: string) {
+  return value.trim().slice(0, MAX_QUERY)
+}
 
 interface DescriptionInputProps {
   value: string
@@ -28,10 +34,10 @@ export function DescriptionInput({ value, onChange, onPick, required, className 
   const [focused, setFocused] = useState(false)
   const [dismissed, setDismissed] = useState(false)
   const [active, setActive] = useState(-1)
-  const [query, setQuery] = useState(value.trim())
+  const [query, setQuery] = useState(toQuery(value))
 
   useEffect(() => {
-    const id = setTimeout(() => setQuery(value.trim()), DEBOUNCE_MS)
+    const id = setTimeout(() => setQuery(toQuery(value)), DEBOUNCE_MS)
     return () => clearTimeout(id)
   }, [value])
 
@@ -45,7 +51,7 @@ export function DescriptionInput({ value, onChange, onPick, required, className 
   const options = suggestions.filter((s) => s.description !== value.trim())
   // Until the debounce catches up, the results belong to an older query:
   // don't offer "coffee" suggestions under "market".
-  const settled = query === value.trim()
+  const settled = query === toQuery(value)
   const open = focused && !dismissed && settled && value.trim().length >= MIN_QUERY && options.length > 0
 
   function pick(suggestion: DescriptionSuggestion) {
