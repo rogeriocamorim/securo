@@ -2134,6 +2134,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Voer een geldig bedrag in",
     "selectTimezone": "Tijdzone kiezen",
     "searchTimezone": "Tijdzone zoeken...",
     "noTimezoneFound": "Geen tijdzone gevonden.",

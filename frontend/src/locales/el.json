@@ -2132,6 +2132,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Εισαγάγετε ένα έγκυρο ποσό",
     "selectTimezone": "Επιλογή ζώνης ώρας",
     "searchTimezone": "Αναζήτηση ζώνης ώρας...",
     "noTimezoneFound": "Δεν βρέθηκε ζώνη ώρας.",

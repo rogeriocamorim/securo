@@ -11,6 +11,8 @@ import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { DeleteConfirmationDialog } from '@/components/delete-confirmation-dialog'
 import { Input } from '@/components/ui/input'
+import { AmountInput } from '@/components/amount-input'
+import { useDisplayLocaleChange } from '@/hooks/use-display-locale-change'
 import { Label } from '@/components/ui/label'
 import {
   Dialog,
@@ -28,7 +30,7 @@ import { DatePickerInput } from '@/components/ui/date-picker-input'
 import { usePrivacyMode } from '@/hooks/use-privacy-mode'
 import { useAuth } from '@/contexts/auth-context'
 import { useWorkspace } from '@/contexts/workspace-context'
-import { formatCurrency, formatAmountInput, parseAmountInput } from '@/lib/format'
+import { convertAmountInput, formatAmountInput, formatCurrency, parseAmountInput } from '@/lib/format'
 
 const TH = 'text-xs font-medium text-muted-foreground py-3'
 
@@ -321,7 +323,6 @@ function RecurringForm({
   const { t } = useTranslation()
   const { user } = useAuth()
   const userCurrency = user?.preferences?.currency_display ?? 'USD'
-  const locale = useDisplayLocale()
   const sortedAccounts = useMemo(() => sortAccountsByDisplayName(accounts), [accounts])
   const { data: supportedCurrencies } = useQuery({
     queryKey: ['currencies'],
@@ -329,7 +330,11 @@ function RecurringForm({
     staleTime: Infinity,
   })
   const [description, setDescription] = useState(recurring?.description ?? '')
-  const [amount, setAmount] = useState(recurring?.amount?.toString() ?? '')
+  const displayLocale = useDisplayLocale()
+  const [amount, setAmount] = useState(
+    recurring?.amount != null ? formatAmountInput(recurring.amount, displayLocale) : ''
+  )
+  useDisplayLocaleChange(displayLocale, (prev, next) => setAmount((v) => convertAmountInput(v, prev, next)))
   const [currency, setCurrency] = useState(recurring?.currency ?? userCurrency)
   const [type, setType] = useState<'debit' | 'credit'>(recurring?.type ?? 'debit')
   const [frequency, setFrequency] = useState(recurring?.frequency ?? 'monthly')
@@ -350,9 +355,14 @@ function RecurringForm({
     <form
       onSubmit={(e) => {
         e.preventDefault()
+        const parsedAmount = parseAmountInput(amount, displayLocale)
+        if (parsedAmount == null) {
+          toast.error(t('common.invalidAmount'))
+          return
+        }
         onSave({
           description,
-          amount: parseAmountInput(amount, locale) ?? 0,
+          amount: parsedAmount,
           currency,
           type,
           frequency,
@@ -375,17 +385,7 @@ function RecurringForm({
       <div className="grid grid-cols-3 gap-4">
         <div className="space-y-2">
           <Label>{t('recurring.amount')}</Label>
-          <Input
-            type="text"
-            inputMode="decimal"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            onBlur={(e) => {
-              const num = parseAmountInput(e.target.value, locale)
-              if (num != null) setAmount(formatAmountInput(num, locale, 8))
-            }}
-            required
-          />
+          <AmountInput value={amount} onChange={(e) => setAmount(e.target.value)} required />
         </div>
         <div className="space-y-2">
           <Label>{t('recurring.currency')}</Label>
