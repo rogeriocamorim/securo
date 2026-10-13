@@ -17,6 +17,7 @@ import type {
   AccountSummary,
   Collection,
   CreditCardBill,
+  DescriptionSuggestion,
   Transaction,
   Payee,
   PayeeSummary,
@@ -81,6 +82,7 @@ import type {
   BalanceHistory,
   PaginatedTransactions,
   ReportResponse,
+  CategoryStatementResponse,
   Group,
   GroupKind,
   GroupMember,
@@ -548,6 +550,10 @@ export const transactions = {
   },
   get: async (id: string): Promise<Transaction> => {
     const { data } = await api.get(`/transactions/${id}`)
+    return data
+  },
+  descriptionSuggestions: async (q: string, limit = 8): Promise<DescriptionSuggestion[]> => {
+    const { data } = await api.get('/transactions/description-suggestions', { params: { q, limit } })
     return data
   },
   create: async (transaction: TransactionEditPayload): Promise<Transaction> => {
@@ -1523,6 +1529,12 @@ export const reports = {
   cashFlow: async (months = 6, interval = 'daily', baseline = false, accountIds?: string[]): Promise<ReportResponse> => {
     const extra = acctIdsParam(accountIds)
     const { data } = await api.get('/reports/cash-flow', { params: { months, interval, baseline, ...(extra.params ?? {}) }, ...(extra.paramsSerializer ? { paramsSerializer: extra.paramsSerializer } : {}) })
+    return data
+  },
+  // `month` is "YYYY-MM"; the response covers it and the `months - 1` before it.
+  categoryStatement: async (month: string, months: number, accountIds?: string[]): Promise<CategoryStatementResponse> => {
+    const extra = acctIdsParam(accountIds)
+    const { data } = await api.get('/reports/category-statement', { params: { month, months, ...(extra.params ?? {}) }, ...(extra.paramsSerializer ? { paramsSerializer: extra.paramsSerializer } : {}) })
     return data
   },
 }

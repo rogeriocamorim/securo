@@ -1385,7 +1385,11 @@
     "confirmDeleteDescription": "Бюджет для «{{name}}» буде видалено назавжди. Наявні транзакції не будуть порушені. Цю дію не можна скасувати.",
     "confirmDeleteRecurringDescription": "Регулярний бюджет для «{{name}}» буде видалено назавжди. Це визначення більше не застосовуватиметься в наступних місяцях. Наявні транзакції не будуть порушені. Цю дію не можна скасувати.",
     "repeatEveryMonth": "Повторювати щомісяця",
-    "recurringLabel": "Регулярний"
+    "recurringLabel": "Регулярний",
+    "monthTotal": "Разом за місяць",
+    "remaining": "Залишилось {{amount}}",
+    "overBy": "Перевищення на {{amount}}",
+    "spendingUnavailable": "Не вдалося завантажити витрати за цей місяць."
   },
   "goals": {
     "title": "Цілі",
@@ -1754,7 +1758,8 @@
       "invalid_date": "Недійсний формат дати",
       "no_amount": "Немає суми надходження або витрати",
       "invalid_amount": "Недійсний формат суми"
-    }
+    },
+    "selectAll": "Вибрати все"
   },
   "assetImport": {
     "title": "Імпорт інвестиційних заявок",
@@ -1890,6 +1895,8 @@
     "yearly": "Щороку",
     "activeAssets": "Активні активи",
     "soldAssets": "Продані активи",
+    "showArchived": "Показати архівні",
+    "archivedHint": "Не враховуються в підсумках",
     "archivedAssets": "Архівовані активи",
     "noAssets": "Активів поки немає",
     "created": "Актив створено",
@@ -2020,7 +2027,21 @@
     "range30d": "30Д",
     "customRange": "Довільний діапазон",
     "pickCustomRange": "Виберіть дату початку та кінця",
-    "loadError": "Не вдалося завантажити звіт"
+    "loadError": "Не вдалося завантажити звіт",
+    "statement": "Звіт за категоріями",
+    "statementIncomeTotal": "Усього доходів",
+    "statementExpenseTotal": "Усього витрат",
+    "statementSettings": "Параметри звіту",
+    "statementSortBy": "Сортувати за",
+    "statementSortDefault": "За замовчуванням",
+    "statementSortAsc": "Сума (за зростанням)",
+    "statementSortDesc": "Сума (за спаданням)",
+    "statementColumns": "Кількість стовпців",
+    "statementShowChange": "Показувати зміну у відсотках",
+    "statementViewTransactions": "Переглянути транзакції",
+    "statementUncategorizedIncome": "Доходи без категорії",
+    "statementUncategorizedExpense": "Витрати без категорії",
+    "statementToggleGroup": "Показати категорії групи {{name}}"
   },
   "payees": {
     "noPayeeFound": "Отримувача не знайдено.",
@@ -2142,6 +2163,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Введіть коректну суму",
     "selectTimezone": "Виберіть часовий пояс",
     "searchTimezone": "Пошук часового поясу...",
     "noTimezoneFound": "Часовий пояс не знайдено.",

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { loadReportsRange, saveReportsRange, type ReportsRange } from '@/lib/remembered-range'
 import { useTranslation } from 'react-i18next'
 import { useDisplayLocale } from '@/hooks/use-display-locale'
 import { useQuery } from '@tanstack/react-query'
@@ -26,6 +27,9 @@ import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover
 import { DateRangePicker } from '@/components/ui/date-range-picker'
 import { PageHeader } from '@/components/page-header'
 import { CashflowSankey } from '@/components/reports/CashflowSankey'
+import { IncomeExpenseStatement, StatementControls } from '@/components/reports/IncomeExpenseStatement'
+import { loadStatementSettings, saveStatementSettings, type StatementSettings } from '@/lib/category-statement'
+import { currentMonth } from '@/lib/month-utils'
 import { usePrivacyMode } from '@/hooks/use-privacy-mode'
 import { useAuth } from '@/contexts/auth-context'
 import { useCollectionFilter } from '@/contexts/collection-filter-context'
@@ -172,8 +176,29 @@ const REPORT_TABS: ReportTab[] = [
     key: 'money_map', labelKey: 'reports.moneyMap', enabled: true,
     rangeOptions: MONEY_MAP_RANGE_OPTIONS, intervalOptions: HISTORICAL_INTERVAL_OPTIONS,
     supportsCustomRange: true, fallbackRangeKey: '3m', fallbackInterval: 'monthly',
+  },  // Month-by-month table with its own month and column controls; the range
+  // and interval presets above don't apply to it.
+  {
+    key: 'statement', labelKey: 'reports.statement', enabled: true,
+    rangeOptions: HISTORICAL_RANGE_OPTIONS, intervalOptions: HISTORICAL_INTERVAL_OPTIONS,
+    supportsCustomRange: true, fallbackRangeKey: '1y', fallbackInterval: 'monthly',
   },
 ]
+
+/** The range last used on `tab`, if it is still one the tab offers. */
+function storedReportsRange(tab: ReportTab): ReportsRange | null {
+  const stored = loadReportsRange(tab.key)
+  if (!stored) return null
+  const isCustom = stored.rangeKey === CUSTOM_RANGE_KEY
+  const rangeOk = isCustom
+    ? tab.supportsCustomRange && !!stored.from && !!stored.to
+    : tab.rangeOptions.some((r) => r.key === stored.rangeKey)
+  if (!rangeOk) return null
+  const interval = tab.intervalOptions.some((i) => i.value === stored.interval)
+    ? stored.interval
+    : tab.fallbackInterval
+  return { ...stored, interval, ...(isCustom ? {} : { from: '', to: '' }) }
+}
 
 export default function ReportsPage() {
   const { t } = useTranslation()
@@ -183,20 +208,39 @@ export default function ReportsPage() {
   const locale = useDisplayLocale()
 
   const customDefaults = defaultCustomRange()
-  const [rangeKey, setRangeKey] = useState('1y')
-  const [interval, setInterval] = useState('monthly')
+  // The page opens on the first tab with the range last used there (issue
+  // #1053), or that tab's defaults if what was stored doesn't apply to it.
+  const [initialRange] = useState<ReportsRange>(() => storedReportsRange(REPORT_TABS[0]) ?? {
+    rangeKey: REPORT_TABS[0].fallbackRangeKey,
+    from: '',
+    to: '',
+    interval: REPORT_TABS[0].fallbackInterval,
+  })
+  const [rangeKey, setRangeKey] = useState(initialRange.rangeKey)
+  const [interval, setInterval] = useState(initialRange.interval)
   // Custom range endpoints (YYYY-MM-DD) — populated when the user opens the
   // Custom preset and confirms a date range. Preserved across tab switches
   // that still support custom ranges so the picker doesn't forget its
   // selection while the user compares views.
-  const [customFrom, setCustomFrom] = useState('')
-  const [customTo, setCustomTo] = useState('')
-  const [activeTab, setActiveTab] = useState('net_worth')
+  const [customFrom, setCustomFrom] = useState(initialRange.from)
+  const [customTo, setCustomTo] = useState(initialRange.to)
+  const [activeTab, setActiveTab] = useState(REPORT_TABS[0].key)
+  // Each tab keeps its own range: Cash Flow clamping to its forward presets
+  // must not overwrite what Net Worth was showing.
+  useEffect(() => {
+    saveReportsRange(activeTab, { rangeKey, from: customFrom, to: customTo, interval })
+  }, [activeTab, rangeKey, customFrom, customTo, interval])
   const [compositionView, setCompositionView] = useState<string>('netWorth')
   const [sparklineView, setSparklineView] = useState<'byExpenses' | 'byIncome'>('byExpenses')
   const [sparklinePage, setSparklinePage] = useState(0)
   const [cashFlowBaseline, setCashFlowBaseline] = useState(false)
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
+  const [statementMonth, setStatementMonth] = useState(currentMonth)
+  const [statementSettings, setStatementSettings] = useState(loadStatementSettings)
+  const updateStatementSettings = (next: StatementSettings) => {
+    setStatementSettings(next)
+    saveStatementSettings(next)
+  }
   // Active Collection filter (issue #105): scope all report tabs to its
   // accounts; net worth also includes the collection's wallets' assets.
   const { activeAccountIds, activeWalletIds } = useCollectionFilter()
@@ -213,6 +257,7 @@ export default function ReportsPage() {
   // The Money Map (Sankey) tab is driven by the same income/expenses
   // composition, aggregated over the selected historical range.
   const isMoneyMap = activeTab === 'money_map'
+  const isStatement = activeTab === 'statement'
   const rangeOptions = currentTab.rangeOptions
   // Cash flow's forecast presets don't make sense with a past-only calendar
   // range, so custom is only offered for the historical tabs (Net Worth,
@@ -250,6 +295,16 @@ export default function ReportsPage() {
     setCompositionView(key === 'net_worth' ? 'netWorth' : 'net')
     setSparklinePage(0)
     setSelectedDate(null)
+    const remembered = storedReportsRange(nextTab)
+    if (remembered) {
+      setRangeKey(remembered.rangeKey)
+      setInterval(remembered.interval)
+      if (remembered.rangeKey === CUSTOM_RANGE_KEY) {
+        setCustomFrom(remembered.from)
+        setCustomTo(remembered.to)
+      }
+      return
+    }
     // Clamp the range/interval preset to what the new tab supports.
     const stillValid =
       (rangeKey === CUSTOM_RANGE_KEY && nextTab.supportsCustomRange) ||
@@ -271,7 +326,7 @@ export default function ReportsPage() {
           ? reports.incomeExpenses(months, interval, acctIds, period, days, apiStart, apiEnd)
           : reports.netWorth(months, interval, acctIds, walletIds, period, apiStart, apiEnd),
     // Only request a custom report with both committed endpoints.
-    enabled: currentTab.enabled && !(noAccounts && activeTab !== 'net_worth') && (!isCustomRange || hasCustomRange),
+    enabled: currentTab.enabled && !isStatement && !(noAccounts && activeTab !== 'net_worth') && (!isCustomRange || hasCustomRange),
   })
 
   const summary = data?.summary
@@ -528,7 +583,14 @@ export default function ReportsPage() {
       <PageHeader
         section={t('reports.section')}
         title={t(currentTab.labelKey)}
-        action={
+        action={isStatement ? (
+          <StatementControls
+            month={statementMonth}
+            onMonthChange={setStatementMonth}
+            settings={statementSettings}
+            onSettingsChange={updateStatementSettings}
+          />
+        ) : (
           <div className="flex items-center gap-2">
             {isCashFlow && (
               <div
@@ -617,17 +679,17 @@ export default function ReportsPage() {
               ))}
             </div>
           </div>
-        }
+        )}
       />
 
       {/* Tab Bar */}
-      <div className="flex items-center gap-1 mb-5 border-b border-border">
+      <div className="flex items-center gap-1 mb-5 border-b border-border overflow-x-auto">
         {REPORT_TABS.map((tab) => (
           <button
             key={tab.key}
             onClick={() => { if (tab.enabled) handleSelectTab(tab.key) }}
             disabled={!tab.enabled}
-            className={`relative px-4 py-2.5 text-sm font-medium transition-colors ${
+            className={`relative shrink-0 whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-colors ${
               activeTab === tab.key
                 ? 'text-foreground'
                 : tab.enabled
@@ -648,7 +710,13 @@ export default function ReportsPage() {
         ))}
       </div>
 
-      {isError && (
+      {isStatement && (noAccounts ? (
+        <p className="py-10 text-center text-sm text-muted-foreground">{t('reports.noData')}</p>
+      ) : (
+        <IncomeExpenseStatement accountIds={acctIds} month={statementMonth} settings={statementSettings} />
+      ))}
+
+      {!isStatement && isError && (
         <div className="flex items-center justify-between gap-3 bg-rose-50 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 rounded-lg px-4 py-2.5 mb-5">
           <div className="flex items-center gap-2.5 min-w-0">
             <AlertCircle size={16} className="shrink-0 text-rose-600 dark:text-rose-400" />
@@ -666,7 +734,7 @@ export default function ReportsPage() {
         </div>
       )}
 
-      {!isError && (
+      {!isStatement && !isError && (
       <>
       {/* Hero Card */}
       <div className="bg-card rounded-xl border border-border shadow-sm mb-5">
@@ -943,11 +1011,11 @@ export default function ReportsPage() {
                   tickCount={5}
                 />
                 <Tooltip
-                  formatter={(value?: number, name?: string) => [
-                    privacyMode ? MASK : formatCurrency(value ?? 0, userCurrency, locale),
+                  formatter={(value, name) => [
+                    privacyMode ? MASK : formatCurrency(Number(value ?? 0), userCurrency, locale),
                     name === 'value'
                       ? t('reports.netIncome')
-                      : t(`reports.${name ?? ''}`, { defaultValue: name ?? '' }),
+                      : t(`reports.${String(name ?? '')}`, { defaultValue: String(name ?? '') }),
                   ]}
                   labelFormatter={(label) => label}
                   contentStyle={tooltipStyle}
@@ -1407,8 +1475,8 @@ export default function ReportsPage() {
                                     </defs>
                                     <XAxis dataKey="date" hide />
                                     <Tooltip
-                                      formatter={(value?: number) => [
-                                        privacyMode ? MASK : formatCurrency(value ?? 0, userCurrency, locale),
+                                      formatter={(value) => [
+                                        privacyMode ? MASK : formatCurrency(Number(value ?? 0), userCurrency, locale),
                                         item.label,
                                       ]}
                                       labelFormatter={(label) => label}

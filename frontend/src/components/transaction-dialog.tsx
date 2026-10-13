@@ -15,6 +15,8 @@ import { flattenConditions, hasConditionGroups } from '@/lib/rule-conditions'
 import { cn, normalizeText } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { DescriptionInput } from '@/components/description-input'
+import { AmountInput } from '@/components/amount-input'
 import { Label } from '@/components/ui/label'
 import { DatePickerInput } from '@/components/ui/date-picker-input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -779,7 +781,7 @@ function TransactionForm({
         // wrong value.
         const parsedAmount = parseAmountInput(amount, displayLocale)
         if (!isSynced && parsedAmount == null) {
-          toast.error(t('common.error'))
+          toast.error(t('common.invalidAmount'))
           return
         }
         const fxFields: Partial<Transaction> = {}
@@ -793,7 +795,7 @@ function TransactionForm({
           showConversion &&
           ((convertedAmount && parsedConverted == null) || (fxRate && parsedFxRate == null))
         ) {
-          toast.error(t('common.error'))
+          toast.error(t('common.invalidAmount'))
           return
         }
         if (showConversion && parsedConverted != null) {
@@ -1009,9 +1011,15 @@ function TransactionForm({
             rows={1}
           />
         ) : (
-          <Input
+          <DescriptionInput
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={setDescription}
+            // Prefill what was last filed under this description, without
+            // overwriting anything the user already chose (issue #1127).
+            onPick={(suggestion) => {
+              if (!categoryId && suggestion.category_id) setCategoryId(suggestion.category_id)
+              if (!payeeId && suggestion.payee_id) setPayeeId(suggestion.payee_id)
+            }}
             required
             className="bg-card"
           />
@@ -1063,9 +1071,7 @@ function TransactionForm({
               className="bg-muted/40 text-muted-foreground cursor-default select-none"
             />
           ) : (
-            <Input
-              type="text"
-              inputMode="decimal"
+            <AmountInput
               value={amount}
               onChange={(e) => handleAmountChange(e.target.value)}
               required
@@ -1135,9 +1141,7 @@ function TransactionForm({
                   className="bg-muted/40 text-muted-foreground cursor-default select-none"
                 />
               ) : (
-                <Input
-                  type="text"
-                  inputMode="decimal"
+                <AmountInput
                   value={convertedAmount}
                   onChange={(e) => handleConvertedAmountChange(e.target.value)}
                   placeholder={t('transactions.autoCalculated')}
@@ -1147,9 +1151,7 @@ function TransactionForm({
             </div>
             <div className="space-y-1">
               <Label className="text-xs">{t('transactions.exchangeRate')}</Label>
-              <Input
-                type="text"
-                inputMode="decimal"
+              <AmountInput
                 value={fxRate}
                 onChange={(e) => handleFxRateChange(e.target.value)}
                 placeholder={t('transactions.autoCalculated')}

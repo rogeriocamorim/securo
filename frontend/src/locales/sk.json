@@ -1436,7 +1436,11 @@
     "confirmDeleteDescription": "Rozpočet pre „{{name}}“ bude natrvalo vymazaný. Existujúce transakcie to neovplyvní. Túto akciu nie je možné vrátiť späť.",
     "confirmDeleteRecurringDescription": "Opakovaný rozpočet pre „{{name}}“ bude natrvalo vymazaný. Táto definícia sa už nebude vzťahovať na ďalšie mesiace. Existujúce transakcie to neovplyvní. Túto akciu nie je možné vrátiť späť.",
     "repeatEveryMonth": "Opakovať každý mesiac",
-    "recurringLabel": "Opakovaný"
+    "recurringLabel": "Opakovaný",
+    "monthTotal": "Súčet za mesiac",
+    "remaining": "Zostáva {{amount}}",
+    "overBy": "{{amount}} nad rozpočet",
+    "spendingUnavailable": "Výdavky za tento mesiac sa nepodarilo načítať."
   },
   "goals": {
     "title": "Ciele",
@@ -1853,7 +1857,8 @@
       "invalid_date": "Neplatný formát dátumu",
       "no_amount": "Chýba suma príjmu alebo výdaja",
       "invalid_amount": "Neplatný formát sumy"
-    }
+    },
+    "selectAll": "Vybrať všetko"
   },
   "assetImport": {
     "title": "Import investičných pokynov",
@@ -1989,6 +1994,8 @@
     "yearly": "Ročne",
     "activeAssets": "Aktívne aktíva",
     "soldAssets": "Predané aktíva",
+    "showArchived": "Zobraziť archivované",
+    "archivedHint": "Nezapočítavajú sa do súčtov",
     "archivedAssets": "Archivované aktíva",
     "noAssets": "Zatiaľ žiadne aktíva",
     "created": "Aktívum vytvorené",
@@ -2119,7 +2126,21 @@
     "range30d": "30D",
     "customRange": "Vlastný rozsah",
     "pickCustomRange": "Vyberte dátum začiatku a konca",
-    "loadError": "Nepodarilo sa načítať prehľad"
+    "loadError": "Nepodarilo sa načítať prehľad",
+    "statement": "Výkaz",
+    "statementIncomeTotal": "Príjmy spolu",
+    "statementExpenseTotal": "Výdavky spolu",
+    "statementSettings": "Možnosti prehľadu",
+    "statementSortBy": "Zoradiť podľa",
+    "statementSortDefault": "Predvolené",
+    "statementSortAsc": "Suma (od najmenšej)",
+    "statementSortDesc": "Suma (od najväčšej)",
+    "statementColumns": "Počet stĺpcov",
+    "statementShowChange": "Zobraziť percentuálnu zmenu",
+    "statementViewTransactions": "Zobraziť transakcie",
+    "statementUncategorizedIncome": "Príjmy bez kategórie",
+    "statementUncategorizedExpense": "Výdavky bez kategórie",
+    "statementToggleGroup": "Zobraziť kategórie v {{name}}"
   },
   "payees": {
     "noPayeeFound": "Príjemca sa nenašiel.",
@@ -2249,6 +2270,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Zadajte platnú sumu",
     "selectTimezone": "Vyberte časové pásmo",
     "searchTimezone": "Hľadať časové pásmo...",
     "noTimezoneFound": "Nenašlo sa žiadne časové pásmo.",

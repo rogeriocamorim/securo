@@ -96,17 +96,22 @@ export function TransactionAttachments({
     const urls: string[] = []
 
     const renderPdfThumbnail = async (blobUrl: string): Promise<string> => {
-      const pdf = await getDocument(blobUrl).promise
-      const page = await pdf.getPage(1)
-      const scale = 200 / page.getViewport({ scale: 1 }).width
-      const viewport = page.getViewport({ scale })
-      const canvas = document.createElement('canvas')
-      canvas.width = viewport.width
-      canvas.height = viewport.height
-      await page.render({ canvas, canvasContext: canvas.getContext('2d')!, viewport }).promise
-      const dataUrl = canvas.toDataURL('image/png')
-      pdf.destroy()
-      return dataUrl
+      // pdfjs-dist 6 takes an options object and frees the document through
+      // its loading task.
+      const loadingTask = getDocument({ url: blobUrl })
+      try {
+        const pdf = await loadingTask.promise
+        const page = await pdf.getPage(1)
+        const scale = 200 / page.getViewport({ scale: 1 }).width
+        const viewport = page.getViewport({ scale })
+        const canvas = document.createElement('canvas')
+        canvas.width = viewport.width
+        canvas.height = viewport.height
+        await page.render({ canvas, canvasContext: canvas.getContext('2d')!, viewport }).promise
+        return canvas.toDataURL('image/png')
+      } finally {
+        await loadingTask.destroy()
+      }
     }
 
     const loadThumbnails = async () => {

@@ -1372,7 +1372,11 @@
     "confirmDeleteDescription": "Le budget pour « {{name}} » sera définitivement supprimé. Les transactions existantes ne sont pas affectées. Cette action est irréversible.",
     "confirmDeleteRecurringDescription": "Le budget récurrent pour « {{name}} » sera définitivement supprimé. Cette définition ne s'appliquera plus aux mois suivants. Les transactions existantes ne sont pas affectées. Cette action est irréversible.",
     "repeatEveryMonth": "Répéter chaque mois",
-    "recurringLabel": "Récurrent"
+    "recurringLabel": "Récurrent",
+    "monthTotal": "Total du mois",
+    "remaining": "Reste {{amount}}",
+    "overBy": "{{amount}} au-dessus du budget",
+    "spendingUnavailable": "Impossible de charger les dépenses de ce mois."
   },
   "goals": {
     "title": "Objectifs",
@@ -1741,7 +1745,8 @@
       "invalid_date": "Format de date invalide",
       "no_amount": "Aucun montant d'entrée ou de sortie",
       "invalid_amount": "Format de montant invalide"
-    }
+    },
+    "selectAll": "Tout sélectionner"
   },
   "assetImport": {
     "title": "Importer des ordres d'investissement",
@@ -1877,6 +1882,8 @@
     "yearly": "Annuelle",
     "activeAssets": "Actifs actifs",
     "soldAssets": "Actifs vendus",
+    "showArchived": "Afficher les archivés",
+    "archivedHint": "Non inclus dans les totaux",
     "archivedAssets": "Actifs archivés",
     "noAssets": "Aucun actif pour l'instant",
     "created": "Actif créé",
@@ -2007,7 +2014,21 @@
     "range30d": "30J",
     "customRange": "Plage personnalisée",
     "pickCustomRange": "Choisir une date de début et de fin",
-    "loadError": "Échec du chargement du rapport"
+    "loadError": "Échec du chargement du rapport",
+    "statement": "Relevé",
+    "statementIncomeTotal": "Revenus totaux",
+    "statementExpenseTotal": "Dépenses totales",
+    "statementSettings": "Options du rapport",
+    "statementSortBy": "Trier par",
+    "statementSortDefault": "Par défaut",
+    "statementSortAsc": "Montant (croissant)",
+    "statementSortDesc": "Montant (décroissant)",
+    "statementColumns": "Nombre de colonnes",
+    "statementShowChange": "Afficher la variation en pourcentage",
+    "statementViewTransactions": "Voir les transactions",
+    "statementUncategorizedIncome": "Revenus non catégorisés",
+    "statementUncategorizedExpense": "Dépenses non catégorisées",
+    "statementToggleGroup": "Afficher les catégories de {{name}}"
   },
   "payees": {
     "noPayeeFound": "Aucun bénéficiaire trouvé.",
@@ -2129,6 +2150,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Saisissez un montant valide",
     "selectTimezone": "Choisir un fuseau horaire",
     "searchTimezone": "Rechercher un fuseau horaire...",
     "noTimezoneFound": "Aucun fuseau horaire trouvé.",

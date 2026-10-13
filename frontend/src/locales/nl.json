@@ -1368,6 +1368,10 @@
     "deleted": "Budget verwijderd",
     "repeatEveryMonth": "Herhaal elke maand",
     "recurringLabel": "Terugkerend",
+    "monthTotal": "Maandtotaal",
+    "remaining": "{{amount}} over",
+    "overBy": "{{amount}} boven budget",
+    "spendingUnavailable": "Uitgaven voor deze maand konden niet worden geladen.",
     "confirmDeleteTitle": "Budget verwijderen?",
     "confirmDeleteDescription": "Het budget voor \"{{name}}\" wordt permanent verwijderd. Bestaande transacties worden niet beïnvloed. Deze actie kan niet ongedaan worden gemaakt.",
     "confirmDeleteRecurringDescription": "Het terugkerende budget voor \"{{name}}\" wordt permanent verwijderd. Deze definitie geldt niet meer voor latere maanden. Bestaande transacties worden niet beïnvloed. Deze actie kan niet ongedaan worden gemaakt."
@@ -1739,7 +1743,8 @@
       "invalid_date": "Ongeldige datumformaat",
       "no_amount": "Geen in- of uitstroombedrag",
       "invalid_amount": "Ongeldig bedragformaat"
-    }
+    },
+    "selectAll": "Alles selecteren"
   },
   "assetImport": {
     "title": "Investeringsorders importeren",
@@ -1875,6 +1880,8 @@
     "yearly": "Jaarlijks",
     "activeAssets": "Actieve activa",
     "soldAssets": "Verkochte activa",
+    "showArchived": "Gearchiveerde tonen",
+    "archivedHint": "Niet meegeteld in totalen",
     "archivedAssets": "Gearchiveerde activa",
     "noAssets": "Nog geen activa",
     "created": "Item gemaakt",
@@ -2005,7 +2012,21 @@
     "range30d": "30D",
     "customRange": "Aangepast bereik",
     "pickCustomRange": "Kies een start- en einddatum",
-    "loadError": "Rapport laden mislukt"
+    "loadError": "Rapport laden mislukt",
+    "statement": "Overzicht",
+    "statementIncomeTotal": "Totale inkomsten",
+    "statementExpenseTotal": "Totale uitgaven",
+    "statementSettings": "Rapportopties",
+    "statementSortBy": "Sorteren op",
+    "statementSortDefault": "Standaard",
+    "statementSortAsc": "Bedrag (laagste eerst)",
+    "statementSortDesc": "Bedrag (hoogste eerst)",
+    "statementColumns": "Aantal kolommen",
+    "statementShowChange": "Procentuele verandering tonen",
+    "statementViewTransactions": "Transacties bekijken",
+    "statementUncategorizedIncome": "Inkomsten zonder categorie",
+    "statementUncategorizedExpense": "Uitgaven zonder categorie",
+    "statementToggleGroup": "Categorieën van {{name}} tonen"
   },
   "payees": {
     "noPayeeFound": "Geen begunstigde gevonden.",
@@ -2127,6 +2148,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Voer een geldig bedrag in",
     "selectTimezone": "Tijdzone kiezen",
     "searchTimezone": "Tijdzone zoeken...",
     "noTimezoneFound": "Geen tijdzone gevonden.",

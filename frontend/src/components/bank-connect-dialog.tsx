@@ -45,13 +45,20 @@ export function BankConnectDialog({
     onClose()
   })
 
-  useEffect(() => {
+  // Closing the dialog clears it for next time. Done while rendering, so a
+  // reopen never starts from the previous session's token or choices.
+  const [wasOpen, setWasOpen] = useState(open)
+  if (wasOpen !== open) {
+    setWasOpen(open)
     if (!open) {
       setConnectToken(null)
       setSyncAssets(true)
       setOptionsConfirmed(false)
-      return
     }
+  }
+
+  useEffect(() => {
+    if (!open) return
 
     if (needsInitialOptions && !optionsConfirmed) return
 

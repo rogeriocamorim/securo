@@ -1368,7 +1368,11 @@
     "confirmDeleteDescription": "The budget for \"{{name}}\" will be permanently deleted. Existing transactions are not affected. This action cannot be undone.",
     "confirmDeleteRecurringDescription": "The recurring budget for \"{{name}}\" will be permanently deleted. This definition will no longer apply to later months. Existing transactions are not affected. This action cannot be undone.",
     "repeatEveryMonth": "Repeat every month",
-    "recurringLabel": "Recurring"
+    "recurringLabel": "Recurring",
+    "monthTotal": "Month total",
+    "remaining": "{{amount}} left",
+    "overBy": "{{amount}} over budget",
+    "spendingUnavailable": "Couldn't load spending for this month."
   },
   "goals": {
     "title": "Goals",
@@ -1737,7 +1741,8 @@
       "invalid_date": "Invalid Date Format",
       "no_amount": "No Inflow or Outflow Amount",
       "invalid_amount": "Invalid Amount Format"
-    }
+    },
+    "selectAll": "Select all"
   },
   "assetImport": {
     "title": "Import investment orders",
@@ -1873,6 +1878,8 @@
     "yearly": "Yearly",
     "activeAssets": "Active Assets",
     "soldAssets": "Sold Assets",
+    "showArchived": "Show archived",
+    "archivedHint": "Not counted in totals",
     "archivedAssets": "Archived Assets",
     "noAssets": "No assets yet",
     "created": "Asset created",
@@ -2003,7 +2010,21 @@
     "range30d": "30D",
     "customRange": "Custom range",
     "pickCustomRange": "Pick a start and end date",
-    "loadError": "Failed to load report"
+    "loadError": "Failed to load report",
+    "statement": "Statement",
+    "statementIncomeTotal": "Total income",
+    "statementExpenseTotal": "Total expenses",
+    "statementSettings": "Report options",
+    "statementSortBy": "Sort by",
+    "statementSortDefault": "Default",
+    "statementSortAsc": "Value (smallest first)",
+    "statementSortDesc": "Value (largest first)",
+    "statementColumns": "Number of columns",
+    "statementShowChange": "Show percentage change",
+    "statementViewTransactions": "View transactions",
+    "statementUncategorizedIncome": "Uncategorized income",
+    "statementUncategorizedExpense": "Uncategorized expenses",
+    "statementToggleGroup": "Show categories in {{name}}"
   },
   "payees": {
     "noPayeeFound": "No payee found.",
@@ -2125,6 +2146,7 @@
     }
   },
   "common": {
+    "invalidAmount": "Enter a valid amount",
     "selectTimezone": "Select timezone",
     "searchTimezone": "Search timezone...",
     "noTimezoneFound": "No timezone found.",
