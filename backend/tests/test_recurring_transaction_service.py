@@ -11,6 +11,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.account import Account
 from app.models.transaction import Transaction
 from app.schemas.recurring_transaction import RecurringTransactionCreate, RecurringTransactionUpdate
+from app.schemas.rule import RuleAction, RuleCondition, RuleCreate
 from app.services.recurring_transaction_service import (
     _advance_date,
     adjust_weekend_date,
@@ -22,6 +23,7 @@ from app.services.recurring_transaction_service import (
     get_recurring_transactions,
     update_recurring_transaction,
 )
+from app.services.rule_service import create_rule
 
 
 @pytest_asyncio.fixture
@@ -826,6 +828,51 @@ async def test_generate_pending_holds_synced_account_rows_pending(
     )
     [txn] = result.scalars().all()
     assert txn.status == "pending"
+
+
+@pytest.mark.asyncio
+async def test_generate_pending_applies_active_rules(
+    session: AsyncSession, test_user, test_workspace, test_account_for_recurring, test_categories
+):
+    """Generated occurrences go through the rule engine like manual, synced and imported rows (#568).
+
+    The bill's own category wins over a rule's set_category, while the rule's
+    other actions still apply.
+    """
+    await create_rule(
+        session, test_workspace.id, test_user.id,
+        RuleCreate(
+            name="Gym notes",
+            conditions_op="and",
+            conditions=[RuleCondition(field="description", op="contains", value="Gym")],
+            actions=[
+                RuleAction(op="append_notes", value="from rule"),
+                RuleAction(op="set_category", value=str(test_categories[1].id)),
+            ],
+            priority=10,
+        ),
+    )
+    await create_recurring_transaction(
+        session,
+        test_workspace.id, test_user.id,
+        RecurringTransactionCreate(
+            description="Gym membership",
+            amount=Decimal("50"),
+            type="debit",
+            frequency="monthly",
+            start_date=date(2025, 1, 1),
+            account_id=test_account_for_recurring.id,
+            category_id=test_categories[0].id,
+        ),
+    )
+    assert await generate_pending(session, test_user.id, up_to=date(2025, 1, 1)) == 1
+
+    result = await session.execute(
+        select(Transaction).where(Transaction.account_id == test_account_for_recurring.id)
+    )
+    [txn] = result.scalars().all()
+    assert txn.notes is not None and "from rule" in txn.notes
+    assert txn.category_id == test_categories[0].id
 
 
 @pytest.mark.asyncio

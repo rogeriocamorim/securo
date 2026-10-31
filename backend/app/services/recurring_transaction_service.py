@@ -15,6 +15,7 @@ from app.schemas.recurring_transaction import RecurringTransactionCreate, Recurr
 from app.services import recurring_match_service
 from app.services.credit_card_service import apply_effective_date
 from app.services.fx_rate_service import stamp_primary_amount
+from app.services.rule_service import apply_rules_to_transaction
 
 
 async def _verify_account_in_workspace(
@@ -404,6 +405,7 @@ async def generate_pending(
                 apply_effective_date(transaction, account)
                 session.add(transaction)
                 await session.flush()
+                await apply_rules_to_transaction(session, user_id, transaction)
                 await stamp_primary_amount(session, user_id, transaction)
                 count += 1
 
