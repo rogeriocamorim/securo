@@ -10,14 +10,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Dependencies come from uv.lock (the source of truth — see scripts/lock.sh).
 # The export never touches the lock (--frozen); pip then installs with hash
-# checking, so the image only ever contains the exact audited versions. uv is
+# checking, so the image only ever contains the exact audited versions. The
+# export is the full resolved set, so pip installs it as-is (--no-deps) rather
+# than re-resolving and tripping over the [tool.uv] overrides. uv is
 # removed afterwards — it is a build tool, not a runtime dependency.
 # This layer is cached until pyproject.toml or uv.lock change.
 COPY pyproject.toml uv.lock ./
 # renovate: datasource=pypi depName=uv
 RUN pip install --no-cache-dir uv==0.13.6 \
     && uv export --frozen --no-emit-project -o /tmp/requirements.txt \
-    && pip install --no-cache-dir --require-hashes -r /tmp/requirements.txt \
+    && pip install --no-cache-dir --require-hashes --no-deps -r /tmp/requirements.txt \
     && pip uninstall -y uv \
     && rm /tmp/requirements.txt
 

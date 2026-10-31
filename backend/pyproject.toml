@@ -10,7 +10,7 @@ requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.162.0",
     "uvicorn[standard]>=0.27.0",
-    "sqlalchemy>=2.0.0",
+    "sqlalchemy>=2.1.0",
     "alembic>=1.20.0",
     "asyncpg>=0.29.0",
     "pydantic>=2.5.0",
@@ -67,6 +67,17 @@ dev = [
     # CI red on an unrelated PR. Bump deliberately, together with whatever
     # annotations the new release asks for.
     "ty==0.0.95",
+]
+
+[tool.uv]
+# Lift upstream caps that only exist because those projects have not cut a
+# release since the newer major shipped; the test suite covers what we use.
+# - fastapi-users-db-sqlalchemy pins sqlalchemy<2.1 in every release.
+# - fastembed pins huggingface-hub<2.0.
+# Drop each line once upstream widens its range.
+override-dependencies = [
+    "sqlalchemy[asyncio]>=2.1.0",
+    "huggingface-hub>=2.4.0",
 ]
 
 [tool.setuptools.packages.find]
