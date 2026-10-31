@@ -32,6 +32,26 @@ describe('CATEGORY_ICONS', () => {
     expect(new Set(names).size).toBe(names.length)
   })
 
+  // Icon names are persisted in categories.icon and goals.icon; dropping one
+  // would silently render a saved category with the fallback placeholder.
+  it('keeps every icon name an earlier release could have stored', () => {
+    const LEGACY_NAMES = [
+      'house', 'lightbulb', 'droplets', 'flame', 'wifi', 'tv', 'refrigerator', 'sofa', 'spray-can',
+      'utensils-crossed', 'coffee', 'beer', 'pizza', 'salad', 'croissant', 'cake', 'ice-cream-cone',
+      'apple', 'beef', 'fish', 'car', 'fuel', 'bus', 'train', 'plane', 'bike', 'motorbike',
+      'car-taxi-front', 'bed-double', 'luggage', 'shopping-cart', 'shopping-bag', 'gift', 'package',
+      'shirt', 'pill', 'stethoscope', 'syringe', 'cross', 'heart', 'brain', 'dumbbell', 'gamepad-2',
+      'music', 'film', 'party-popper', 'ticket', 'trophy', 'camera', 'newspaper', 'smartphone',
+      'credit-card', 'laptop', 'monitor', 'book-open', 'graduation-cap', 'school', 'pencil-ruler',
+      'briefcase', 'building-2', 'landmark', 'wallet', 'banknote', 'piggy-bank', 'trending-up',
+      'trending-down', 'hand-coins', 'receipt', 'arrow-left-right', 'heart-handshake', 'baby', 'dog',
+      'cat', 'paw-print', 'scissors', 'wrench', 'hammer', 'tree-pine', 'trees', 'umbrella', 'globe',
+      'sparkles', 'circle-help',
+    ]
+    const names = new Set(CATEGORY_ICONS.map((entry) => entry.name))
+    for (const name of LEGACY_NAMES) expect(names.has(name), name).toBe(true)
+  })
+
   it('gives every entry a name, a fallback label and a component', () => {
     for (const entry of CATEGORY_ICONS) {
       expect(entry.name, 'name').toMatch(/^[a-z0-9-]+$/)
