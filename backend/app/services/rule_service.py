@@ -1190,8 +1190,12 @@ async def preview_rules_for_transaction(
 async def apply_rules_to_transaction(
     session: AsyncSession, user_id: uuid.UUID, transaction: Transaction,
     skip_category_rules: bool = False,
+    skip_description: bool = False,
 ) -> None:
     """Apply all active rules to a transaction, modifying it in-place. Commits nothing.
+
+    `skip_description` keeps the transaction's description as written while the
+    rule's other actions still run.
 
     `user_id` is kept for backwards-compatibility with sync/import callers that
     haven't been migrated to pass workspace_id directly; rules are scoped by
@@ -1225,6 +1229,7 @@ async def apply_rules_to_transaction(
                 actions,
                 transaction,
                 category_set,
+                skip_description=skip_description,
                 assignable_category_ids=assignable_categories,
             )
 

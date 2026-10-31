@@ -9,7 +9,10 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.account import Account
+from app.models.payee import Payee
+from app.models.rule import Rule
 from app.models.transaction import Transaction
+from app.models.workspace import Workspace
 from app.schemas.recurring_transaction import RecurringTransactionCreate, RecurringTransactionUpdate
 from app.schemas.rule import RuleAction, RuleCondition, RuleCreate
 from app.services.recurring_transaction_service import (
@@ -784,6 +787,141 @@ async def test_generate_pending(session: AsyncSession, test_user, test_workspace
     # next_occurrence should be advanced past cutoff
     await session.refresh(rec)
     assert rec.next_occurrence == date(2025, 4, 1)
+
+
+async def _create_internet_recurring(session, test_user, test_workspace, account):
+    return await create_recurring_transaction(
+        session,
+        test_workspace.id, test_user.id,
+        RecurringTransactionCreate(
+            description="Internet Provider",
+            amount=Decimal("99.90"),
+            type="debit",
+            frequency="monthly",
+            start_date=date(2025, 1, 10),
+            account_id=account.id,
+        ),
+    )
+
+
+def _internet_rule(test_user, workspace_id, actions, *, is_active=True) -> Rule:
+    return Rule(
+        user_id=test_user.id,
+        workspace_id=workspace_id,
+        name=f"Internet {uuid.uuid4()}",
+        conditions_op="and",
+        conditions=[{"field": "description", "op": "contains", "value": "Internet Provider"}],
+        actions=actions,
+        priority=0,
+        is_active=is_active,
+    )
+
+
+async def _generated(session, rec) -> list[Transaction]:
+    result = await session.execute(
+        select(Transaction).where(Transaction.recurring_transaction_id == rec.id)
+    )
+    return list(result.scalars().all())
+
+
+@pytest.mark.asyncio
+async def test_generate_pending_applies_active_rules(
+    session: AsyncSession, test_user, test_workspace, test_account_for_recurring
+):
+    payee = Payee(user_id=test_user.id, workspace_id=test_workspace.id, name="ISP Co")
+    session.add(payee)
+    await session.flush()
+    session.add(
+        _internet_rule(
+            test_user,
+            test_workspace.id,
+            [
+                {"op": "set_payee", "value": str(payee.id)},
+                {"op": "append_notes", "value": "#internet"},
+            ],
+        )
+    )
+    await session.commit()
+    rec = await _create_internet_recurring(
+        session, test_user, test_workspace, test_account_for_recurring
+    )
+
+    count = await generate_pending(session, test_user.id, up_to=date(2025, 2, 15))
+
+    assert count == 2
+    txns = await _generated(session, rec)
+    assert txns, "expected generated occurrences"
+    for tx in txns:
+        assert tx.workspace_id == rec.workspace_id
+        assert tx.payee_id == payee.id
+        assert tx.notes == "#internet"
+
+
+@pytest.mark.asyncio
+async def test_generate_pending_rules_keep_schedule_description(
+    session: AsyncSession, test_user, test_workspace, test_account_for_recurring
+):
+    # Sync and import match an incoming charge against the placeholder's
+    # description, so a rule must not rewrite it.
+    session.add(
+        _internet_rule(
+            test_user,
+            test_workspace.id,
+            [
+                {"op": "set_description", "value": "Renamed"},
+                {"op": "append_notes", "value": "#internet"},
+            ],
+        )
+    )
+    await session.commit()
+    rec = await _create_internet_recurring(
+        session, test_user, test_workspace, test_account_for_recurring
+    )
+
+    await generate_pending(session, test_user.id, up_to=date(2025, 1, 15))
+
+    txns = await _generated(session, rec)
+    assert len(txns) == 1
+    tx = txns[0]
+    assert tx.description == "Internet Provider"
+    assert tx.original_description is None
+    assert not tx.description_is_rule_managed
+    assert tx.notes == "#internet"
+
+
+@pytest.mark.asyncio
+async def test_generate_pending_skips_inactive_and_other_workspace_rules(
+    session: AsyncSession, test_user, test_workspace, test_account_for_recurring
+):
+    other_ws = Workspace(id=uuid.uuid4(), name="Other", created_by_user_id=test_user.id)
+    session.add(other_ws)
+    await session.flush()
+    session.add_all(
+        [
+            _internet_rule(
+                test_user,
+                test_workspace.id,
+                [{"op": "append_notes", "value": "#inactive"}],
+                is_active=False,
+            ),
+            _internet_rule(
+                test_user,
+                other_ws.id,
+                [{"op": "append_notes", "value": "#other-workspace"}],
+            ),
+        ]
+    )
+    await session.commit()
+    rec = await _create_internet_recurring(
+        session, test_user, test_workspace, test_account_for_recurring
+    )
+
+    await generate_pending(session, test_user.id, up_to=date(2025, 1, 15))
+
+    txns = await _generated(session, rec)
+    assert len(txns) == 1
+    assert txns[0].notes is None
+    assert txns[0].payee_id is None
 
 
 @pytest.mark.asyncio
