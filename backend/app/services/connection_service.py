@@ -1910,6 +1910,35 @@ async def _find_synced_duplicate(
     )
 
 
+async def _adopt_legacy_transaction(
+    session: AsyncSession,
+    account_id: uuid.UUID,
+    txn_data: TransactionData,
+) -> Optional[Transaction]:
+    """Find the row stored under the pre-fingerprint (entry_reference) id.
+
+    Before the fingerprint id, a transaction was stored under its
+    entry_reference, which settlement batches can share. Adopt the stored row
+    only when it is the sole row under that id and its type, amount and date
+    match. Then move it onto the fingerprint id, so later syncs match it by
+    id and it is never matched to a sibling's row. Anything else returns None
+    and the caller inserts a new row.
+    """
+    candidates = list((await session.execute(
+        select(Transaction).where(
+            Transaction.account_id == account_id,
+            Transaction.external_id == txn_data.legacy_external_id,
+        )
+    )).scalars().all())
+    if len(candidates) != 1:
+        return None
+    row = candidates[0]
+    if row.type != txn_data.type or row.amount != txn_data.amount or row.date != txn_data.date:
+        return None
+    row.external_id = txn_data.external_id
+    return row
+
+
 async def _cleanup_phantom_duplicates(
     session: AsyncSession,
     connection_id: uuid.UUID,
@@ -2538,6 +2567,10 @@ async def sync_connection(
                 # we instead reconcile onto the oldest matching row and skip
                 # re-inserting, so a stray duplicate is harmless and never grows.
                 existing_tx = existing.scalars().first()
+                if existing_tx is None and txn_data.legacy_external_id:
+                    existing_tx = await _adopt_legacy_transaction(
+                        session, account.id, txn_data
+                    )
                 if existing_tx:
                     # User-flagged rows are frozen: skip status/bill drift so
                     # a re-sync can't revive a transaction the user hid.

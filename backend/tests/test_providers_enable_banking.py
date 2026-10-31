@@ -412,7 +412,8 @@ async def test_get_transactions_parses_nested_and_flat_shapes(eb_keys):
     debit = next(t for t in nested if t.type == "debit")
     assert debit.amount == Decimal("10.00")
     assert debit.status == "posted"
-    assert debit.external_id == "ref-1"
+    assert debit.legacy_external_id == "ref-1"
+    assert len(debit.external_id) == 32
     credit = next(t for t in nested if t.type == "credit")
     assert credit.status == "pending"
 
@@ -481,7 +482,7 @@ async def test_get_transactions_stops_on_repeated_continuation_key(eb_keys, capl
     assert len(requests) == 2
     assert requests[0].url.params.get("continuation_key") is None
     assert requests[1].url.params["continuation_key"] == "cursor-a"
-    assert [transaction.external_id for transaction in transactions] == ["looped-tx-1"]
+    assert [transaction.legacy_external_id for transaction in transactions] == ["looped-tx-1"]
     assert "pagination loop detected" in caplog.text
 
 
@@ -501,6 +502,15 @@ def _span_days(request: httpx.Request) -> int:
     return (end - start).days + 1
 
 
+_FROZEN_UTC_DAY = date(2026, 8, 31)
+
+
+class _FrozenDatetime(datetime):
+    @classmethod
+    def now(cls, tz=None):
+        return datetime(2026, 8, 31, 23, 30, tzinfo=timezone.utc)
+
+
 @pytest.mark.asyncio
 async def test_get_transactions_default_window_is_90_days_inclusive(eb_keys):
     provider = EnableBankingProvider()
@@ -510,11 +520,14 @@ async def test_get_transactions_default_window_is_90_days_inclusive(eb_keys):
         requests.append(request)
         return httpx.Response(200, json={"transactions": []})
 
-    with _patch_client(provider, handler):
+    with patch("app.providers.enable_banking.datetime", _FrozenDatetime), _patch_client(
+        provider, handler
+    ):
         await provider.get_transactions(_CREDENTIALS, "acc-1")
 
     assert len(requests) == 1
-    assert requests[0].url.params["date_to"] == date.today().isoformat()
+    # The provider asks for "today" in UTC, not the host's local date.
+    assert requests[0].url.params["date_to"] == _FROZEN_UTC_DAY.isoformat()
     assert _span_days(requests[0]) == DEFAULT_HISTORY_DAYS == 90
 
 
@@ -549,7 +562,7 @@ async def test_get_transactions_retries_shorter_window_on_wrong_period(eb_keys):
         DEFAULT_HISTORY_DAYS,
         FALLBACK_HISTORY_DAYS,
     ]
-    assert [t.external_id for t in transactions] == ["tx-1"]
+    assert [t.legacy_external_id for t in transactions] == ["tx-1"]
 
 
 @pytest.mark.asyncio
@@ -979,3 +992,74 @@ async def test_get_accounts_authorized_session_returns_accounts(eb_keys):
         accounts = await provider.get_accounts({"session_id": "sess-1"})
     assert [a.external_id for a in accounts] == ["acc-uid-1"]
     assert accounts[0].balance == Decimal("859.43")
+
+
+def _shared_ref_page() -> dict:
+    shared = "205062608292ALB-0068XWUO2NW7"
+    return {
+        "transactions": {
+            "booked": [
+                {
+                    "entry_reference": shared,
+                    "transaction_amount": {"amount": "0.55", "currency": "EUR"},
+                    "credit_debit_indicator": "DBIT",
+                    "booking_date": "2026-08-31",
+                    "value_date": "2026-08-31",
+                    "remittance_information": ["Round up"],
+                },
+                {
+                    "entry_reference": shared,
+                    "transaction_amount": {"amount": "1006.45", "currency": "EUR"},
+                    "credit_debit_indicator": "DBIT",
+                    "booking_date": "2026-08-31",
+                    "value_date": "2026-08-29",
+                    "remittance_information": ["Card payment"],
+                },
+            ],
+        },
+        "continuation_key": "",
+    }
+
+
+async def test_get_transactions_keeps_distinct_transactions_sharing_entry_reference(eb_keys):
+    """Issue #1063: a settlement batch reuses one entry_reference for different
+    ledger lines. Both come through, each with its own fingerprint id, and both
+    keep the shared reference as legacy_external_id for sync-time matching."""
+    provider = EnableBankingProvider()
+    shared = "205062608292ALB-0068XWUO2NW7"
+    page = _shared_ref_page()
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json=page)
+
+    credentials = {"session_id_enc": None, "session_id": "sess-x", "valid_until": "2099-01-01T00:00:00Z"}
+    with _patch_client(provider, handler):
+        txns = await provider.get_transactions(credentials, "acc-1", date(2026, 8, 1))
+
+    assert sorted(t.amount for t in txns) == [Decimal("0.55"), Decimal("1006.45")]
+    assert len({t.external_id for t in txns}) == 2
+    assert [t.legacy_external_id for t in txns] == [shared, shared]
+
+
+async def test_get_transactions_id_does_not_depend_on_the_fetch_window(eb_keys):
+    """A transaction keeps the same id whether or not its batch sibling is in
+    the same fetch. Otherwise a later sync that returns only one of them could
+    match it to the other's stored row."""
+    provider = EnableBankingProvider()
+    page = _shared_ref_page()
+    solo_page = {"transactions": {"booked": [page["transactions"]["booked"][1]]}, "continuation_key": ""}
+
+    def handler_full(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json=page)
+
+    def handler_solo(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json=solo_page)
+
+    credentials = {"session_id_enc": None, "session_id": "sess-x", "valid_until": "2099-01-01T00:00:00Z"}
+    with _patch_client(provider, handler_full):
+        full = await provider.get_transactions(credentials, "acc-1", date(2026, 8, 1))
+    with _patch_client(provider, handler_solo):
+        solo = await provider.get_transactions(credentials, "acc-1", date(2026, 8, 1))
+
+    card_in_full = next(t for t in full if t.amount == Decimal("1006.45"))
+    assert solo[0].external_id == card_in_full.external_id
