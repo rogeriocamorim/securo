@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CATEGORY_ICONS, getCategoryIconLabel } from '@/lib/category-icons'
-import { cn } from '@/lib/utils'
+import { cn, normalizeText } from '@/lib/utils'
 
 interface IconPickerProps {
   value: string
@@ -15,11 +15,12 @@ export function IconPicker({ value, color, onChange }: IconPickerProps) {
 
   const filtered = useMemo(() => {
     if (!search.trim()) return CATEGORY_ICONS
-    const q = search.toLowerCase()
+    // Accent- and case-insensitive, so "agua" finds "Água".
+    const q = normalizeText(search.trim())
     return CATEGORY_ICONS.filter(
       (entry) =>
         entry.name.includes(q) ||
-        getCategoryIconLabel(t, entry.name).toLowerCase().includes(q)
+        normalizeText(getCategoryIconLabel(t, entry.name)).includes(q)
     )
   }, [search, t])
 
