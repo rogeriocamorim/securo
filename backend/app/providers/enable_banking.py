@@ -673,12 +673,15 @@ class EnableBankingProvider(BankProvider):
                 parsed = self._build_transaction(
                     account_external_id, raw_txn, status, payee_source
                 )
+                if not parsed:
+                    continue
                 # A broken pagination cursor can make Enable Banking return a
-                # page we have already consumed. Keep the result idempotent
-                # even before the repeated cursor is detected below.
-                if parsed and parsed.external_id not in seen_transaction_ids:
-                    transactions.append(parsed)
-                    seen_transaction_ids.add(parsed.external_id)
+                # page we have already consumed. The id is a fingerprint of the
+                # transaction itself, so a repeated page repeats the id.
+                if parsed.external_id in seen_transaction_ids:
+                    continue
+                seen_transaction_ids.add(parsed.external_id)
+                transactions.append(parsed)
 
             next_continuation_key = page.get("continuation_key") or None
             if not next_continuation_key:
@@ -742,12 +745,15 @@ class EnableBankingProvider(BankProvider):
             else:
                 description = debtor or creditor or ""
         description = description.strip()[:500] or "Transaction"
+        # The id is derived from the transaction alone, never from the rest of
+        # the fetch window: entry_reference is shared by settlement batches
+        # (issue #1063). Rows synced under the old entry_reference id are
+        # matched through legacy_external_id at sync time.
         entry_ref = (raw.get("entry_reference") or "").strip()
-        external_id = (
-            entry_ref if entry_ref and entry_ref != "0" else _txn_fingerprint(account_uid, raw)
-        )
+        legacy_id = entry_ref if entry_ref and entry_ref != "0" else None
         return TransactionData(
-            external_id=external_id,
+            external_id=_txn_fingerprint(account_uid, raw),
+            legacy_external_id=legacy_id,
             description=description,
             amount=amount,
             date=txn_date,
