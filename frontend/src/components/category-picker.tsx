@@ -10,11 +10,11 @@ import { invalidateCategoryQueries } from '@/lib/invalidate-queries'
 import { inlineCreateItemValue, inlineCreateName } from '@/lib/inline-create'
 import type { Category, CategoryGroup } from '@/types'
 import { normalizeText } from '@/lib/utils'
+import { randomCategoryColor } from '@/lib/random-color'
 
-// Same starting look the categories page gives a new category, so one made
-// from a picker is indistinguishable from one made there.
+// Same starting look the categories page gives a new category (default icon,
+// random color), so one made from a picker is indistinguishable from one made there.
 const NEW_CATEGORY_ICON = 'circle-help'
-const NEW_CATEGORY_COLOR = '#6366f1'
 
 interface CategoryPickerProps {
   /** The current selection; `null` when there is none to show (e.g. a bulk action). */
@@ -52,7 +52,7 @@ export function CategoryPicker({
 
   const createMutation = useMutation({
     mutationFn: (name: string) =>
-      categoriesApi.create({ name, icon: NEW_CATEGORY_ICON, color: NEW_CATEGORY_COLOR }),
+      categoriesApi.create({ name, icon: NEW_CATEGORY_ICON, color: randomCategoryColor() }),
     onSuccess: (category) => {
       // Only the category lists refetch. Whatever form hosts this picker
       // (an import preview, a half-filled transaction) keeps its state.

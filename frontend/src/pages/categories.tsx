@@ -25,6 +25,7 @@ import { invalidateCategoryQueries } from '@/lib/invalidate-queries'
 import { CategoryIcon } from '@/components/category-icon'
 import { CategorySelect } from '@/components/category-select'
 import { IconPicker } from '@/components/icon-picker'
+import { randomCategoryColor } from '@/lib/random-color'
 import { useWorkspace } from '@/contexts/workspace-context'
 
 function SectionCard({ children }: { children: React.ReactNode }) {
@@ -235,7 +236,7 @@ export default function CategoriesPage() {
   const openCatDialog = (cat: Category | null) => {
     setEditingCat(cat)
     setFormIcon(cat?.icon ?? 'circle-help')
-    setFormColor(cat?.color ?? '#6366f1')
+    setFormColor(cat?.color ?? randomCategoryColor())
     setFormTreatAsTransfer(cat?.treat_as_transfer ?? false)
     setFormIgnoreTransfer(cat?.is_ignored ?? false)
     setCatDialogOpen(true)
@@ -244,7 +245,7 @@ export default function CategoriesPage() {
   const openGroupDialog = (group: CategoryGroup | null) => {
     setEditingGroup(group)
     setGroupFormIcon(group?.icon ?? 'folder')
-    setGroupFormColor(group?.color ?? '#6B7280')
+    setGroupFormColor(group?.color ?? randomCategoryColor())
     setGroupDialogOpen(true)
   }
 
