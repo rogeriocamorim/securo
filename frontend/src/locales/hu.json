@@ -1170,7 +1170,8 @@
     "invoiceBadgeTooltip": "Ez a tranzakció egy számlát egyenlít ki. Megnyitás.",
     "suggestionBadge": "Kérdés",
     "suggestionBadgeTooltip": "Lehet, hogy egy befizetés kiegyenlíti ezt. Nyisd meg a sort a válaszhoz.",
-    "clearGroupFilter": "Csoportszűrő törlése"
+    "clearGroupFilter": "Csoportszűrő törlése",
+    "splitByCategory": "Felosztás"
   },
   "accounts": {
     "title": "Számlák",
@@ -2469,6 +2470,17 @@
       "project": "Projekt",
       "client": "Ügyfél",
       "other": "Egyéb"
+    },
+    "categorySplits": {
+      "title": "Felosztás kategóriánként",
+      "addRow": "Kategória hozzáadása",
+      "category": "Kategória",
+      "amount": "Összeg",
+      "remove": "Eltávolítás",
+      "sum": "Összeg: {{sum}} / {{total}} {{currency}}",
+      "badge": "Felosztva",
+      "modeAmongPeople": "Személyek között",
+      "modeByCategory": "Kategóriánként"
     }
   },
   "privacy": {
