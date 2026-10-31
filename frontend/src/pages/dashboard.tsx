@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react'
+import { useState, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { getAccountLabel, getAccountName, sortAccountsByAbsoluteBalance, sumAccountBalances } from '@/lib/account-utils'
 import { currentMonth, shiftMonth, monthLastDay, monthLabel, monthRange } from '@/lib/month-utils'
 import { useTranslation } from 'react-i18next'
@@ -139,7 +139,11 @@ export default function DashboardPage() {
 
   const prevSearchRef = useRef<string | null>(null)
   const searchParamsRef = useRef(searchParams)
-  searchParamsRef.current = searchParams
+  // Layout effects run before the effects below, so the URL write-back always
+  // sees the latest params without reading a ref during render.
+  useLayoutEffect(() => {
+    searchParamsRef.current = searchParams
+  }, [searchParams])
 
   // Sync state from URL when navigating (e.g. back/forward button)
   useEffect(() => {

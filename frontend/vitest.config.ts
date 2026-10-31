@@ -25,6 +25,10 @@ export default defineConfig({
     // Vite serves the app's CSS through Tailwind; none of it affects what the
     // tests assert, so skip the transform and keep the suite fast.
     css: false,
+    // Node 25+ exposes its own localStorage/sessionStorage globals, which are
+    // undefined without --localstorage-file and shadow jsdom's Storage. Turn
+    // them off so the jsdom implementation is the one the tests see.
+    execArgv: ['--no-experimental-webstorage'],
     projects: [
       {
         extends: true,
