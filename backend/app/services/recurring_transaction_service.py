@@ -15,6 +15,7 @@ from app.schemas.recurring_transaction import RecurringTransactionCreate, Recurr
 from app.services import recurring_match_service
 from app.services.credit_card_service import apply_effective_date
 from app.services.fx_rate_service import stamp_primary_amount
+from app.services.rule_service import apply_rules_to_transaction
 
 
 async def _verify_account_in_workspace(
@@ -390,6 +391,7 @@ async def generate_pending(
                 is_synced_account = account is not None and account.connection_id is not None
                 transaction = Transaction(
                     user_id=user_id,
+                    workspace_id=recurring.workspace_id,
                     account_id=recurring.account_id,
                     category_id=recurring.category_id,
                     description=recurring.description,
@@ -404,6 +406,15 @@ async def generate_pending(
                 apply_effective_date(transaction, account)
                 session.add(transaction)
                 await session.flush()
+                # Rules fill in the rest (payee, notes, a missing category,
+                # ignore) as for any other new row. The description stays as
+                # the schedule wrote it: sync and import match an incoming
+                # charge's raw description against this placeholder before
+                # rules run on the charge, so a rewritten one could miss the
+                # merge and leave a duplicate.
+                await apply_rules_to_transaction(
+                    session, user_id, transaction, skip_description=True
+                )
                 await stamp_primary_amount(session, user_id, transaction)
                 count += 1
 
