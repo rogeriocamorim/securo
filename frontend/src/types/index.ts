@@ -324,6 +324,7 @@ export interface Transaction {
   // The recurring bill this transaction fulfills, if any (issue #116).
   recurring_transaction_id?: string | null
   splits: TransactionSplit[]
+  category_allocations?: CategoryAllocationRead[]
   // Shared-transaction view fields. Set per-request when the viewer
   // is a linked split member but not the owner. Render `viewer_share`
   // as the amount and treat the row as read-only — editing belongs
@@ -403,12 +404,33 @@ export interface TransactionSplitsInput {
   splits: TransactionSplitInput[]
 }
 
+export interface CategoryAllocationRead {
+  id: string
+  transaction_id: string
+  category_id: string
+  amount: number | string
+  notes?: string | null
+  position: number
+  created_at: string
+}
+
+export interface CategoryAllocationInput {
+  category_id: string
+  amount: string
+  notes?: string | null
+}
+
+export interface CategoryAllocationsInput {
+  allocations: CategoryAllocationInput[]
+}
+
 // Payload the transaction dialog sends on save. `splits` is the normalized
 // TransactionSplitsInput the split section produces, not the
 // TransactionSplit[] rows the API returns, so the edit payload type reflects
 // the form's actual shape.
-export type TransactionEditPayload = Omit<Partial<Transaction>, 'splits'> & {
+export type TransactionEditPayload = Omit<Partial<Transaction>, 'splits' | 'category_allocations'> & {
   splits?: TransactionSplitsInput | null
+  category_allocations?: CategoryAllocationsInput | null
 }
 
 export type GroupKind = 'social' | 'cost_center' | 'project' | 'client' | 'other'
@@ -657,6 +679,7 @@ export interface ImportPreviewTransaction {
   category_id?: string | null
   force_uncategorized?: boolean
   notes?: string | null
+  allocations?: { category_name?: string | null; amount: number }[]
 }
 
 export interface ImportReviewTransaction extends ImportPreviewTransaction {
