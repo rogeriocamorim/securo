@@ -86,11 +86,10 @@ request.
 
 `frontend/.npmrc` never runs a package's install scripts, and asks npm to skip
 releases younger than seven days so a compromised publish has time to be caught.
-The cooldown needs npm 11.10 or newer; the npm that ships with Node 22 is older
-and will ignore that line without saying so, so upgrade before you add anything:
+The cooldown needs npm 11.10 or newer, which ships with Node 26 (the version in
+`frontend/mise.toml`); an older npm ignores that line without saying so.
 
 ```bash
-npm install --global npm@latest
 cd frontend && npm install <package>     # commit package.json and package-lock.json
 ```
 
