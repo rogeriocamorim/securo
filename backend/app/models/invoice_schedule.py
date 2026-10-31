@@ -260,7 +260,11 @@ class InvoiceSchedule(Base):
     invoices: Mapped[list["Invoice"]] = relationship(
         back_populates="schedule",
         order_by="Invoice.sequence",
-        lazy="noload",
+        # Never loaded implicitly: a schedule can bill for years, and the
+        # invoice list endpoint pages through them with its own query.
+        # "raise" (unlike the deprecated "noload") fails loudly instead of
+        # pretending the collection is empty.
+        lazy="raise",
     )
 
 

@@ -1213,7 +1213,7 @@ async def get_account_summary(
             summary_filter,
         ))
     )
-    monthly_income = float(income_result.scalar())
+    monthly_income = float(income_result.scalar_one())
 
     # Expenses = SUM of debit transactions in window (same exclusions).
     # For credit-card accounts, NET refund credits against debits so the
@@ -1247,7 +1247,7 @@ async def get_account_summary(
                 summary_filter,
             ))
         )
-    monthly_expenses = float(expenses_result.scalar()) - netted_now
+    monthly_expenses = float(expenses_result.scalar_one()) - netted_now
 
     # Forecast values use the same cycle/date scope as the actual totals, but
     # include every pending row and every row bucketed after today. The current

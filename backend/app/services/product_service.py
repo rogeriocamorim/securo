@@ -134,7 +134,8 @@ async def usage_counts(
     ).all()
     counts = {pid: 0 for pid in product_ids}
     for product_id, n in rows:
-        counts[product_id] = n
+        if product_id is not None:  # excluded by the IN filter
+            counts[product_id] = n
     return counts
 
 

@@ -90,6 +90,8 @@ async def _attach_transfer_counterparts(
     )
     legs: dict[uuid.UUID, list[tuple[uuid.UUID, uuid.UUID, str]]] = {}
     for tx_id, pair_id, account_id, account_name in result:
+        if pair_id is None:  # excluded by the IN filter; narrows the nullable column
+            continue
         legs.setdefault(pair_id, []).append((tx_id, account_id, account_name))
 
     for item in items:

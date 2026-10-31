@@ -1317,6 +1317,8 @@ async def invoice_links_for_transactions(
     )
     links: dict[uuid.UUID, list[dict[str, Any]]] = {}
     for allocation, invoice in result.all():
+        if allocation.transaction_id is None:  # excluded by the IN filter
+            continue
         links.setdefault(allocation.transaction_id, []).append(
             {
                 "invoice_id": invoice.id,
