@@ -19,6 +19,7 @@ import {
 } from '@/lib/api'
 
 import type { ProposalKind, ProposalData, TransferLeg } from '@/lib/agent-proposals'
+import { randomCategoryColor } from '@/lib/random-color'
 
 interface Props {
   toolCallId: string
@@ -369,7 +370,7 @@ async function applyProposal(data: ProposalData): Promise<string | void> {
         name: String(p.name),
         group_id: (p.group_id as string) || undefined,
         icon: (p.icon as string) || undefined,
-        color: (p.color as string) || undefined,
+        color: (p.color as string) || randomCategoryColor(),
       })
       return c.id
     }
@@ -476,7 +477,7 @@ async function applyProposal(data: ProposalData): Promise<string | void> {
         deadline: (p.deadline as string) || undefined,
         initial_amount: (p.initial_amount as number) ?? undefined,
         icon: (p.icon as string) || undefined,
-        color: (p.color as string) || undefined,
+        color: (p.color as string) || randomCategoryColor(),
       } as Parameters<typeof goals.create>[0])
       return g.id
     }
@@ -517,7 +518,7 @@ async function applyProposal(data: ProposalData): Promise<string | void> {
       const g = await categoryGroups.create({
         name: String(p.name),
         icon: (p.icon as string) || undefined,
-        color: (p.color as string) || undefined,
+        color: (p.color as string) || randomCategoryColor(),
       })
       return g.id
     }
