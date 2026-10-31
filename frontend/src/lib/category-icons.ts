@@ -26,7 +26,7 @@ import {
   CircleDollarSign, CircleParking, CircleUserRound, Clapperboard,
   ClipboardList, Clock, Cloud, CloudDownload, CloudRain, Code, Coins,
   Compass, Cookie, CookingPot, Cpu, Crown, CupSoda, Database, Dices,
-  DollarSign, Donut, DoorOpen, Dribbble, Drill, Drum, Drumstick, Ear, Earth,
+  DollarSign, Donut, DoorOpen, Drill, Drum, Drumstick, Ear, Earth,
   Egg, Ellipsis, Euro, Eye, Fan, FileText, FishSymbol, Flag, Flower, Flower2,
   Footprints, Forklift, Gavel, Gem, Glasses, Grape, Guitar, Ham, Hamburger,
   HandHeart, Handshake, HardDrive, HardHat, Headphones, HeartPulse, Hospital,
@@ -197,7 +197,9 @@ export const CATEGORY_ICONS: CategoryIconEntry[] = [
   { name: 'newspaper', pt: 'Jornal / Revista', icon: Newspaper },
   { name: 'waves', pt: 'Natação / Piscina', icon: Waves },
   { name: 'volleyball', pt: 'Vôlei', icon: Volleyball },
-  { name: 'dribbble', pt: 'Basquete', icon: Dribbble },
+  // lucide-react 1.x dropped brand icons, Dribbble among them. The key stays so
+  // categories saved with it keep resolving; the entry now stands for ball sports.
+  { name: 'dribbble', pt: 'Esportes com bola', icon: Volleyball },
   { name: 'medal', pt: 'Medalha / Conquista', icon: Medal },
   { name: 'tent', pt: 'Camping / Acampamento', icon: Tent },
   { name: 'mountain', pt: 'Trilha / Montanha', icon: Mountain },
