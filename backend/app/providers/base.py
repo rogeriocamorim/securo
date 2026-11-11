@@ -120,9 +120,6 @@ class TransactionData:
     # Provider-side identifier of the bill this transaction belongs to.
     # Resolved to a credit_card_bills.id FK at sync time (issue #92).
     bill_external_id: Optional[str] = None
-    # Id the transaction was stored under before external_id became a
-    # fingerprint. Sync uses it to find and adopt the existing row.
-    legacy_external_id: Optional[str] = None
 
 
 @dataclass
