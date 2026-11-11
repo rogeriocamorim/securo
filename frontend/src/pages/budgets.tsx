@@ -18,8 +18,6 @@ import { MonthPicker } from '@/components/ui/monthpicker'
 import { Skeleton } from '@/components/ui/skeleton'
 import { PageHeader } from '@/components/page-header'
 import { CategoryIcon } from '@/components/category-icon'
-import { BudgetCategoryProgress, BudgetSpendingSummary } from '@/components/budget-spending'
-import { useBudgetSpending } from '@/hooks/use-budget-spending'
 import { usePrivacyMode } from '@/hooks/use-privacy-mode'
 import { useAuth } from '@/contexts/auth-context'
 import { useWorkspace } from '@/contexts/workspace-context'
@@ -120,7 +118,6 @@ export default function BudgetsPage() {
     queryKey: ['budgets', selectedMonth],
     queryFn: () => budgetsApi.list(monthParam),
   })
-  const spending = useBudgetSpending({ monthParam, selectedMonth, budgets: budgetsList })
   const { data: budgetSeries } = useQuery({
     queryKey: ['budgets', 'series'],
     queryFn: () => budgetsApi.list(),
@@ -299,9 +296,7 @@ export default function BudgetsPage() {
         ) : allCategories.length === 0 ? (
           <p className="text-sm text-muted-foreground text-center py-10">{t('budgets.noCategories')}</p>
         ) : (
-          <>
-          <BudgetSpendingSummary spending={spending} userCurrency={userCurrency} locale={locale} />
-          {sections.map((section) => (
+          sections.map((section) => (
             <div key={section.id}>
               <p className="bg-muted/30 px-4 sm:px-5 py-2 text-xs font-medium text-muted-foreground border-b border-border">{section.name}</p>
               <div className="divide-y divide-border border-b border-border">
@@ -318,7 +313,6 @@ export default function BudgetsPage() {
                         <p className="truncate text-sm font-medium text-foreground">{category.name}</p>
                         {category.is_hidden && <span className="text-[11px] text-muted-foreground">{t('budgets.hiddenCategory')}</span>}
                         {suggestion && <p className="text-[11px] text-muted-foreground tabular-nums">{t('budgets.average', { amount: fmt(Number(suggestion.suggested_amount)) })}</p>}
-                        <BudgetCategoryProgress spending={spending} categoryId={category.id} limit={savedAmount(category.id)} userCurrency={userCurrency} locale={locale} />
                         {invalidCategories.has(category.id) && <p id={`budget-error-${category.id}`} role="alert" className="text-[11px] text-destructive">{t('budgets.invalidAmount')}</p>}
                       </div>
                       {values.length > 0 && (
@@ -355,8 +349,7 @@ export default function BudgetsPage() {
                 })}
               </div>
             </div>
-          ))}
-          </>
+          ))
         )}
       </SectionCard>
 
