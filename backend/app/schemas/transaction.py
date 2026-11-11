@@ -190,7 +190,7 @@ class TransactionRead(TransactionBase):
     #: ordinary case, not the exotic one.
     invoice_links: list[TransactionInvoiceLink] = []
     # A stored transaction always has a currency, so the read model narrows
-    # the optional input field. Pydantic models are not written back to.
+    # the optional input field on purpose.
     currency: str = "USD"  # ty: ignore[invalid-mutable-override]
     source: str
     status: str = "posted"
