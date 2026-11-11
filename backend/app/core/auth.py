@@ -31,7 +31,8 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
     @property
     def db_session(self) -> AsyncSession:
-        """The session behind user_db; get_user_db always builds a SQLAlchemyUserDatabase."""
+        """The session behind `user_db`, which get_user_manager always builds
+        as the SQLAlchemy adapter."""
         return cast(SQLAlchemyUserDatabase, self.user_db).session
 
     async def update(
