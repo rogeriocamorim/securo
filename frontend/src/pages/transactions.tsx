@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef, Fragment } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { useRegisterPageChatContext } from '@/lib/page-chat-context'
 import { getAccountName } from '@/lib/account-utils'
 import { AccountIcon } from '@/components/account-icon'
@@ -1190,11 +1190,6 @@ export default function TransactionsPage() {
                 </span>
               </Link>
             ))}
-            {tx.category_allocations && tx.category_allocations.length > 0 && (
-              <span className="inline-flex items-center text-[10px] font-semibold uppercase tracking-wide text-teal-700 bg-teal-50 border border-teal-200 dark:bg-teal-950/40 dark:text-teal-300 dark:border-teal-900 px-1.5 py-0.5 rounded-full">
-                {t('splitGroups.categorySplits.badge')}
-              </span>
-            )}
             {/* The label and the two icons keep their size, so that a
                 narrow column shortens the counterpart account name and
                 not the word that says what the badge is. Past the point
@@ -1321,9 +1316,7 @@ export default function TransactionsPage() {
       case 'category':
         return (
           <TableCell key={col.id} style={widthStyle} className={baseClass}>
-            {tx.category_allocations && tx.category_allocations.length > 0 ? (
-              <span className="text-xs text-muted-foreground italic">~ {t('transactions.splitByCategory')}</span>
-            ) : tx.category ? (
+            {tx.category ? (
               <span className="text-sm text-muted-foreground">{tx.category.name}</span>
             ) : (
               <span className="text-xs text-muted-foreground italic">{t('transactions.noCategory')}</span>
@@ -1668,7 +1661,6 @@ export default function TransactionsPage() {
             </TableHeader>
             <TableBody>
               {filteredItems.map((tx) => (
-                <Fragment key={tx.id}>
                 <ContextMenu key={`${tx.id}:${menuEpoch}`}>
                   <ContextMenuTrigger asChild disabled={!canWrite || tx.is_shared}>
                     <TableRow
@@ -1679,7 +1671,7 @@ export default function TransactionsPage() {
                           setLastSelectedId(tx.id)
                         }
                       }}
-                      className={`hover:bg-muted border-b border-border ${tx.category_allocations && tx.category_allocations.length > 0 ? '' : 'last:border-0'} ${
+                      className={`hover:bg-muted border-b border-border last:border-0 ${
                         selectedIds.has(tx.id) ? 'bg-primary/5' : ''
                       } ${tx.is_shared || !canWrite ? 'cursor-default' : 'cursor-pointer'}`}
                       onClick={() => {
@@ -1782,35 +1774,6 @@ export default function TransactionsPage() {
                     </ContextMenuContent>
                   </ContextMenuPortal>
                 </ContextMenu>
-                  {tx.category_allocations && tx.category_allocations.length > 0 && tx.category_allocations.map((alloc, i) => {
-                    const cat = categoriesList?.find(c => c.id === alloc.category_id)
-                    const isLast = i === tx.category_allocations!.length - 1
-                    return (
-                      <TableRow
-                        key={alloc.id}
-                        className={`border-b border-border/50 ${isLast ? 'last:border-0' : ''} bg-muted/20 hover:bg-muted/40 ${!canWrite ? 'cursor-default' : 'cursor-pointer'}`}
-                        onClick={() => {
-                          if (!canWrite) return
-                          setEditingTx(tx)
-                          setDialogOpen(true)
-                        }}
-                      >
-                        <TableCell style={{ width: 40, minWidth: 40 }} className="py-1.5 pl-4 pr-0" />
-                        <TableCell colSpan={grid.visibleColumns.length} className="py-1.5">
-                          <div className="flex items-center justify-between pr-5">
-                            <span className="flex items-center gap-1.5 pl-4 text-xs text-muted-foreground">
-                              <span className="opacity-50">↳</span>
-                              {cat ? cat.name : <span className="italic">{t('transactions.noCategory')}</span>}
-                            </span>
-                            <span className="text-xs tabular-nums text-muted-foreground">
-                              {mask(formatCurrency(Number(alloc.amount), tx.currency, locale))}
-                            </span>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    )
-                  })}
-                </Fragment>
               ))}
               {filteredItems.length === 0 && (
                 <TableRow>

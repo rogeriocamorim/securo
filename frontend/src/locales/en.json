@@ -914,7 +914,6 @@
     "category": "Category",
     "account": "Account",
     "noCategory": "No category",
-    "splitByCategory": "Split",
     "searchCategory": "Search category...",
     "noCategoryFound": "No category found.",
     "searchRule": "Search rule...",
@@ -2677,17 +2676,6 @@
       "project": "Project",
       "client": "Client",
       "other": "Other"
-    },
-    "categorySplits": {
-      "title": "Split by category",
-      "addRow": "Add category",
-      "category": "Category",
-      "amount": "Amount",
-      "remove": "Remove",
-      "sum": "Sum: {{sum}} / {{total}} {{currency}}",
-      "badge": "Split",
-      "modeAmongPeople": "Among people",
-      "modeByCategory": "By category"
     }
   },
   "privacy": {

@@ -1172,8 +1172,7 @@
     "invoiceBadgeTooltip": "Esta transacción salda una factura. Ábrela.",
     "suggestionBadge": "Pregunta",
     "suggestionBadgeTooltip": "Un pago puede saldar esta factura. Abre la cola para responder.",
-    "clearGroupFilter": "Quitar filtro de grupo",
-    "splitByCategory": "Dividido"
+    "clearGroupFilter": "Quitar filtro de grupo"
   },
   "accounts": {
     "title": "Cuentas",
@@ -2681,17 +2680,6 @@
       "project": "Proyecto",
       "client": "Cliente",
       "other": "Otro"
-    },
-    "categorySplits": {
-      "title": "Dividir por categoría",
-      "addRow": "Añadir categoría",
-      "category": "Categoría",
-      "amount": "Monto",
-      "remove": "Eliminar",
-      "sum": "Suma: {{sum}} / {{total}} {{currency}}",
-      "badge": "Dividido",
-      "modeAmongPeople": "Entre personas",
-      "modeByCategory": "Por categoría"
     }
   },
   "privacy": {

@@ -1170,8 +1170,7 @@
     "invoiceBadgeTooltip": "Diese Transaktion begleicht eine Rechnung. Öffnen.",
     "suggestionBadge": "Frage",
     "suggestionBadgeTooltip": "Eine Zahlung könnte diese Rechnung begleichen. Öffnen Sie die Warteschlange.",
-    "clearGroupFilter": "Gruppenfilter entfernen",
-    "splitByCategory": "Aufgeteilt"
+    "clearGroupFilter": "Gruppenfilter entfernen"
   },
   "accounts": {
     "title": "Konten",
@@ -2678,17 +2677,6 @@
       "project": "Projekt",
       "client": "Kunde",
       "other": "Sonstiges"
-    },
-    "categorySplits": {
-      "title": "Nach Kategorie aufteilen",
-      "addRow": "Kategorie hinzufügen",
-      "category": "Kategorie",
-      "amount": "Betrag",
-      "remove": "Entfernen",
-      "sum": "Summe: {{sum}} / {{total}} {{currency}}",
-      "badge": "Aufgeteilt",
-      "modeAmongPeople": "Unter Personen",
-      "modeByCategory": "Nach Kategorie"
     }
   },
   "privacy": {

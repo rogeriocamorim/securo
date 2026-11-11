@@ -140,8 +140,7 @@ function TransactionImportPanel() {
         category_id: rt.selected_category_id !== undefined
           ? (rt.selected_category_id ?? undefined)
           : undefined,
-        force_uncategorized: rt.selected_category_id === null || (rt.force_uncategorized ?? false),
-        allocations: rt.allocations ?? undefined,
+        force_uncategorized: rt.selected_category_id === null,
       }))
       return transactionsApi.import(
         selectedAccount,

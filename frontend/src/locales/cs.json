@@ -1238,8 +1238,7 @@
     "invoiceBadgeTooltip": "Tato transakce vyrovnává fakturu. Otevřete ji.",
     "suggestionBadge": "Otázka",
     "suggestionBadgeTooltip": "Platba může uhradit tuto fakturu. Otevřete frontu a odpovězte.",
-    "clearGroupFilter": "Zrušit filtr skupiny",
-    "splitByCategory": "Rozdělit"
+    "clearGroupFilter": "Zrušit filtr skupiny"
   },
   "accounts": {
     "title": "Účty",
@@ -2829,18 +2828,7 @@
     "splitWays_one": "rozděleno mezi {{count}} člena",
     "splitWays_few": "rozděleno mezi {{count}} členy",
     "splitWays_many": "rozděleno mezi {{count}} člena",
-    "splitWays_other": "rozděleno mezi {{count}} členů",
-    "categorySplits": {
-      "title": "Rozdělit podle kategorie",
-      "addRow": "Přidat kategorii",
-      "category": "Kategorie",
-      "amount": "Částka",
-      "remove": "Odebrat",
-      "sum": "Součet: {{sum}} / {{total}} {{currency}}",
-      "badge": "Rozděleno",
-      "modeAmongPeople": "Mezi osobami",
-      "modeByCategory": "Podle kategorie"
-    }
+    "splitWays_other": "rozděleno mezi {{count}} členů"
   },
   "privacy": {
     "hide": "Skrýt hodnoty",

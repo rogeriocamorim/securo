@@ -1184,8 +1184,7 @@
     "invoiceBadgeTooltip": "Эта операция закрывает счёт. Открыть.",
     "suggestionBadge": "Вопрос",
     "suggestionBadgeTooltip": "Платёж может закрыть этот счёт. Откройте очередь, чтобы ответить.",
-    "clearGroupFilter": "Сбросить фильтр группы",
-    "splitByCategory": "Распределено"
+    "clearGroupFilter": "Сбросить фильтр группы"
   },
   "accounts": {
     "title": "Счета",
@@ -2694,17 +2693,6 @@
       "project": "Проект",
       "client": "Клиент",
       "other": "Другое"
-    },
-    "categorySplits": {
-      "title": "Распределить по категориям",
-      "addRow": "Добавить категорию",
-      "category": "Категория",
-      "amount": "Сумма",
-      "remove": "Удалить",
-      "sum": "Сумма: {{sum}} / {{total}} {{currency}}",
-      "badge": "Распределено",
-      "modeAmongPeople": "Между людьми",
-      "modeByCategory": "По категориям"
     }
   },
   "privacy": {

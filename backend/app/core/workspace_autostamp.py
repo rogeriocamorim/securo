@@ -38,7 +38,6 @@ from app.models.rule import Rule
 from app.models.transaction import Transaction
 from app.models.transaction_attachment import TransactionAttachment
 from app.models.transaction_split import TransactionSplit
-from app.models.transaction_category_allocation import TransactionCategoryAllocation
 from app.models.workspace import Workspace, WorkspaceMember
 
 
@@ -69,7 +68,6 @@ _AUTOSTAMP_MODELS = (
     Transaction,
     TransactionAttachment,
     TransactionSplit,
-    TransactionCategoryAllocation,
 )
 
 

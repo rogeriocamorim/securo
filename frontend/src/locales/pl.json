@@ -1211,8 +1211,7 @@
     "invoiceBadgeTooltip": "Ta transakcja rozlicza fakturę. Otwórz ją.",
     "suggestionBadge": "Pytanie",
     "suggestionBadgeTooltip": "Płatność może opłacić tę fakturę. Otwórz kolejkę, aby odpowiedzieć.",
-    "clearGroupFilter": "Wyczyść filtr grupy",
-    "splitByCategory": "Podzielone"
+    "clearGroupFilter": "Wyczyść filtr grupy"
   },
   "accounts": {
     "title": "Konta",
@@ -2781,17 +2780,6 @@
       "project": "Projekt",
       "client": "Klient",
       "other": "Inne"
-    },
-    "categorySplits": {
-      "title": "Podziel według kategorii",
-      "addRow": "Dodaj kategorię",
-      "category": "Kategoria",
-      "amount": "Kwota",
-      "remove": "Usuń",
-      "sum": "Suma: {{sum}} / {{total}} {{currency}}",
-      "badge": "Podzielone",
-      "modeAmongPeople": "Między osobami",
-      "modeByCategory": "Według kategorii"
     }
   },
   "privacy": {
