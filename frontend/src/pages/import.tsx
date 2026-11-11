@@ -136,12 +136,12 @@ function TransactionImportPanel() {
         payee_raw: rt.payee_raw ?? undefined,
         notes: rt.notes ?? undefined,
         category_name: rt.category_name ?? undefined,
+        category_lines: rt.category_lines ?? undefined,
         excluded: rt.excluded,
         category_id: rt.selected_category_id !== undefined
           ? (rt.selected_category_id ?? undefined)
           : undefined,
-        force_uncategorized: rt.selected_category_id === null || (rt.force_uncategorized ?? false),
-        allocations: rt.allocations ?? undefined,
+        force_uncategorized: rt.selected_category_id === null,
       }))
       return transactionsApi.import(
         selectedAccount,

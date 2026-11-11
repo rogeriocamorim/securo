@@ -19,13 +19,23 @@ const base: InstallmentSeriesFormInput = {
   notes: '',
   fxFields: { amount_primary: 150, fx_rate_used: 1 },
   splits: null,
-  categoryAllocations: null,
   installmentCount: '3',
   installmentFrequency: 'monthly',
   status: 'posted',
 }
 
 describe('buildInstallmentSeriesInput', () => {
+  it('carries a split across categories to every parcel, without a single category', () => {
+    const categoryLines = {
+      share_type: 'percent' as const,
+      lines: [{ category_id: 'cat-1', share_pct: 70 }, { category_id: 'cat-2', share_pct: 30 }],
+    }
+    const payload = buildInstallmentSeriesInput({ ...base, categoryLines })
+    expect(payload.base.category_lines).toEqual(categoryLines)
+    expect(payload.base.category_id).toBeNull()
+    expect(buildInstallmentSeriesInput(base).base).not.toHaveProperty('category_lines')
+  })
+
   it('builds the base payload with per-parcel amount', () => {
     const payload = buildInstallmentSeriesInput(base)
     expect(payload.base).toMatchObject({

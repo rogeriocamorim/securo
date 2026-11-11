@@ -20,8 +20,14 @@ from app.models.bank_connection import BankConnection
 from app.models.category import Category
 from app.models.rule import Rule
 from app.models.transaction import Transaction
-from app.schemas.transaction import TransactionImport, FailedRow, TransactionImportAllocation
-from app.services import reconciliation_service, recurring_match_service
+from pydantic import ValidationError
+
+from app.schemas.transaction import FailedRow, ImportCategoryLine, TransactionImport
+from app.schemas.transaction_category_line import (
+    TransactionCategoryLineInput,
+    TransactionCategoryLinesInput,
+)
+from app.services import category_line_service, reconciliation_service, recurring_match_service
 from app.services.credit_card_service import apply_effective_date
 from app.services.category_service import get_assignable_category_ids
 from app.services.rule_engine import apply_rule_actions, evaluate_conditions, merge_notes
@@ -602,7 +608,7 @@ DATE_FORMAT_MAP = {
 CSV_MAPPABLE_FIELDS = (
     'date', 'description', 'amount', 'type',
     'category', 'currency', 'fx_rate', 'inflow', 'outflow',
-    'payee', 'external_id', 'notes', 'split_group', 'split_index', 'parent_category',
+    'payee', 'external_id', 'notes',
 )
 
 
@@ -665,9 +671,10 @@ def parse_csv(
     payee_cols = ['payee', 'merchant', 'beneficiary', 'beneficiario', 'pagador']
     external_id_cols = [] # External ID must be mapped explicitly
     notes_cols = ['notes', 'nota', 'observacao']
-    split_group_cols = ['split_group']
-    split_index_cols = ['split_index']
-    parent_category_cols = ['parent_category']
+    # Written by our own export for a transaction split across categories.
+    # Detected only by these exact names: a bank file never has them.
+    split_group_col = 'split_group' if 'split_group' in fieldnames else None
+    split_index_col = 'split_index' if 'split_index' in fieldnames else None
 
     # Normalize the user-supplied column mapping (Securo field -> CSV header).
     mapping = {
@@ -721,9 +728,6 @@ def parse_csv(
     payee_col = resolve_col('payee', payee_cols)
     external_id_col = resolve_col('external_id', external_id_cols)
     notes_col = resolve_col('notes', notes_cols)
-    split_group_col = resolve_col('split_group', split_group_cols)
-    split_index_col = resolve_col('split_index', split_index_cols)
-    parent_category_col = resolve_col('parent_category', parent_category_cols)
 
     if not date_col or not desc_col:
         raise ValueError(
@@ -754,6 +758,8 @@ def parse_csv(
     )
 
     transactions = []
+    # Index in `transactions` -> (split_group, split_index) for exported parts.
+    split_keys: dict[int, tuple[str, int]] = {}
     failed_rows = []
     for row in reader:
         # Normalize row keys, and missing cells along with them. A row with
@@ -874,16 +880,12 @@ def parse_csv(
         txn_external_id = row[external_id_col].strip() if external_id_col and row.get(external_id_col) else None
         txn_notes = row[notes_col].strip() if notes_col and row.get(notes_col) else None
 
-        txn_split_group = row[split_group_col].strip() if split_group_col and row.get(split_group_col) else None
-        txn_split_index = None
-        if split_index_col and row.get(split_index_col):
-            try:
-                txn_split_index = int(row[split_index_col].strip())
-            except (ValueError, TypeError):
-                pass
-        txn_parent_category = row[parent_category_col].strip() if parent_category_col and row.get(parent_category_col) else None
+        split_group = (row.get(split_group_col) or "").strip() if split_group_col else ""
+        split_index_raw = (row.get(split_index_col) or "").strip() if split_index_col else ""
+        if split_group and split_index_raw.isdigit():
+            split_keys[len(transactions)] = (split_group, int(split_index_raw))
 
-        txn = TransactionImport(
+        transactions.append(TransactionImport(
             description=row[desc_col].strip(),
             amount=abs(amount),
             date=txn_date,
@@ -894,88 +896,74 @@ def parse_csv(
             payee_raw=txn_payee,
             external_id=txn_external_id,
             notes=txn_notes,
-        )
-        txn._split_group = txn_split_group
-        txn._split_index = txn_split_index
-        txn._parent_category = txn_parent_category
-        transactions.append(txn)
+        ))
 
-    from decimal import Decimal as _Decimal
-    # Collapse split groups: ≥2 rows with same split_group, same date/type/currency/description,
-    # distinct categories → one transaction with allocations
-    groups: dict[str, list[tuple[int, TransactionImport]]] = {}
-    for i, txn in enumerate(transactions):
-        sg = getattr(txn, '_split_group', None)
-        if sg:
-            groups.setdefault(sg, []).append((i, txn))
+    return _collapse_split_groups(transactions, split_keys), failed_rows
 
-    grouped_txns: list[TransactionImport | None] = [None] * len(transactions)
-    # Rows folded into a grouped transaction; they must not reappear on their own.
+
+def _collapse_split_groups(
+    transactions: list[TransactionImport],
+    split_keys: dict[int, tuple[str, int]],
+) -> list[TransactionImport]:
+    """Put a split exported as one row per part back into one transaction.
+
+    A group collapses only when it is unambiguous: two or more rows with the
+    same `split_group`, distinct indexes, the same date, type, currency and
+    description, and a category on every part. Anything else imports row by
+    row, exactly as a file without the columns would, so a hand-edited CSV
+    never fails because of them.
+    """
+    if not split_keys:
+        return transactions
+    groups: dict[str, list[int]] = {}
+    for position, (group, _) in split_keys.items():
+        groups.setdefault(group, []).append(position)
+
+    merged_into: dict[int, TransactionImport] = {}
     absorbed: set[int] = set()
-
-    for sg, members in groups.items():
-        if len(members) < 2:
+    for positions in groups.values():
+        rows = [transactions[p] for p in positions]
+        first = rows[0]
+        indexes = [split_keys[p][1] for p in positions]
+        if (
+            len(rows) < 2
+            or len(set(indexes)) != len(indexes)
+            # Everything but the category and amount is the transaction's
+            # own, so the parts of one export agree on it; rows that differ
+            # (a rate, a payee, a note, an id) are not one transaction.
+            or any(
+                (r.date, r.type, r.currency, r.description, r.fx_rate, r.payee_raw,
+                 r.notes, r.external_id)
+                != (first.date, first.type, first.currency, first.description, first.fx_rate,
+                    first.payee_raw, first.notes, first.external_id)
+                for r in rows
+            )
+            or any(not r.category_name for r in rows)
+        ):
             continue
-        first_member = members[0][1]
-        all_same = all(
-            m[1].date == first_member.date and
-            m[1].type == first_member.type and
-            m[1].currency == first_member.currency and
-            m[1].description == first_member.description
-            for m in members
-        )
-        if not all_same:
+        ordered = [p for _, p in sorted(zip(indexes, positions))]
+        parts = [transactions[p] for p in ordered]
+        try:
+            lines = [
+                ImportCategoryLine(category_name=part.category_name or "", amount=part.amount)
+                for part in parts
+            ]
+        except ValidationError:
+            # A part that is not a valid line (a zero amount): import the rows
+            # one by one instead of failing the whole preview.
             continue
+        merged_into[ordered[0]] = first.model_copy(update={
+            "amount": sum((part.amount for part in parts), Decimal("0")),
+            "category_name": None,
+            "category_lines": lines,
+        })
+        absorbed.update(ordered[1:])
 
-        alloc_categories = set()
-        for _, member in members:
-            if not member.category_name:
-                all_same = False
-                break
-            if member.category_name in alloc_categories:
-                all_same = False
-                break
-            alloc_categories.add(member.category_name)
-        if not all_same:
-            continue
-
-        sorted_members = sorted(members, key=lambda x: (getattr(x[1], '_split_index', 0) or 0, x[0]))
-        parent_cat = getattr(sorted_members[0][1], '_parent_category', None)
-
-        alloc_list: list[TransactionImportAllocation] = []
-        total_amount = _Decimal("0")
-        for _, member in sorted_members:
-            if member.category_name:
-                alloc_list.append(TransactionImportAllocation(
-                    category_name=member.category_name,
-                    amount=_Decimal(str(member.amount))
-                ))
-            total_amount += _Decimal(str(member.amount))
-
-        grouped = TransactionImport(
-            description=first_member.description,
-            amount=total_amount,
-            date=first_member.date,
-            type=first_member.type,
-            currency=first_member.currency,
-            fx_rate=first_member.fx_rate,
-            category_name=parent_cat,
-            payee_raw=first_member.payee_raw,
-            external_id=first_member.external_id,
-            notes=first_member.notes,
-            force_uncategorized=(parent_cat is None or parent_cat == ""),
-            allocations=alloc_list,
-        )
-        first_idx = sorted_members[0][0]
-        grouped_txns[first_idx] = grouped
-        absorbed.update(idx for idx, _ in sorted_members[1:])
-
-    result_transactions: list[TransactionImport] = []
-    for i, txn in enumerate(transactions):
-        if i in absorbed:
-            continue
-        result_transactions.append(grouped_txns[i] or txn)
-    return result_transactions, failed_rows
+    return [
+        merged_into.get(i, txn)
+        for i, txn in enumerate(transactions)
+        if i not in absorbed
+    ]
 
 
 async def enrich_with_category_suggestions(
@@ -1006,6 +994,9 @@ async def enrich_with_category_suggestions(
         return transactions
 
     for txn in transactions:
+        if txn.category_lines:
+            # A split from an export keeps its own categories.
+            continue
         proxy: Transaction = Transaction(
             description=txn.description,
             amount=txn.amount,
@@ -1107,11 +1098,16 @@ async def import_transactions(
         select(Category).where(Category.workspace_id == workspace_id)
     )
     assignable_categories = await get_assignable_category_ids(session, workspace_id)
-    category_map = {
-        c.name.strip().lower(): c.id
-        for c in category_result.scalars()
-        if c.id in assignable_categories
-    }
+    assignable = [c for c in category_result.scalars() if c.id in assignable_categories]
+    category_map = {c.name.strip().lower(): c.id for c in assignable}
+    # Two categories sharing a name cannot be told apart from a CSV, so a
+    # split part naming one of them is not resolved (the row imports unsplit
+    # rather than putting money in a category the user did not mean).
+    seen_names: set[str] = set()
+    ambiguous_names: set[str] = set()
+    for c in assignable:
+        name = c.name.strip().lower()
+        (ambiguous_names if name in seen_names else seen_names).add(name)
 
     imported = 0
     landed: list[Transaction] = []
@@ -1256,13 +1252,31 @@ async def import_transactions(
                 # Matched under a tolerance, or the file says what the charge
                 # cost in the primary currency: the row now stands for what was
                 # actually charged, not for what the bill expected.
+                expected_amount = placeholder.amount
                 placeholder.amount = txn_data.amount
                 if txn_data.fx_rate:
                     placeholder.fx_rate_used = txn_data.fx_rate
                     placeholder.amount_primary = txn_data.amount * txn_data.fx_rate
                 else:
                     await stamp_primary_amount(session, user_id, placeholder)
-            if placeholder.category_id is None:
+                # A split placeholder keeps its split, resized.
+                await category_line_service.rescale_lines(session, placeholder, expected_amount)
+            placeholder_split = (
+                _import_split_payload(txn_data, category_map, ambiguous_names)
+                if placeholder.category_id is None and not placeholder.has_category_lines
+                else None
+            )
+            if placeholder_split is not None:
+                # An uncategorized placeholder takes the split the file
+                # carries, as a new row would.
+                try:
+                    async with session.begin_nested():
+                        await category_line_service.replace_lines(
+                            session, placeholder, placeholder_split
+                        )
+                except ValueError:
+                    await session.refresh(placeholder)
+            if placeholder.category_id is None and not placeholder.has_category_lines:
                 placeholder.category_id = preview.category_id
             if import_payee_raw and not placeholder.payee:
                 placeholder.payee = import_payee_raw
@@ -1271,36 +1285,6 @@ async def import_transactions(
             placeholder.notes = merge_notes(placeholder.notes, preview.notes)
             if preview.is_ignored:
                 placeholder.is_ignored = True
-
-            # Import allocations for placeholder too, if present
-            if hasattr(txn_data, 'allocations') and len(txn_data.allocations) >= 2:
-                from app.schemas.transaction_category_allocation import CategoryAllocationsInput, CategoryAllocationInput
-                from app.services import category_allocation_service
-
-                alloc_ids: dict[str, uuid.UUID] = {}
-                valid_allocations = True
-                for alloc in txn_data.allocations:
-                    if not alloc.category_name:
-                        valid_allocations = False
-                        break
-                    resolved_id = category_map.get(alloc.category_name.strip().lower())
-                    if not resolved_id:
-                        valid_allocations = False
-                        break
-                    alloc_ids[alloc.category_name] = resolved_id
-
-                if valid_allocations and alloc_ids and len(set(alloc_ids.values())) == len(alloc_ids):
-                    alloc_input = CategoryAllocationsInput(
-                        allocations=[
-                            CategoryAllocationInput(category_id=alloc_ids[a.category_name], amount=a.amount, notes=None)
-                            for a in txn_data.allocations
-                            if a.category_name in alloc_ids
-                        ]
-                    )
-                    await category_allocation_service.replace_category_allocations(
-                        session, placeholder, alloc_input, user_id
-                    )
-
             imported += 1
             continue
 
@@ -1328,43 +1312,29 @@ async def import_transactions(
         if recurring_link is not None:
             recurring_match_service.advance_past(recurring_link, txn_data.date)
 
+        split_payload = _import_split_payload(txn_data, category_map, ambiguous_names)
         await apply_rules_to_transaction(
             session,
             user_id,
             incoming,
-            skip_category_rules=txn_data.force_uncategorized,
+            # A split brought back from an export keeps its categories; rules
+            # never categorize a split row.
+            skip_category_rules=txn_data.force_uncategorized or split_payload is not None,
         )
-        if incoming.category_id is None and not txn_data.force_uncategorized:
-            incoming.category_id = csv_category_id
-
-        # Import category allocations if present
-        if hasattr(txn_data, 'allocations') and len(txn_data.allocations) >= 2:
-            from app.schemas.transaction_category_allocation import CategoryAllocationsInput, CategoryAllocationInput
-            from app.services import category_allocation_service
-
-            alloc_ids: dict[str, uuid.UUID] = {}
-            valid_allocations = True
-            for alloc in txn_data.allocations:
-                if not alloc.category_name:
-                    valid_allocations = False
-                    break
-                resolved_id = category_map.get(alloc.category_name.strip().lower())
-                if not resolved_id:
-                    valid_allocations = False
-                    break
-                alloc_ids[alloc.category_name] = resolved_id
-
-            if valid_allocations and alloc_ids and len(set(alloc_ids.values())) == len(alloc_ids):
-                alloc_input = CategoryAllocationsInput(
-                    allocations=[
-                        CategoryAllocationInput(category_id=alloc_ids[a.category_name], amount=a.amount, notes=None)
-                        for a in txn_data.allocations
-                        if a.category_name in alloc_ids
-                    ]
-                )
-                await category_allocation_service.replace_category_allocations(
-                    session, incoming, alloc_input, user_id
-                )
+        if split_payload is not None:
+            try:
+                async with session.begin_nested():
+                    await category_line_service.replace_lines(session, incoming, split_payload)
+            except ValueError:
+                # The parts no longer fit (an ignored category, a rule that
+                # ignored the row): keep the transaction, uncategorized.
+                await session.refresh(incoming)
+        elif incoming.category_id is None and not txn_data.force_uncategorized:
+            if recurring_link is not None:
+                # A split bill hands its parts to the charge it claims.
+                await category_line_service.apply_template_split(session, incoming, recurring_link)
+            if incoming.category_id is None and not incoming.has_category_lines:
+                incoming.category_id = csv_category_id
 
         if not txn_data.fx_rate:
             await stamp_primary_amount(session, user_id, incoming)
@@ -1498,3 +1468,35 @@ def normalize_amount(amount_str: str | None, decimal_separator: str | None = Non
         amount_str = amount_str.replace(',', '.')
 
     return f"-{amount_str}" if negative else amount_str
+
+
+def _import_split_payload(
+    txn_data: TransactionImport,
+    category_map: dict[str, uuid.UUID],
+    ambiguous_names: set[str],
+) -> TransactionCategoryLinesInput | None:
+    """The category split a CSV row carries, with categories resolved by
+    name, or None when it has none, or a category is missing here or shares
+    its name with another (the row then imports unsplit rather than
+    half-split or split into the wrong category)."""
+    lines: list[ImportCategoryLine] = txn_data.category_lines or []
+    if len(lines) < 2 or txn_data.force_uncategorized:
+        return None
+    names = [line.category_name.strip().lower() for line in lines]
+    if any(name in ambiguous_names for name in names):
+        return None
+    resolved = [category_map.get(name) for name in names]
+    if any(category_id is None for category_id in resolved):
+        return None
+    if len(set(resolved)) != len(resolved):
+        # Two parts in one category ("Food" and "food"): a split holds each
+        # category once.
+        return None
+    return TransactionCategoryLinesInput(
+        share_type="exact",
+        lines=[
+            TransactionCategoryLineInput(category_id=category_id, amount=line.amount)
+            for category_id, line in zip(resolved, lines)
+            if category_id is not None
+        ],
+    )

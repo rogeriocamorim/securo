@@ -79,7 +79,11 @@ describe('CategorySelect inline creation', () => {
     await waitFor(() => expect(onChange).toHaveBeenCalledWith('cat-new'))
     // The supplied list has not refetched, yet the trigger shows the new category.
     expect(screen.getByRole('button', { name: 'Pet food' })).toBeInTheDocument()
-    expect(create).toHaveBeenCalledWith({ name: 'Pet food', icon: 'circle-help', color: '#6366f1' })
+    expect(create).toHaveBeenCalledWith({
+      name: 'Pet food',
+      icon: 'circle-help',
+      color: expect.stringMatching(/^#[0-9a-f]{6}$/i),
+    })
     expect(invalidate).toHaveBeenCalledWith({ queryKey: ['categories'] })
   })
 
